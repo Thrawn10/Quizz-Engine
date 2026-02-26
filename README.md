@@ -19,6 +19,8 @@ The quiz questions are stored in JSON format with a standardized schema. Each qu
 
 ### Schema Definition
 
+! Remember to update the manifest.jsons when adding new question files !
+
 ```json
 {
   "chapter": "string - Title of the chapter/topic",
@@ -37,10 +39,8 @@ The quiz questions are stored in JSON format with a standardized schema. Each qu
         "number - Index of additional correct answer(s)"
       ],
       "explanations": {
-        "optional": {
-          "0": "string - Explanation for why option at index 0 is correct",
-          "1": "string - Explanation for why option at index 1 is correct"
-        }
+        "0": "string - Explanation for why option at index 0 is correct",
+        "1": "string - Explanation for why option at index 1 is correct"
       }
     }
   ]
@@ -72,6 +72,39 @@ The quiz questions are stored in JSON format with a standardized schema. Each qu
 }
 ```
 
+
+### Example Prompt:
+
+Erstelle 30 Fragen zum Kapitel 8 des angehängten Buches. Verwende dazu folgendes Schema:
+
+```json
+{
+"chapter": "string - Title of the chapter/topic",
+"questions": [
+  {
+    "id": "number - Unique identifier for the question",
+    "question": "string - The question text",
+      "options": [
+          "string - Option A (index 0)",
+          "string - Option B (index 1)",
+          "string - Option C (index 2)",
+          "string - Option D (index 3)"
+          ],
+      "correct_answers": [
+          "number - Index of first correct answer",
+          "number - Index of additional correct answer(s)"
+        ],
+      "explanations": {
+          "0": "string - Explanation for why option at index 0 is correct",
+          "1": "string - Explanation for why option at index 1 is correct"
+      }
+    }
+  ]
+}
+```
+
+Stelle sicher, dass alle Fragen 1-3 Antwortmöglichkeiten haben
+
 ### Field Descriptions
 
 | Field | Type | Description | Required |
@@ -82,7 +115,7 @@ The quiz questions are stored in JSON format with a standardized schema. Each qu
 | `question` | string | The question text (supports German and other languages) | Yes |
 | `options` | array | Array of answer options (typically 4) | Yes |
 | `correct_answers` | array | Array of indices pointing to correct option(s) | Yes |
-| `explanations` | object | (Optional) Key-value pairs mapping option indices to explanation text | No |
+| `explanations` | object | Key-value pairs mapping option indices to explanation text for each correct answer | Yes |
 
 ## Directory Structure
 
@@ -113,7 +146,7 @@ Quizz-Engine-Repo/
 When creating new question files, follow these guidelines:
 
 - **Multiple Correct Answers**: Use the `correct_answers` array to indicate which options are correct (0-based indexing)
-- **Explanations**: Include explanations for each correct answer to help learners understand the concepts
+- **Explanations**: Required field providing explanations for each correct answer to help learners understand the concepts. Map option indices to explanation text
 - **Language**: Questions can be in any language (currently German is used)
 - **Option Count**: Typically 4 options per question, but can vary
 - **Sequential IDs**: Question IDs should start from 1 and increment sequentially
