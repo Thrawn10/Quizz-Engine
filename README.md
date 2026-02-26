@@ -2,16 +2,6 @@
 
 A web-based quiz application for studying distributed systems and other educational topics. The platform provides an interactive learning experience with multiple-choice questions, immediate feedback, and detailed explanations.
 
-## Overview
-
-The **Quizz Engine** is an interactive quiz platform designed to help students learn and test their knowledge on various topics. Currently, it includes comprehensive question sets on distributed systems from the course curriculum, organized by chapters and concepts.
-
-### Features
-- **Multi-select Questions**: Questions support multiple correct answers
-- **Immediate Feedback**: Get instant validation of answers with visual indicators
-- **Detailed Explanations**: Optional explanations for correct answers to enhance learning
-- **Organized Content**: Questions organized by chapter and topic for structured learning
-- **Responsive Design**: Modern, clean interface that works across devices
 
 ## Question File Structure
 
@@ -133,14 +123,6 @@ Quizz-Engine-Repo/
             └── ...
 ```
 
-## Getting Started
-
-1. Open `index.html` in a web browser
-2. Select a quiz chapter from the available options
-3. Answer the questions by selecting one or more options
-4. Review your answers with instant feedback
-5. Check explanations for deeper understanding
-
 ## Question Format Guidelines
 
 When creating new question files, follow these guidelines:
@@ -150,13 +132,3 @@ When creating new question files, follow these guidelines:
 - **Language**: Questions can be in any language (currently German is used)
 - **Option Count**: Typically 4 options per question, but can vary
 - **Sequential IDs**: Question IDs should start from 1 and increment sequentially
-
-## Development
-
-The application uses:
-- **HTML5** for structure
-- **CSS3** for modern, responsive styling
-- **JavaScript** for interactivity and quiz logic
-- **JSON** for structured question data
-
-All styling and functionality is contained within `index.html` for easy deployment and modification.
