@@ -1,0 +1,463 @@
+{
+  "chapter": "The Trouble with Distributed Systems",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Was ist eine partielle Fehlfunktion (partial failure) in einem verteilten System?",
+      "options": [
+        "Alle Komponenten fallen gleichzeitig aus",
+        "Einige Komponenten funktionieren, während andere ausfallen",
+        "Das gesamte System funktioniert perfekt",
+        "Nur Softwarefehler treten auf"
+      ],
+      "correct_answers": [1],
+      "explanations": {
+        "1": "Eine partielle Fehlfunktion bedeutet, dass einige Teile des Systems funktionieren, während andere ausfallen, was typisch für verteilte Systeme ist."
+      }
+    },
+    {
+      "id": 2,
+      "question": "Warum sind verteilte Systeme schwerer zu entwickeln als Einzelrechnerprogramme?",
+      "options": [
+        "Weil sie deterministisch sind",
+        "Weil Netzwerke unzuverlässig sind",
+        "Weil es keine Softwarefehler gibt",
+        "Weil es keine Kommunikation gibt"
+      ],
+      "correct_answers": [1],
+      "explanations": {
+        "1": "Netzwerke können Nachrichten verlieren, verzögern oder duplizieren, was zu Unsicherheit und komplexem Verhalten führt."
+      }
+    },
+    {
+      "id": 3,
+      "question": "Welche Probleme können bei der Kommunikation über ein Netzwerk auftreten?",
+      "options": [
+        "Nachrichten können verloren gehen",
+        "Nachrichten können verzögert werden",
+        "Nachrichten können sofort garantiert zugestellt werden",
+        "Nachrichten können dupliziert werden"
+      ],
+      "correct_answers": [0, 1, 3],
+      "explanations": {
+        "0": "Netzwerke können Pakete verlieren.",
+        "1": "Pakete können verzögert werden.",
+        "3": "Pakete können dupliziert oder mehrfach empfangen werden."
+      }
+    },
+    {
+      "id": 4,
+      "question": "Warum ist ein Timeout in verteilten Systemen notwendig?",
+      "options": [
+        "Um sicherzustellen, dass eine Antwort garantiert angekommen ist",
+        "Um festzustellen, ob ein Knoten möglicherweise ausgefallen ist",
+        "Um Nachrichten schneller zu senden",
+        "Um deterministisches Verhalten zu garantieren"
+      ],
+      "correct_answers": [1],
+      "explanations": {
+        "1": "Timeouts helfen, festzustellen, ob ein Knoten möglicherweise nicht reagiert."
+      }
+    },
+    {
+      "id": 5,
+      "question": "Warum kann ein Timeout keine eindeutige Aussage über den Zustand eines Knotens liefern?",
+      "options": [
+        "Weil Netzwerke unzuverlässig sind",
+        "Weil der Knoten möglicherweise nur langsam ist",
+        "Weil der Knoten garantiert abgestürzt ist",
+        "Weil Nachrichten möglicherweise verzögert sind"
+      ],
+      "correct_answers": [0, 1, 3],
+      "explanations": {
+        "0": "Netzwerke liefern keine Garantien über Zustellung oder Verzögerung.",
+        "1": "Ein langsamer Knoten kann fälschlich als ausgefallen erscheinen.",
+        "3": "Nachrichten können verspätet ankommen."
+      }
+    },
+    {
+      "id": 6,
+      "question": "Warum sind Uhren in verteilten Systemen problematisch?",
+      "options": [
+        "Weil sie immer synchron sind",
+        "Weil sie voneinander abweichen können",
+        "Weil sie niemals falsch gehen",
+        "Weil sie plötzlich vor- oder zurückspringen können"
+      ],
+      "correct_answers": [1, 3],
+      "explanations": {
+        "1": "Uhren können unterschiedliche Zeiten anzeigen.",
+        "3": "Systemuhren können sich unerwartet ändern."
+      }
+    },
+    {
+      "id": 7,
+      "question": "Was ist eine Netzwerkpartition?",
+      "options": [
+        "Eine geplante Datenbankpartition",
+        "Eine Situation, in der Teile des Netzwerks nicht miteinander kommunizieren können",
+        "Eine Speicherpartition",
+        "Eine Partition auf einer Festplatte"
+      ],
+      "correct_answers": [1],
+      "explanations": {
+        "1": "Eine Netzwerkpartition bedeutet, dass Teile des Systems isoliert sind."
+      }
+    },
+    {
+      "id": 8,
+      "question": "Was ist ein Hauptmerkmal von Shared-Nothing-Systemen?",
+      "options": [
+        "Alle Knoten teilen denselben Speicher",
+        "Jeder Knoten hat eigenen Speicher und kommuniziert über ein Netzwerk",
+        "Es gibt keine Kommunikation zwischen Knoten",
+        "Alle Knoten sind synchronisiert"
+      ],
+      "correct_answers": [1],
+      "explanations": {
+        "1": "Jeder Knoten hat eigenen Speicher und kommuniziert über das Netzwerk."
+      }
+    },
+    {
+      "id": 9,
+      "question": "Was ist eine mögliche Ursache für falsche Zeitstempel?",
+      "options": [
+        "Fehlkonfiguration von NTP",
+        "Perfekt synchronisierte Uhren",
+        "Defekte Hardware-Uhren",
+        "Netzwerkverzögerungen"
+      ],
+      "correct_answers": [0, 2, 3],
+      "explanations": {
+        "0": "Falsche NTP-Konfiguration führt zu falschen Zeiten.",
+        "2": "Hardware-Uhren können fehlerhaft sein.",
+        "3": "Netzwerkverzögerungen beeinflussen Synchronisation."
+      }
+    },
+    {
+      "id": 10,
+      "question": "Was bedeutet asynchrones Netzwerkmodell?",
+      "options": [
+        "Es gibt garantierte maximale Verzögerungen",
+        "Es gibt keine garantierten Zeitgrenzen",
+        "Alle Nachrichten kommen sofort an",
+        "Alle Knoten sind synchron"
+      ],
+      "correct_answers": [1],
+      "explanations": {
+        "1": "Im asynchronen Modell gibt es keine garantierten Zeitgrenzen."
+      }
+    },
+
+    {
+      "id": 11,
+      "question": "Was ist ein Crash-Stop-Fehlermodell?",
+      "options": [
+        "Ein Knoten kann abstürzen und nie zurückkehren",
+        "Ein Knoten kann pausieren und zurückkehren",
+        "Ein Knoten funktioniert immer korrekt",
+        "Ein Knoten wird automatisch repariert"
+      ],
+      "correct_answers": [0],
+      "explanations": {
+        "0": "Beim Crash-Stop-Modell fällt ein Knoten aus und bleibt dauerhaft offline."
+      }
+    },
+
+    {
+      "id": 12,
+      "question": "Was ist ein Crash-Recovery-Fehlermodell?",
+      "options": [
+        "Knoten können abstürzen und später wieder starten",
+        "Knoten funktionieren immer korrekt",
+        "Knoten werden nie repariert",
+        "Knoten können nicht abstürzen"
+      ],
+      "correct_answers": [0],
+      "explanations": {
+        "0": "Im Crash-Recovery-Modell können Knoten wiederhergestellt werden."
+      }
+    },
+
+    {
+      "id": 13,
+      "question": "Warum können Prozesse pausieren?",
+      "options": [
+        "Garbage Collection",
+        "Netzwerkfehler",
+        "CPU-Pause durch Scheduler",
+        "Festplattenfehler"
+      ],
+      "correct_answers": [0, 2],
+      "explanations": {
+        "0": "Garbage Collection kann Prozesse pausieren.",
+        "2": "Scheduler-Unterbrechungen können Prozesse pausieren."
+      }
+    },
+
+    {
+      "id": 14,
+      "question": "Warum ist es schwierig, den Zustand eines anderen Knotens zu kennen?",
+      "options": [
+        "Weil Kommunikation nur über das Netzwerk erfolgt",
+        "Weil es keinen gemeinsamen Speicher gibt",
+        "Weil alle Knoten synchronisiert sind",
+        "Weil Netzwerkfehler auftreten können"
+      ],
+      "correct_answers": [0, 1, 3],
+      "explanations": {
+        "0": "Kommunikation erfolgt ausschließlich über das Netzwerk.",
+        "1": "Es gibt keinen gemeinsamen Speicher.",
+        "3": "Netzwerkfehler verhindern sichere Kenntnis."
+      }
+    },
+
+    {
+      "id": 15,
+      "question": "Warum sind große verteilte Systeme anfälliger für Fehler?",
+      "options": [
+        "Weil sie weniger Komponenten haben",
+        "Weil mehr Komponenten mehr Fehlerwahrscheinlichkeit bedeuten",
+        "Weil sie deterministisch sind",
+        "Weil sie keine Netzwerke verwenden"
+      ],
+      "correct_answers": [1],
+      "explanations": {
+        "1": "Mehr Komponenten erhöhen die Wahrscheinlichkeit eines Fehlers."
+      }
+    },
+
+    {
+      "id": 16,
+      "question": "Was ist der Zweck eines Systemmodells?",
+      "options": [
+        "Die Hardware zu ersetzen",
+        "Die Annahmen über Fehler und Zeit zu definieren",
+        "Software zu löschen",
+        "Netzwerke zu beschleunigen"
+      ],
+      "correct_answers": [1],
+      "explanations": {
+        "1": "Systemmodelle definieren Annahmen für Algorithmen."
+      }
+    },
+
+    {
+      "id": 17,
+      "question": "Was ist ein synchrones Systemmodell?",
+      "options": [
+        "Garantierte maximale Verzögerungen",
+        "Keine garantierten Verzögerungen",
+        "Keine Uhren",
+        "Beliebige Verzögerungen"
+      ],
+      "correct_answers": [0],
+      "explanations": {
+        "0": "Synchrones Modell garantiert begrenzte Verzögerungen."
+      }
+    },
+
+    {
+      "id": 18,
+      "question": "Was ist ein partiell synchrones Systemmodell?",
+      "options": [
+        "Immer synchron",
+        "Meist synchron, aber gelegentlich asynchron",
+        "Immer asynchron",
+        "Keine Kommunikation"
+      ],
+      "correct_answers": [1],
+      "explanations": {
+        "1": "Teilweise synchron bedeutet meist synchron, aber nicht immer."
+      }
+    },
+
+    {
+      "id": 19,
+      "question": "Warum kann TCP zuverlässiger sein als IP?",
+      "options": [
+        "Weil TCP Fehlerkorrektur implementiert",
+        "Weil TCP Pakete neu sendet",
+        "Weil IP zuverlässiger ist",
+        "Weil TCP Netzwerkfehler verhindert"
+      ],
+      "correct_answers": [0, 1],
+      "explanations": {
+        "0": "TCP korrigiert Fehler durch Wiederholung.",
+        "1": "TCP sendet verlorene Pakete erneut."
+      }
+    },
+
+    {
+      "id": 20,
+      "question": "Was ist eine wichtige Eigenschaft verteilter Systeme?",
+      "options": [
+        "Deterministisches Verhalten",
+        "Partielle Fehlfunktionen",
+        "Gemeinsamer Speicher",
+        "Garantierte Kommunikation"
+      ],
+      "correct_answers": [1],
+      "explanations": {
+        "1": "Partielle Fehlfunktionen sind charakteristisch für verteilte Systeme."
+      }
+    },
+
+    {
+      "id": 21,
+      "question": "Warum kann ein Knoten fälschlicherweise als ausgefallen gelten?",
+      "options": [
+        "Netzwerkverzögerung",
+        "Prozesspause",
+        "Timeout",
+        "Perfekte Synchronisation"
+      ],
+      "correct_answers": [0, 1, 2],
+      "explanations": {
+        "0": "Verzögerungen führen zu falschen Annahmen.",
+        "1": "Prozesspausen führen zu falschen Annahmen.",
+        "2": "Timeout kann falsche Annahmen auslösen."
+      }
+    },
+
+    {
+      "id": 22,
+      "question": "Was bedeutet 'Knowledge, Truth, and Lies' im Kontext verteilter Systeme?",
+      "options": [
+        "Knoten wissen alles",
+        "Knoten können nur basierend auf Nachrichten Annahmen treffen",
+        "Alle Informationen sind garantiert korrekt",
+        "Alle Systeme sind synchron"
+      ],
+      "correct_answers": [1],
+      "explanations": {
+        "1": "Knoten kennen nur den Zustand basierend auf empfangenen Nachrichten."
+      }
+    },
+
+    {
+      "id": 23,
+      "question": "Warum ist es schwierig, Ereignisse zeitlich zu ordnen?",
+      "options": [
+        "Unsynchronisierte Uhren",
+        "Netzwerkverzögerungen",
+        "Perfekte Synchronisation",
+        "Systemfehler"
+      ],
+      "correct_answers": [0, 1],
+      "explanations": {
+        "0": "Uhren sind nicht exakt synchron.",
+        "1": "Netzwerkverzögerungen beeinflussen Reihenfolge."
+      }
+    },
+
+    {
+      "id": 24,
+      "question": "Warum können Prozesse pausieren und später fortfahren?",
+      "options": [
+        "Garbage Collection",
+        "CPU Scheduling",
+        "Determinismus",
+        "Perfekte Synchronisation"
+      ],
+      "correct_answers": [0, 1],
+      "explanations": {
+        "0": "Garbage Collection pausiert Prozesse.",
+        "1": "CPU Scheduling pausiert Prozesse."
+      }
+    },
+
+    {
+      "id": 25,
+      "question": "Warum müssen Systeme pessimistisch geplant werden?",
+      "options": [
+        "Weil Fehler möglich sind",
+        "Weil Systeme perfekt sind",
+        "Weil Netzwerke zuverlässig sind",
+        "Weil Fehler unmöglich sind"
+      ],
+      "correct_answers": [0],
+      "explanations": {
+        "0": "Fehler sind unvermeidlich und müssen berücksichtigt werden."
+      }
+    },
+
+    {
+      "id": 26,
+      "question": "Warum kann ein System zuverlässiger sein als seine Komponenten?",
+      "options": [
+        "Fehlerkorrekturmechanismen",
+        "Redundanz",
+        "Perfekte Hardware",
+        "Fehlervermeidung"
+      ],
+      "correct_answers": [0, 1],
+      "explanations": {
+        "0": "Fehlerkorrektur kann Fehler kompensieren.",
+        "1": "Redundanz verbessert Zuverlässigkeit."
+      }
+    },
+
+    {
+      "id": 27,
+      "question": "Warum ist es gefährlich, sich auf Systemuhren zu verlassen?",
+      "options": [
+        "Sie können falsch sein",
+        "Sie können springen",
+        "Sie sind immer korrekt",
+        "Sie können drift verursachen"
+      ],
+      "correct_answers": [0, 1, 3],
+      "explanations": {
+        "0": "Systemuhren können falsch sein.",
+        "1": "Systemuhren können springen.",
+        "3": "Systemuhren können drift haben."
+      }
+    },
+
+    {
+      "id": 28,
+      "question": "Was bedeutet fehlende globale Zeit?",
+      "options": [
+        "Alle Knoten haben dieselbe Zeit",
+        "Knoten haben unterschiedliche Zeiten",
+        "Zeit existiert nicht",
+        "Zeit ist synchronisiert"
+      ],
+      "correct_answers": [1],
+      "explanations": {
+        "1": "Jeder Knoten hat seine eigene Uhr."
+      }
+    },
+
+    {
+      "id": 29,
+      "question": "Warum ist Fehlertoleranz wichtig?",
+      "options": [
+        "Damit Systeme trotz Fehler funktionieren",
+        "Damit Systeme schneller werden",
+        "Damit Fehler verschwinden",
+        "Damit Netzwerke stabil sind"
+      ],
+      "correct_answers": [0],
+      "explanations": {
+        "0": "Fehlertoleranz ermöglicht Funktion trotz Fehlern."
+      }
+    },
+
+    {
+      "id": 30,
+      "question": "Was ist ein grundlegendes Ziel verteilter Systeme?",
+      "options": [
+        "Perfekte Zuverlässigkeit",
+        "Fehlertoleranz trotz unzuverlässiger Komponenten",
+        "Keine Kommunikation",
+        "Determinismus"
+      ],
+      "correct_answers": [1],
+      "explanations": {
+        "1": "Ziel ist es, zuverlässige Systeme aus unzuverlässigen Komponenten zu bauen."
+      }
+    }
+  ]
+}

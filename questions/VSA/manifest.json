@@ -1,3 +1,4 @@
 [
-  { "type": "folder", "name": "Tannenbaum - Distributed Systems" }
+  { "type": "folder", "name": "Tannenbaum - Distributed Systems" },
+  { "type": "folder", "name": "Designing data intensive applications" }
 ]
