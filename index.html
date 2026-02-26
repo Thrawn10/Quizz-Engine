@@ -958,6 +958,7 @@
    STATE
 ═══════════════════════════════════════════════════════════════ */
 const manifestCache  = {};    // keyed by folderPath.join('/'), each entry is items array
+const titleCache     = {};    // keyed by file path, each entry is the chapter title
 let folderPath       = [];    // current navigation path (array of folder names)
 let availableQuizzes = [];    // [{ file, chapter, questionCount, data }]
 let currentQuiz      = null;  // active quiz data
@@ -1097,7 +1098,7 @@ function renderBrowserItems(items) {
     return;
   }
 
-  for (const item of sorted) {
+  sorted.forEach((item, idx) => {
     const btn = document.createElement('button');
     btn.className = 'browser-card';
 
@@ -1112,19 +1113,41 @@ function renderBrowserItems(items) {
       `;
       btn.addEventListener('click', () => navigateTo([...folderPath, item.name]));
     } else {
-      const displayName = item.name.replace(/\.json$/i, '').replace(/_/g, ' ');
+      const titleId = `title-${idx}`;
+      const filePath = `questions/${[...folderPath, item.name].join('/')}`;
       btn.innerHTML = `
         <div class="browser-card-icon">📄</div>
         <div class="browser-card-info">
-          <h3>${escHtml(displayName)}</h3>
+          <h3 id="${titleId}">Laden...</h3>
           <span>Klicken zum Starten</span>
         </div>
         <div class="browser-card-arrow">›</div>
       `;
-      const filePath = `questions/${[...folderPath, item.name].join('/')}`;
       btn.addEventListener('click', () => loadAndStartQuiz(filePath, btn));
+      
+      // Fetch title asynchronously
+      fetchQuizTitle(filePath).then(title => {
+        const titleEl = document.getElementById(titleId);
+        if (titleEl) titleEl.textContent = title;
+      });
     }
     container.appendChild(btn);
+  });
+}
+
+async function fetchQuizTitle(filePath) {
+  if (titleCache[filePath] !== undefined) return titleCache[filePath];
+  try {
+    const resp = await fetch(filePath);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    const title = data.chapter || 'Untitled';
+    titleCache[filePath] = title;
+    return title;
+  } catch (err) {
+    console.error(`Failed to fetch title for ${filePath}:`, err);
+    titleCache[filePath] = `Fehler beim Laden`;
+    return titleCache[filePath];
   }
 }
 
