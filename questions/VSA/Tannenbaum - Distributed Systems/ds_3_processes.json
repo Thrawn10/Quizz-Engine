@@ -1,0 +1,335 @@
+{
+  "chapter": "Distributed Systems - Chapter 3: Processes",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Was ist ein Process in einem Distributed System?",
+      "options": [
+        "Ein Programm in Ausführung",
+        "Ein physisches Netzwerkgerät",
+        "Eine Execution Unit",
+        "Ein Speicherblock"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 2,
+      "question": "Welche Eigenschaften gehören zu einem Process?",
+      "options": [
+        "Execution state",
+        "Program counter",
+        "Memory state",
+        "Physischer Netzwerkport"
+      ],
+      "correct_answers": [0, 1, 2]
+    },
+    {
+      "id": 3,
+      "question": "Was ist ein Thread?",
+      "options": [
+        "Eine Execution Unit innerhalb eines Process",
+        "Ein vollständiger Process",
+        "Teilt Ressourcen mit anderen Threads desselben Process",
+        "Hat eigenen Stack"
+      ],
+      "correct_answers": [0, 2, 3]
+    },
+    {
+      "id": 4,
+      "question": "Welche Ressourcen werden zwischen Threads geteilt?",
+      "options": [
+        "Memory",
+        "CPU Registers",
+        "Files",
+        "Program counter"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 5,
+      "question": "Welche Ressourcen sind Thread-spezifisch?",
+      "options": [
+        "Stack",
+        "Program counter",
+        "Heap",
+        "CPU registers"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 6,
+      "question": "Warum werden Threads in Distributed Systems verwendet?",
+      "options": [
+        "Performance verbessern",
+        "Parallelism ermöglichen",
+        "Communication verhindern",
+        "Responsiveness erhöhen"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 7,
+      "question": "Was ist das Many-to-One Thread Model?",
+      "options": [
+        "Viele User Threads werden auf einen Kernel Thread gemappt",
+        "Viele Kernel Threads pro User Thread",
+        "Kein echter Parallelism möglich",
+        "Hohe Parallelism garantiert"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 8,
+      "question": "Was ist das One-to-One Thread Model?",
+      "options": [
+        "Jeder User Thread entspricht einem Kernel Thread",
+        "Erlaubt echten Parallelism",
+        "Nur ein Thread pro Process",
+        "Hoher Overhead möglich"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 9,
+      "question": "Was ist das Many-to-Many Thread Model?",
+      "options": [
+        "Viele User Threads werden auf viele Kernel Threads gemappt",
+        "Flexibles Mapping",
+        "Keine Kernel Threads",
+        "Effizienter Resource usage möglich"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 10,
+      "question": "Was ist Virtualization?",
+      "options": [
+        "Simulation einer virtuellen Maschine",
+        "Hardware-Emulation",
+        "Isolierung von Execution environments",
+        "Nur Software ohne Hardware"
+      ],
+      "correct_answers": [0, 1, 2]
+    },
+    {
+      "id": 11,
+      "question": "Was ist eine Virtual Machine?",
+      "options": [
+        "Virtueller Computer",
+        "Hat eigenes Operating System",
+        "Teilt keine Hardware",
+        "Wird durch Hypervisor verwaltet"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 12,
+      "question": "Was ist ein Hypervisor?",
+      "options": [
+        "Software zur Verwaltung von Virtual Machines",
+        "Hardwareprozessor",
+        "Resource Manager",
+        "Operating System Kernel"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 13,
+      "question": "Welche Vorteile bietet Virtualization?",
+      "options": [
+        "Isolation",
+        "Portability",
+        "Resource sharing",
+        "Garantierte maximale Performance"
+      ],
+      "correct_answers": [0, 1, 2]
+    },
+    {
+      "id": 14,
+      "question": "Was ist ein Container?",
+      "options": [
+        "Leichtgewichtige Virtualization",
+        "Teilt Operating System Kernel",
+        "Virtuelle Hardware notwendig",
+        "Isolierter Execution environment"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 15,
+      "question": "Was ist ein Vorteil von Containers gegenüber Virtual Machines?",
+      "options": [
+        "Schneller Startup",
+        "Weniger Resource usage",
+        "Mehr Hardware erforderlich",
+        "Effizienter Execution"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 16,
+      "question": "Was ist ein Client?",
+      "options": [
+        "Process der einen Service anfordert",
+        "Process der einen Service bereitstellt",
+        "Sendet Requests",
+        "Empfängt Responses"
+      ],
+      "correct_answers": [0, 2, 3]
+    },
+    {
+      "id": 17,
+      "question": "Was ist ein Server?",
+      "options": [
+        "Process der Services bereitstellt",
+        "Process der Requests verarbeitet",
+        "Nur Hardware",
+        "Empfängt Requests"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 18,
+      "question": "Was ist ein Iterative Server?",
+      "options": [
+        "Verarbeitet Requests sequenziell",
+        "Verarbeitet Requests parallel",
+        "Ein Request zur Zeit",
+        "Mehrere Threads gleichzeitig"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 19,
+      "question": "Was ist ein Concurrent Server?",
+      "options": [
+        "Verarbeitet Requests parallel",
+        "Verwendet mehrere Threads",
+        "Nur ein Request möglich",
+        "Verbessert Performance"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 20,
+      "question": "Was ist ein Thread-per-request Model?",
+      "options": [
+        "Jeder Request bekommt eigenen Thread",
+        "Ein Thread für alle Requests",
+        "Parallel execution möglich",
+        "Verbessert Scalability"
+      ],
+      "correct_answers": [0, 2, 3]
+    },
+    {
+      "id": 21,
+      "question": "Was ist ein Thread pool Model?",
+      "options": [
+        "Fester Pool von Threads",
+        "Threads werden wiederverwendet",
+        "Unbegrenzte Threads",
+        "Verbessert Performance"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 22,
+      "question": "Was ist ein Event-driven Server?",
+      "options": [
+        "Verwendet Events statt Threads",
+        "Single Thread möglich",
+        "Parallel execution nicht möglich",
+        "Effizient bei vielen Requests"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 23,
+      "question": "Was ist ein Server Cluster?",
+      "options": [
+        "Gruppe von Servern",
+        "Verbessert Scalability",
+        "Verbessert Fault tolerance",
+        "Nur ein Server"
+      ],
+      "correct_answers": [0, 1, 2]
+    },
+    {
+      "id": 24,
+      "question": "Was ist Load balancing?",
+      "options": [
+        "Verteilung von Requests auf mehrere Server",
+        "Verhindert Overload",
+        "Erhöht CPU Geschwindigkeit",
+        "Verbessert Scalability"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 25,
+      "question": "Was ist Code migration?",
+      "options": [
+        "Code wird auf andere Maschine übertragen",
+        "Code wird lokal ausgeführt",
+        "Code wird remote ausgeführt",
+        "Execution location kann geändert werden"
+      ],
+      "correct_answers": [0, 2, 3]
+    },
+    {
+      "id": 26,
+      "question": "Was ist Weak mobility?",
+      "options": [
+        "Code wird übertragen",
+        "Execution state wird übertragen",
+        "Execution beginnt neu",
+        "Nur Code wird übertragen"
+      ],
+      "correct_answers": [0, 2, 3]
+    },
+    {
+      "id": 27,
+      "question": "Was ist Strong mobility?",
+      "options": [
+        "Code und Execution state werden übertragen",
+        "Execution kann fortgesetzt werden",
+        "Nur Code wird übertragen",
+        "Volle Migration möglich"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 28,
+      "question": "Warum wird Code migration verwendet?",
+      "options": [
+        "Performance verbessern",
+        "Load balancing",
+        "Resource sharing",
+        "Communication verhindern"
+      ],
+      "correct_answers": [0, 1, 2]
+    },
+    {
+      "id": 29,
+      "question": "Warum ist Virtualization wichtig für Distributed Systems?",
+      "options": [
+        "Portability",
+        "Isolation",
+        "Scalability",
+        "Hardware elimination"
+      ],
+      "correct_answers": [0, 1, 2]
+    },
+    {
+      "id": 30,
+      "question": "Welche Rolle spielen Threads in Servern?",
+      "options": [
+        "Parallel Request Handling",
+        "Verbesserte Performance",
+        "Verhindern Kommunikation",
+        "Verbesserte Scalability"
+      ],
+      "correct_answers": [0, 1, 3]
+    }
+  ]
+}

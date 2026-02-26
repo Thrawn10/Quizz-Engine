@@ -1,0 +1,335 @@
+{
+  "chapter": "Distributed Systems - Chapter 2: Architectures",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Was beschreibt eine Software Architecture in einem Distributed System?",
+      "options": [
+        "Die physische Verkabelung der Hardware",
+        "Die logische Organisation von Software Components",
+        "Wie Components miteinander interagieren",
+        "Die genaue CPU-Auslastung eines Systems"
+      ],
+      "correct_answers": [1, 2]
+    },
+    {
+      "id": 2,
+      "question": "Was beschreibt eine System Architecture?",
+      "options": [
+        "Die logische Struktur von Code",
+        "Die physische Verteilung von Software Components auf Maschinen",
+        "Die Platzierung von Services auf Nodes",
+        "Die Syntax von Programmiersprachen"
+      ],
+      "correct_answers": [1, 2]
+    },
+    {
+      "id": 3,
+      "question": "Was ist ein Component in einer Software Architecture?",
+      "options": [
+        "Eine modulare Einheit mit definierten Interfaces",
+        "Eine CPU",
+        "Eine ersetzbare Softwareeinheit",
+        "Ein Netzwerkprotokoll"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 4,
+      "question": "Was ist ein Connector?",
+      "options": [
+        "Ein Mechanismus zur Kommunikation zwischen Components",
+        "Ein physisches Netzwerkkabel",
+        "Ein Mechanismus für Coordination zwischen Components",
+        "Ein Speicherbereich"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 5,
+      "question": "Welche gehören zu den wichtigsten Architectural Styles?",
+      "options": [
+        "Layered Architecture",
+        "Service-Oriented Architecture",
+        "Publish-Subscribe Architecture",
+        "Binary Tree Architecture"
+      ],
+      "correct_answers": [0, 1, 2]
+    },
+    {
+      "id": 6,
+      "question": "Was ist ein Hauptmerkmal der Layered Architecture?",
+      "options": [
+        "Components sind in Schichten organisiert",
+        "Jede Schicht kann jede andere direkt aufrufen",
+        "Higher layers verwenden lower layers",
+        "Lower layers sind vollständig unabhängig"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 7,
+      "question": "Was ist ein Vorteil der Layered Architecture?",
+      "options": [
+        "Modularität",
+        "Einfache Wartung",
+        "Garantierte maximale Performance",
+        "Klare Struktur"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 8,
+      "question": "Was ist ein Nachteil der Layered Architecture?",
+      "options": [
+        "Performance Overhead",
+        "Komplexität",
+        "Keine Modularität",
+        "Keine Wartbarkeit"
+      ],
+      "correct_answers": [0]
+    },
+    {
+      "id": 9,
+      "question": "Was ist eine Service-Oriented Architecture (SOA)?",
+      "options": [
+        "Ein System aus unabhängigen Services",
+        "Ein System mit nur einem Server",
+        "Services kommunizieren über Netzwerk",
+        "Services können kombiniert werden"
+      ],
+      "correct_answers": [0, 2, 3]
+    },
+    {
+      "id": 10,
+      "question": "Was ist ein Microservice?",
+      "options": [
+        "Ein unabhängiger Service",
+        "Ein Teil eines Operating Systems",
+        "Ein eigener Netzwerkprozess",
+        "Eine Hardwarekomponente"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 11,
+      "question": "Was ist ein Hauptmerkmal der Publish-Subscribe Architecture?",
+      "options": [
+        "Publisher sendet Events",
+        "Subscriber empfängt Events",
+        "Publisher kennt Subscriber direkt",
+        "Lose Kopplung zwischen Components"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 12,
+      "question": "Was ist Middleware?",
+      "options": [
+        "Software zwischen Application und Operating System",
+        "Hardware zur Netzwerksteuerung",
+        "Software zur Unterstützung von Distributed Systems",
+        "Ein physischer Server"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 13,
+      "question": "Was sind Aufgaben von Middleware?",
+      "options": [
+        "Communication Management",
+        "Distribution Transparency",
+        "Memory Allocation durch Hardware",
+        "Coordination zwischen Components"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 14,
+      "question": "Was ist ein Proxy in Middleware?",
+      "options": [
+        "Client-side Representation eines Remote Object",
+        "Ein Hardwaregerät",
+        "Ein Interface zum Remote Object",
+        "Ein Betriebssystemkern"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 15,
+      "question": "Was ist ein Skeleton?",
+      "options": [
+        "Server-side Representation eines Remote Object",
+        "Client Interface",
+        "Teil der Middleware",
+        "Ein Netzwerkprotokoll"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 16,
+      "question": "Was ist ein Remote Object?",
+      "options": [
+        "Ein Objekt, dessen State auf einem Server liegt",
+        "Ein Objekt, das lokal existiert",
+        "Ein Objekt mit Interface für entfernte Clients",
+        "Ein Hardwaregerät"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 17,
+      "question": "Was beschreibt die Client-Server Architecture?",
+      "options": [
+        "Client sendet Request",
+        "Server verarbeitet Request",
+        "Client verarbeitet Server intern",
+        "Server sendet Response"
+      ],
+      "correct_answers": [0, 1, 3]
+    },
+    {
+      "id": 18,
+      "question": "Was ist ein Vorteil der Client-Server Architecture?",
+      "options": [
+        "Zentrale Kontrolle",
+        "Einfache Struktur",
+        "Keine Skalierungsprobleme",
+        "Volle Dezentralisierung"
+      ],
+      "correct_answers": [0, 1]
+    },
+    {
+      "id": 19,
+      "question": "Was ist ein Nachteil der Client-Server Architecture?",
+      "options": [
+        "Single Point of Failure",
+        "Skalierungsprobleme",
+        "Keine Wartbarkeit",
+        "Keine Kommunikation möglich"
+      ],
+      "correct_answers": [0, 1]
+    },
+    {
+      "id": 20,
+      "question": "Was ist ein Multitier Architecture Beispiel?",
+      "options": [
+        "Client",
+        "Application Server",
+        "Database Server",
+        "CPU Cache"
+      ],
+      "correct_answers": [0, 1, 2]
+    },
+    {
+      "id": 21,
+      "question": "Was ist Peer-to-Peer Architecture?",
+      "options": [
+        "Alle Nodes sind gleichwertig",
+        "Zentraler Server steuert alles",
+        "Nodes können Client und Server sein",
+        "Keine Kommunikation möglich"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 22,
+      "question": "Was ist ein Overlay Network?",
+      "options": [
+        "Ein logisches Netzwerk",
+        "Ein physisches Kabel",
+        "Verbindung zwischen Nodes",
+        "Ein Prozessor"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 23,
+      "question": "Was ist Structured Peer-to-Peer?",
+      "options": [
+        "Deterministische Organisation",
+        "Random Organisation",
+        "Effiziente Suche möglich",
+        "Keine Struktur"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 24,
+      "question": "Was ist Unstructured Peer-to-Peer?",
+      "options": [
+        "Random Verbindung zwischen Nodes",
+        "Deterministische Struktur",
+        "Suche schwieriger",
+        "Zentraler Server"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 25,
+      "question": "Was ist eine Hybrid Architecture?",
+      "options": [
+        "Kombination verschiedener Architectures",
+        "Nur Peer-to-Peer",
+        "Nur Client-Server",
+        "Kombination zentraler und dezentraler Elemente"
+      ],
+      "correct_answers": [0, 3]
+    },
+    {
+      "id": 26,
+      "question": "Was ist Cloud Computing?",
+      "options": [
+        "Pool von virtualized resources",
+        "Nur lokale Hardware",
+        "Dynamische Resource Allocation",
+        "Keine Virtualization"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 27,
+      "question": "Welche Layer gehören zur Cloud Architecture?",
+      "options": [
+        "Hardware Layer",
+        "Infrastructure Layer",
+        "Platform Layer",
+        "Application Layer"
+      ],
+      "correct_answers": [0, 1, 2, 3]
+    },
+    {
+      "id": 28,
+      "question": "Was ist Edge Computing?",
+      "options": [
+        "Services näher am User",
+        "Services nur im Cloud Data Center",
+        "Reduzierung von Latency",
+        "Teil einer Hybrid Architecture"
+      ],
+      "correct_answers": [0, 2, 3]
+    },
+    {
+      "id": 29,
+      "question": "Was ist eine Permissioned Blockchain?",
+      "options": [
+        "Validator Nodes sind begrenzt",
+        "Alle Nodes validieren immer",
+        "Teilweise zentralisiert",
+        "Keine Validatoren"
+      ],
+      "correct_answers": [0, 2]
+    },
+    {
+      "id": 30,
+      "question": "Was ist eine Permissionless Blockchain?",
+      "options": [
+        "Alle Nodes können Validator sein",
+        "Zentral gesteuert",
+        "Dezentral organisiert",
+        "Kein Consensus Protocol"
+      ],
+      "correct_answers": [0, 2]
+    }
+  ]
+}
