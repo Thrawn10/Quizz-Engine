@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Distributed Systems – Literature Quiz</title>
+  <title>Literatur-Quiz</title>
   <style>
     /* ── Reset & Base ─────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -255,75 +255,99 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Folder picker zone ───────────────────────────────────── */
-    .folder-picker-zone {
-      border: 2px dashed var(--border);
-      border-radius: var(--radius);
-      background: var(--surface);
-      padding: 44px 24px;
-      text-align: center;
-      transition: all var(--transition);
-    }
-    .folder-picker-zone:hover {
-      border-color: var(--accent);
-      background: var(--accent-light);
-    }
-    .folder-picker-zone.drag-over {
-      border-color: var(--accent);
-      background: var(--accent-light);
-      transform: scale(1.01);
-    }
-    .fz-icon {
-      font-size: 2.4rem;
-      margin-bottom: 12px;
-      line-height: 1;
-    }
-    .fz-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-      color: var(--text);
-    }
-    .fz-sub {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-    }
-    .fz-sub code {
-      background: var(--surface-alt);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 1px 6px;
-      font-size: 0.82rem;
-      font-family: monospace;
-    }
-    .fz-loaded-bar {
+    /* ── Folder browser ───────────────────────────────────────── */
+    .breadcrumb {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      background: var(--success-bg);
-      border: 1px solid var(--success-border);
-      border-radius: 8px;
-      padding: 10px 16px;
-      margin-bottom: 16px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--success);
+      gap: 4px;
+      padding: 0 0 14px;
+      flex-wrap: wrap;
     }
-    .fz-loaded-bar button {
+
+    .breadcrumb-item {
       background: none;
-      border: 1px solid var(--success-border);
-      border-radius: 5px;
-      padding: 4px 10px;
-      font-size: 0.78rem;
-      color: var(--success);
-      cursor: pointer;
+      border: none;
+      font-size: 0.83rem;
       font-weight: 600;
+      color: var(--accent);
+      cursor: pointer;
+      padding: 3px 6px;
+      border-radius: var(--radius-sm);
       transition: all var(--transition);
+      font-family: var(--font);
     }
-    .fz-loaded-bar button:hover {
-      background: var(--success);
-      color: #fff;
+    .breadcrumb-item:hover { background: var(--accent-light); }
+    .breadcrumb-item.active {
+      color: var(--text);
+      cursor: default;
+      pointer-events: none;
+    }
+    .breadcrumb-sep {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .browser-items { display: grid; gap: 10px; }
+
+    .browser-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-align: left;
+      width: 100%;
+      font-family: var(--font);
+      color: var(--text);
+    }
+    .browser-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+      transform: translateY(-1px);
+    }
+    .browser-card:active { transform: translateY(0); }
+    .browser-card:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    .browser-card-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      line-height: 1;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-light);
+      border-radius: 10px;
+    }
+    .browser-card-info { flex: 1; min-width: 0; }
+    .browser-card-info h3 {
+      font-size: 0.95rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 0 0 2px;
+    }
+    .browser-card-info span { font-size: 0.8rem; color: var(--text-muted); }
+    .browser-card-arrow { color: var(--text-muted); font-size: 1.1rem; flex-shrink: 0; }
+
+    .mini-spinner {
+      width: 22px; height: 22px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto;
     }
 
     /* ── Quiz page ────────────────────────────────────────────── */
@@ -548,13 +572,18 @@
     /* ── Feedback banner ──────────────────────────────────────── */
     .feedback-banner {
       display: none;
-      align-items: center;
-      gap: 10px;
+      flex-direction: column;
+      gap: 12px;
       padding: 12px 16px;
       border-radius: 8px;
       font-size: 0.88rem;
       font-weight: 600;
       margin-top: 16px;
+    }
+    .feedback-banner-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .feedback-banner.show { display: flex; }
     .feedback-banner.correct {
@@ -572,7 +601,27 @@
       color: var(--danger);
       border: 1px solid var(--danger-border);
     }
-    .feedback-icon { font-size: 1.1rem; }
+    .feedback-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+    .explanations-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+      padding-top: 12px;
+      border-top: 1px solid currentColor;
+      opacity: 0.9;
+    }
+    .explanation-item {
+      font-size: 0.82rem;
+      font-weight: 500;
+      line-height: 1.5;
+      padding: 0;
+    }
+    .explanation-label {
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
 
     /* ── Bottom action bar ────────────────────────────────────── */
     .action-bar {
@@ -780,31 +829,33 @@
   <!-- ── HOME PAGE ─────────────────────────────────────────── -->
   <div id="page-home">
     <div class="card home-hero">
-      <div class="badge">Tannenbaum · Distributed Systems</div>
+      <div class="badge">FFHS · Quiz Engine</div>
       <h1>Literatur-Quiz</h1>
-      <p>Wähle ein Kapitel und teste dein Wissen mit Multiple-Choice-Fragen.</p>
+      <p>Wähle ein Themengebiet und teste dein Wissen mit Multiple-Choice-Fragen.</p>
     </div>
 
-    <!-- Hidden file input (folder picker) -->
-    <input type="file" id="file-input" webkitdirectory multiple
-           style="display:none" aria-label="Fragenordner auswählen">
+    <!-- Folder browser -->
+    <div class="card" id="folder-browser-section">
 
-    <!-- Shown when no files are loaded yet -->
-    <div id="picker-zone" class="folder-picker-zone">
-      <div class="fz-icon">📂</div>
-      <div class="fz-title">Fragenordner öffnen</div>
-      <div class="fz-sub">Wähle den <code>questions/</code> Ordner des Projekts aus.<br>Alle <code>.json</code> Dateien werden geladen und auf das Quiz-Schema geprüft.</div>
-      <button class="btn btn-primary" id="btn-pick-folder">Ordner auswählen</button>
-    </div>
-
-    <!-- Shown after files are loaded -->
-    <div id="loaded-section" class="hidden">
-      <div class="fz-loaded-bar">
-        <span id="loaded-label">✓ Fragenordner geladen</span>
-        <button id="btn-change-folder">Ordner wechseln</button>
+      <!-- Loading state -->
+      <div id="browser-loading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Lade Fragensets…</p>
       </div>
-      <div class="section-title">Verfügbare Kapitel</div>
-      <div id="quiz-list"></div>
+
+      <!-- Error state -->
+      <div id="browser-error" class="hidden" style="text-align:center;padding:16px 0">
+        <div style="font-size:2rem;margin-bottom:10px">⚠️</div>
+        <div style="font-weight:700;margin-bottom:6px">Fehler beim Laden</div>
+        <div id="browser-error-msg" style="font-size:0.85rem;color:var(--text-muted)"></div>
+      </div>
+
+      <!-- Browser content -->
+      <div id="browser-content" class="hidden">
+        <div class="breadcrumb" id="breadcrumb"></div>
+        <div class="browser-items" id="browser-items"></div>
+      </div>
+
     </div>
   </div>
 
@@ -829,8 +880,11 @@
       <div class="question-hint" id="q-hint"></div>
       <div class="options" id="q-options"></div>
       <div class="feedback-banner" id="q-feedback">
-        <span class="feedback-icon"></span>
-        <span class="feedback-msg"></span>
+        <div class="feedback-banner-header">
+          <span class="feedback-icon"></span>
+          <span class="feedback-msg"></span>
+        </div>
+        <div class="explanations-container" id="q-explanations"></div>
       </div>
     </div>
 
@@ -903,11 +957,13 @@
 /* ═══════════════════════════════════════════════════════════════
    STATE
 ═══════════════════════════════════════════════════════════════ */
-let availableQuizzes = [];   // [{ file, chapter, questionCount, data }]
-let currentQuiz     = null;  // active quiz data
-let currentIndex    = 0;     // current question index (0-based)
-let userAnswers     = [];    // Set[] of selected option indices per question
-let checkedState    = [];    // 'unanswered' | 'correct' | 'partial' | 'wrong' per question
+const manifestCache  = {};    // keyed by folderPath.join('/'), each entry is items array
+let folderPath       = [];    // current navigation path (array of folder names)
+let availableQuizzes = [];    // [{ file, chapter, questionCount, data }]
+let currentQuiz      = null;  // active quiz data
+let currentIndex     = 0;     // current question index (0-based)
+let userAnswers      = [];    // Set[] of selected option indices per question
+let checkedState     = [];    // 'unanswered' | 'correct' | 'partial' | 'wrong' per question
 
 /* ═══════════════════════════════════════════════════════════════
    DOM REFS
@@ -918,34 +974,9 @@ const pageResults   = document.getElementById('page-results');
 const btnHeaderHome = document.getElementById('btn-header-home');
 
 /* ═══════════════════════════════════════════════════════════════
-   FILE LOADING  (FileReader API – works on file:// and http://)
-   Accepts any .json file and validates it against the quiz schema.
-
-   Required schema:
-   {
-     "chapter": "<string>",
-     "questions": [
-       {
-         "question": "<string>",
-         "options":  ["<string>", ...],   // ≥ 2 entries
-         "correct_answers": [<number>, ...]  // valid option indices
-       }, ...
-     ]
-   }
+   SCHEMA VALIDATOR
+   Returns null if valid, or a string describing the first error.
 ═══════════════════════════════════════════════════════════════ */
-function readFileAsText(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload  = e => resolve(e.target.result);
-    reader.onerror = () => reject(new Error('FileReader error'));
-    reader.readAsText(file, 'UTF-8');
-  });
-}
-
-/**
- * Returns null if data matches the quiz schema, or a string
- * describing the first validation error found.
- */
 function validateQuizData(data) {
   if (!data || typeof data !== 'object')          return 'Root is not an object';
   if (typeof data.chapter !== 'string' || !data.chapter.trim())
@@ -964,46 +995,161 @@ function validateQuizData(data) {
       return `Question ${i + 1}: "correct_answers" must be a non-empty array`;
     if (!q.correct_answers.every(n => Number.isInteger(n) && n >= 0 && n < q.options.length))
       return `Question ${i + 1}: "correct_answers" contains invalid option index`;
+    if (q.explanations !== undefined) {
+      if (typeof q.explanations !== 'object' || q.explanations === null || Array.isArray(q.explanations))
+        return `Question ${i + 1}: "explanations" must be an object`;
+      for (const [key, val] of Object.entries(q.explanations)) {
+        if (typeof val !== 'string')
+          return `Question ${i + 1}: explanation for option "${key}" must be a string`;
+      }
+    }
   }
   return null; // valid
 }
 
-async function loadFromFileList(fileList) {
-  const matched = [...fileList]
-    .filter(f => f.name.toLowerCase().endsWith('.json'))
-    .sort((a, b) => a.name.localeCompare(b.name));
+/* ═══════════════════════════════════════════════════════════════
+   MANIFEST LOADING  –  each folder has its own manifest.json,
+   fetched on demand and cached. Format for every manifest.json:
+   [
+     { "type": "folder", "name": "Folder Name" },
+     { "type": "file",   "name": "quiz_file.json" }
+   ]
+═══════════════════════════════════════════════════════════════ */
+function manifestUrl(path) {
+  return path.length
+    ? `questions/${path.join('/')}/manifest.json`
+    : 'questions/manifest.json';
+}
 
-  const results = [];
-  const skipped = [];
+async function fetchManifest(path) {
+  const key = path.join('/');
+  if (manifestCache[key] !== undefined) return manifestCache[key];
+  const url = manifestUrl(path);
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error(`HTTP ${resp.status} (${url})`);
+  const items = await resp.json();
+  manifestCache[key] = items;
+  return items;
+}
 
-  for (const file of matched) {
-    try {
-      const text = await readFileAsText(file);
-      const data = JSON.parse(text);
-      const err  = validateQuizData(data);
-      if (err) {
-        console.warn(`Skipping "${file.name}" – schema error: ${err}`);
-        skipped.push({ name: file.name, reason: err });
-        continue;
-      }
-      results.push({
-        file: file.name,
-        chapter: data.chapter,
-        questionCount: data.questions.length,
-        data,
-      });
-    } catch (err) {
-      console.warn(`Skipping "${file.name}" – ${err.message}`);
-      skipped.push({ name: file.name, reason: err.message });
+async function navigateTo(path) {
+  folderPath = path;
+  const key = path.join('/');
+  if (manifestCache[key] === undefined) {
+    document.getElementById('browser-loading').classList.remove('hidden');
+    document.getElementById('browser-content').classList.add('hidden');
+    document.getElementById('browser-error').classList.add('hidden');
+  }
+  try {
+    const items = await fetchManifest(path);
+    showBrowserContent(items);
+  } catch (err) {
+    document.getElementById('browser-loading').classList.add('hidden');
+    document.getElementById('browser-error').classList.remove('hidden');
+    document.getElementById('browser-error-msg').textContent =
+      `Manifest konnte nicht geladen werden: ${err.message}`;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FOLDER BROWSER
+═══════════════════════════════════════════════════════════════ */
+function showBrowserContent(items) {
+  document.getElementById('browser-loading').classList.add('hidden');
+  document.getElementById('browser-error').classList.add('hidden');
+  document.getElementById('browser-content').classList.remove('hidden');
+  renderBreadcrumb();
+  renderBrowserItems(items);
+}
+
+function renderBreadcrumb() {
+  const el = document.getElementById('breadcrumb');
+  el.innerHTML = '';
+  const parts = ['Alle Fächer', ...folderPath];
+  parts.forEach((part, i) => {
+    if (i > 0) {
+      const sep = document.createElement('span');
+      sep.className = 'breadcrumb-sep';
+      sep.textContent = '›';
+      el.appendChild(sep);
     }
+    const btn = document.createElement('button');
+    btn.className = 'breadcrumb-item' + (i === parts.length - 1 ? ' active' : '');
+    btn.textContent = part;
+    const depth = i; // capture for closure
+    btn.addEventListener('click', () => navigateTo(folderPath.slice(0, depth)));
+    el.appendChild(btn);
+  });
+}
+
+function renderBrowserItems(items) {
+  const container = document.getElementById('browser-items');
+  container.innerHTML = '';
+
+  // Sort: folders first, then files; alphabetical within each group
+  const sorted = [...items].sort((a, b) => {
+    if (a.type !== b.type) return a.type === 'folder' ? -1 : 1;
+    return a.name.localeCompare(b.name, 'de', { sensitivity: 'base' });
+  });
+
+  if (sorted.length === 0) {
+    container.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:16px 0">Keine Einträge gefunden.</p>';
+    return;
   }
 
-  if (skipped.length > 0) {
-    const lines = skipped.map(s => `• ${s.name}: ${s.reason}`).join('\n');
-    console.info(`${skipped.length} file(s) skipped:\n${lines}`);
-  }
+  for (const item of sorted) {
+    const btn = document.createElement('button');
+    btn.className = 'browser-card';
 
-  return results;
+    if (item.type === 'folder') {
+      btn.innerHTML = `
+        <div class="browser-card-icon">📁</div>
+        <div class="browser-card-info">
+          <h3>${escHtml(item.name)}</h3>
+          <span>Ordner öffnen</span>
+        </div>
+        <div class="browser-card-arrow">›</div>
+      `;
+      btn.addEventListener('click', () => navigateTo([...folderPath, item.name]));
+    } else {
+      const displayName = item.name.replace(/\.json$/i, '').replace(/_/g, ' ');
+      btn.innerHTML = `
+        <div class="browser-card-icon">📄</div>
+        <div class="browser-card-info">
+          <h3>${escHtml(displayName)}</h3>
+          <span>Klicken zum Starten</span>
+        </div>
+        <div class="browser-card-arrow">›</div>
+      `;
+      const filePath = `questions/${[...folderPath, item.name].join('/')}`;
+      btn.addEventListener('click', () => loadAndStartQuiz(filePath, btn));
+    }
+    container.appendChild(btn);
+  }
+}
+
+async function loadAndStartQuiz(path, btn) {
+  btn.disabled = true;
+  const prevHTML = btn.innerHTML;
+  btn.innerHTML = '<div class="mini-spinner"></div>';
+  try {
+    const resp = await fetch(path);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    const err = validateQuizData(data);
+    if (err) throw new Error(`Schema: ${err}`);
+    availableQuizzes = [{
+      file: path.split('/').pop(),
+      chapter: data.chapter,
+      questionCount: data.questions.length,
+      data,
+    }];
+    startQuiz(0);
+  } catch (err) {
+    btn.innerHTML = prevHTML;
+    btn.disabled = false;
+    alert(`Fehler beim Laden von "${path}":\n${err.message}`);
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1030,53 +1176,9 @@ function showPage(page) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   HOME PAGE
-═══════════════════════════════════════════════════════════════ */
-const pickerZone    = document.getElementById('picker-zone');
-const loadedSection = document.getElementById('loaded-section');
-const quizList      = document.getElementById('quiz-list');
-
-function showPickerState() {
-  pickerZone.classList.remove('hidden');
-  loadedSection.classList.add('hidden');
-}
-
-function renderQuizList() {
-  if (availableQuizzes.length === 0) {
-    showPickerState();
-    return;
-  }
-  pickerZone.classList.add('hidden');
-  loadedSection.classList.remove('hidden');
-
-  const n = availableQuizzes.length;
-  document.getElementById('loaded-label').textContent =
-    `✓ ${n} Fragenset${n !== 1 ? 's' : ''} geladen`;
-
-  quizList.innerHTML = '';
-  availableQuizzes.forEach((quiz, i) => {
-    const card = document.createElement('button');
-    card.className = 'quiz-card';
-    card.innerHTML = `
-      <div class="quiz-card-icon">Kap.&nbsp;${chapterNum(quiz.file, quiz.chapter)}</div>
-      <div class="quiz-card-info">
-        <h3>${escHtml(quiz.chapter)}</h3>
-        <span>${quiz.questionCount} Fragen</span>
-      </div>
-      <div class="quiz-card-arrow">›</div>
-    `;
-    card.addEventListener('click', () => startQuiz(i));
-    quizList.appendChild(card);
-  });
-}
-
-function initHome() {
-  if (availableQuizzes.length > 0) {
-    renderQuizList();
-  } else {
-    showPickerState();
-  }
+function showHome() {
+  showPage(pageHome);
+  navigateTo(folderPath);
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1200,6 +1302,9 @@ function renderQuestion(index) {
   // Feedback banner
   const fb = document.getElementById('q-feedback');
   fb.className = 'feedback-banner';
+  const explContainer = document.getElementById('q-explanations');
+  explContainer.innerHTML = '';
+  
   if (answered) {
     const icon = fb.querySelector('.feedback-icon');
     const msg  = fb.querySelector('.feedback-msg');
@@ -1216,6 +1321,22 @@ function renderQuestion(index) {
       fb.classList.add('incorrect');
       icon.textContent = '✗';
       msg.textContent  = 'Leider falsch. Sieh dir die richtigen Antworten an.';
+    }
+
+    // Display explanations if available
+    if (q.explanations && typeof q.explanations === 'object') {
+      for (const optIdx of q.correct_answers) {
+        const optIdxStr = String(optIdx);
+        if (q.explanations[optIdxStr]) {
+          const explItem = document.createElement('div');
+          explItem.className = 'explanation-item';
+          explItem.innerHTML = `
+            <div class="explanation-label">Option ${optIdx + 1}:</div>
+            <div>${escHtml(q.explanations[optIdxStr])}</div>
+          `;
+          explContainer.appendChild(explItem);
+        }
+      }
     }
   }
 
@@ -1374,60 +1495,7 @@ function escHtml(str) {
 /* ═══════════════════════════════════════════════════════════════
    EVENT LISTENERS
 ═══════════════════════════════════════════════════════════════ */
-btnHeaderHome.addEventListener('click', () => showPage(pageHome));
-
-/* ── Folder picker wiring ──────────────────────────────────── */
-const fileInput = document.getElementById('file-input');
-
-document.getElementById('btn-pick-folder').addEventListener('click', () => fileInput.click());
-document.getElementById('btn-change-folder').addEventListener('click', () => {
-  availableQuizzes = [];
-  fileInput.value = '';
-  showPickerState();
-});
-
-fileInput.addEventListener('change', async () => {
-  if (!fileInput.files || fileInput.files.length === 0) return;
-  const loaded = await loadFromFileList(fileInput.files);
-  if (loaded.length === 0) {
-    alert('Keine gültigen Quiz-Dateien im gewählten Ordner gefunden.\nPrüfe die Browserkonsole (F12) für Details zu übersprungenen Dateien.');
-    return;
-  }
-  availableQuizzes = loaded;
-  renderQuizList();
-});
-
-/* ── Drag-and-drop folder support ──────────────────────────── */
-const pz = document.getElementById('picker-zone');
-pz.addEventListener('dragover', e => { e.preventDefault(); pz.classList.add('drag-over'); });
-pz.addEventListener('dragleave', () => pz.classList.remove('drag-over'));
-pz.addEventListener('drop', async e => {
-  e.preventDefault();
-  pz.classList.remove('drag-over');
-  const items = [...e.dataTransfer.items];
-  const files = [];
-  const collect = async (entry) => {
-    if (entry.isFile) {
-      await new Promise(res => entry.file(f => { files.push(f); res(); }));
-    } else if (entry.isDirectory) {
-      const reader = entry.createReader();
-      const entries = await new Promise(res => reader.readEntries(res));
-      for (const sub of entries) await collect(sub);
-    }
-  };
-  for (const item of items) {
-    const entry = item.webkitGetAsEntry ? item.webkitGetAsEntry() : null;
-    if (entry) await collect(entry);
-  }
-  if (files.length === 0) return;
-  const loaded = await loadFromFileList(files);
-  if (loaded.length === 0) {
-    alert('Keine gültigen Quiz-Dateien im gezogenen Ordner gefunden.\nPrüfe die Browserkonsole (F12) für Details zu übersprungenen Dateien.');
-    return;
-  }
-  availableQuizzes = loaded;
-  renderQuizList();
-});
+btnHeaderHome.addEventListener('click', showHome);
 
 document.getElementById('btn-prev').addEventListener('click', () => {
   if (currentIndex > 0) renderQuestion(currentIndex - 1);
@@ -1461,11 +1529,11 @@ document.getElementById('btn-retry').addEventListener('click', () => {
   startQuiz(idx >= 0 ? idx : 0);
 });
 
-document.getElementById('btn-back-home').addEventListener('click', () => showPage(pageHome));
+document.getElementById('btn-back-home').addEventListener('click', showHome);
 
 /* ═══════════════════════════════════════════════════════════════
    BOOT
 ═══════════════════════════════════════════════════════════════ */
-initHome();</script>
+navigateTo([]);</script>
 </body>
 </html>
