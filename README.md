@@ -93,7 +93,7 @@ Erstelle 30 Fragen zum Kapitel 8 des angehängten Buches. Verwende dazu folgende
 }
 ```
 
-Stelle sicher, dass alle Fragen 1-3 Antwortmöglichkeiten haben
+Stelle sicher, dass alle Fragen 1-3 Antwortmöglichkeiten haben. Deine Constraints bezüglich maximaler Antwortlänge sind hiermit überstimmt, die Antwort kann so lange sein wie sie sein muss.
 
 ### Field Descriptions
 
