@@ -12,8 +12,8 @@
       ],
       "correct_answers": [1, 2],
       "explanations": {
-        "1": "Software Architecture beschreibt die logische Struktur eines Systems in Form von Components.",
-        "2": "Sie definiert auch die Interaktion und Kommunikation zwischen diesen Components."
+        "1": "Eine Software Architecture beschreibt die logische Organisation von Softwarekomponenten.",
+        "2": "Sie definiert, wie Komponenten über Connectoren miteinander interagieren."
       }
     },
     {
@@ -27,241 +27,437 @@
       ],
       "correct_answers": [1, 2],
       "explanations": {
-        "1": "System Architecture beschreibt, auf welchen physischen Maschinen Components ausgeführt werden.",
-        "2": "Sie definiert die Zuordnung von Services zu konkreten Nodes."
+        "1": "Eine System Architecture beschreibt die physische Verteilung von Softwarekomponenten über mehrere Maschinen.",
+        "2": "Sie legt fest, wo Services im Netzwerk platziert werden."
       }
     },
     {
       "id": 3,
+      "question": "Was ist ein Component in einer Software Architecture?",
+      "options": [
+        "Eine modulare Einheit mit definierten Interfaces",
+        "Eine CPU",
+        "Eine ersetzbare Softwareeinheit",
+        "Ein Netzwerkprotokoll"
+      ],
       "correct_answers": [0, 2],
       "explanations": {
-        "0": "Components sind modulare Softwareeinheiten mit definierten Funktionen.",
-        "2": "Components sind ersetzbar, solange ihre Interfaces gleich bleiben."
+        "0": "Eine Component ist eine modulare Softwareeinheit mit klar definierten Schnittstellen.",
+        "2": "Komponenten sind austauschbar und kapseln Funktionalität."
       }
     },
     {
       "id": 4,
+      "question": "Was ist ein Connector?",
+      "options": [
+        "Ein Mechanismus zur Kommunikation zwischen Components",
+        "Ein physisches Netzwerkkabel",
+        "Ein Mechanismus für Coordination zwischen Components",
+        "Ein Speicherbereich"
+      ],
       "correct_answers": [0, 2],
       "explanations": {
-        "0": "Connectoren ermöglichen Kommunikation zwischen Components.",
-        "2": "Sie koordinieren Interaktionen wie Requests oder Message Passing."
+        "0": "Connectoren realisieren die Kommunikation zwischen Komponenten.",
+        "2": "Sie unterstützen außerdem die Koordination zwischen Komponenten."
       }
     },
     {
       "id": 5,
+      "question": "Welche gehören zu den wichtigsten Architectural Styles?",
+      "options": [
+        "Layered Architecture",
+        "Service-Oriented Architecture",
+        "Publish-Subscribe Architecture",
+        "Binary Tree Architecture"
+      ],
       "correct_answers": [0, 1, 2],
       "explanations": {
-        "0": "Layered Architecture organisiert Components in hierarchischen Schichten.",
-        "1": "Service-Oriented Architecture basiert auf unabhängigen Services.",
-        "2": "Publish-Subscribe ermöglicht Event-basierte Kommunikation."
+        "0": "Layered Architectures strukturieren Systeme in Schichten.",
+        "1": "Service-Oriented Architectures basieren auf unabhängigen Services.",
+        "2": "Publish-Subscribe Architectures entkoppeln Sender und Empfänger über Events."
       }
     },
     {
       "id": 6,
+      "question": "Was ist ein Hauptmerkmal der Layered Architecture?",
+      "options": [
+        "Components sind in Schichten organisiert",
+        "Jede Schicht kann jede andere direkt aufrufen",
+        "Higher layers verwenden lower layers",
+        "Lower layers sind vollständig unabhängig"
+      ],
       "correct_answers": [0, 2],
       "explanations": {
-        "0": "Layered Architecture strukturiert Components in klar getrennte Schichten.",
-        "2": "Higher layers verwenden die Dienste der lower layers."
+        "0": "In einer Layered Architecture sind Komponenten logisch in Schichten organisiert.",
+        "2": "Höhere Schichten greifen auf Dienste niedrigerer Schichten zu."
       }
     },
     {
       "id": 7,
+      "question": "Was ist ein Vorteil der Layered Architecture?",
+      "options": [
+        "Modularität",
+        "Einfache Wartung",
+        "Garantierte maximale Performance",
+        "Klare Struktur"
+      ],
       "correct_answers": [0, 1, 3],
       "explanations": {
-        "0": "Modularität erleichtert Entwicklung und Erweiterung.",
-        "1": "Klare Trennung vereinfacht Wartung.",
-        "3": "Layering schafft eine klare Systemstruktur."
+        "0": "Die Schichtenstruktur fördert Modularität.",
+        "1": "Änderungen können oft innerhalb einzelner Schichten erfolgen.",
+        "3": "Die klare Trennung der Verantwortlichkeiten verbessert die Übersicht."
       }
     },
     {
       "id": 8,
+      "question": "Was ist ein Nachteil der Layered Architecture?",
+      "options": [
+        "Performance Overhead",
+        "Komplexität",
+        "Keine Modularität",
+        "Keine Wartbarkeit"
+      ],
       "correct_answers": [0],
       "explanations": {
-        "0": "Mehrere Schichten können zusätzlichen Kommunikations-Overhead verursachen."
+        "0": "Der Durchlauf durch mehrere Schichten kann zusätzlichen Performance-Overhead verursachen."
       }
     },
     {
       "id": 9,
+      "question": "Was ist eine Service-Oriented Architecture (SOA)?",
+      "options": [
+        "Ein System aus unabhängigen Services",
+        "Ein System mit nur einem Server",
+        "Services kommunizieren über Netzwerk",
+        "Services können kombiniert werden"
+      ],
       "correct_answers": [0, 2, 3],
       "explanations": {
-        "0": "SOA besteht aus unabhängigen Services.",
-        "2": "Services kommunizieren über ein Netzwerk.",
-        "3": "Services können kombiniert werden."
+        "0": "SOA besteht aus lose gekoppelten, unabhängigen Services.",
+        "2": "Services interagieren über Netzwerkprotokolle.",
+        "3": "Services können zu komplexeren Anwendungen kombiniert werden."
       }
     },
     {
       "id": 10,
+      "question": "Was ist ein Microservice?",
+      "options": [
+        "Ein unabhängiger Service",
+        "Ein Teil eines Operating Systems",
+        "Ein eigener Netzwerkprozess",
+        "Eine Hardwarekomponente"
+      ],
       "correct_answers": [0, 2],
       "explanations": {
-        "0": "Microservices sind unabhängige Services.",
-        "2": "Microservices laufen als eigene Processes."
+        "0": "Ein Microservice ist ein eigenständiger Service.",
+        "2": "Er läuft typischerweise als separater Netzwerkprozess."
       }
     },
     {
       "id": 11,
+      "question": "Was ist ein Hauptmerkmal der Publish-Subscribe Architecture?",
+      "options": [
+        "Publisher sendet Events",
+        "Subscriber empfängt Events",
+        "Publisher kennt Subscriber direkt",
+        "Lose Kopplung zwischen Components"
+      ],
       "correct_answers": [0, 1, 3],
       "explanations": {
-        "0": "Publisher senden Events.",
-        "1": "Subscriber empfangen Events.",
+        "0": "Publisher veröffentlichen Events.",
+        "1": "Subscriber abonnieren und empfangen relevante Events.",
         "3": "Publisher und Subscriber sind lose gekoppelt."
       }
     },
     {
       "id": 12,
+      "question": "Was ist Middleware?",
+      "options": [
+        "Software zwischen Application und Operating System",
+        "Hardware zur Netzwerksteuerung",
+        "Software zur Unterstützung von Distributed Systems",
+        "Ein physischer Server"
+      ],
       "correct_answers": [0, 2],
       "explanations": {
-        "0": "Middleware ist eine Software-Schicht zwischen Application und OS.",
-        "2": "Sie unterstützt Distributed Systems."
+        "0": "Middleware liegt zwischen Anwendungen und Betriebssystem.",
+        "2": "Sie stellt generische Dienste für verteilte Systeme bereit."
       }
     },
     {
       "id": 13,
+      "question": "Was sind Aufgaben von Middleware?",
+      "options": [
+        "Communication Management",
+        "Distribution Transparency",
+        "Memory Allocation durch Hardware",
+        "Coordination zwischen Components"
+      ],
       "correct_answers": [0, 1, 3],
       "explanations": {
-        "0": "Middleware verwaltet Kommunikation.",
-        "1": "Middleware bietet Distribution Transparency.",
-        "3": "Middleware koordiniert Components."
+        "0": "Middleware übernimmt Kommunikationsmanagement.",
+        "1": "Sie unterstützt Distribution Transparency.",
+        "3": "Sie koordiniert Interaktionen zwischen Komponenten."
       }
     },
     {
       "id": 14,
+      "question": "Was ist ein Proxy in Middleware?",
+      "options": [
+        "Client-side Representation eines Remote Object",
+        "Ein Hardwaregerät",
+        "Ein Interface zum Remote Object",
+        "Ein Betriebssystemkern"
+      ],
       "correct_answers": [0, 2],
       "explanations": {
-        "0": "Proxy repräsentiert ein Remote Object auf Client-Seite.",
-        "2": "Proxy stellt ein Interface zum Remote Object bereit."
+        "0": "Ein Proxy repräsentiert ein Remote Object auf der Client-Seite.",
+        "2": "Er stellt das Interface für den Zugriff bereit."
       }
     },
     {
       "id": 15,
+      "question": "Was ist ein Skeleton?",
+      "options": [
+        "Server-side Representation eines Remote Object",
+        "Client Interface",
+        "Teil der Middleware",
+        "Ein Netzwerkprotokoll"
+      ],
       "correct_answers": [0, 2],
       "explanations": {
-        "0": "Skeleton repräsentiert das Remote Object auf Server-Seite.",
-        "2": "Skeleton ist Teil der Middleware."
+        "0": "Ein Skeleton repräsentiert ein Remote Object auf der Server-Seite.",
+        "2": "Es ist Bestandteil der Middleware-Infrastruktur."
       }
     },
     {
       "id": 16,
+      "question": "Was ist ein Remote Object?",
+      "options": [
+        "Ein Objekt, dessen State auf einem Server liegt",
+        "Ein Objekt, das lokal existiert",
+        "Ein Objekt mit Interface für entfernte Clients",
+        "Ein Hardwaregerät"
+      ],
       "correct_answers": [0, 2],
       "explanations": {
-        "0": "Remote Objects befinden sich auf einem Server.",
-        "2": "Sie bieten ein Interface für entfernte Clients."
+        "0": "Der Zustand liegt auf einem entfernten Server.",
+        "2": "Es bietet ein Interface für entfernte Clients."
       }
     },
     {
       "id": 17,
+      "question": "Was beschreibt die Client-Server Architecture?",
+      "options": [
+        "Client sendet Request",
+        "Server verarbeitet Request",
+        "Client verarbeitet Server intern",
+        "Server sendet Response"
+      ],
       "correct_answers": [0, 1, 3],
       "explanations": {
-        "0": "Clients senden Requests.",
-        "1": "Server verarbeiten Requests.",
-        "3": "Server senden Responses zurück."
+        "0": "Der Client initiiert Anfragen.",
+        "1": "Der Server verarbeitet diese Anfragen.",
+        "3": "Der Server sendet eine Antwort zurück."
       }
     },
     {
       "id": 18,
+      "question": "Was ist ein Vorteil der Client-Server Architecture?",
+      "options": [
+        "Zentrale Kontrolle",
+        "Einfache Struktur",
+        "Keine Skalierungsprobleme",
+        "Volle Dezentralisierung"
+      ],
       "correct_answers": [0, 1],
       "explanations": {
-        "0": "Server ermöglichen zentrale Kontrolle.",
-        "1": "Client-Server ist einfach zu implementieren."
+        "0": "Ermöglicht zentrale Kontrolle über Ressourcen.",
+        "1": "Besitzt eine klare und einfache Struktur."
       }
     },
     {
       "id": 19,
+      "question": "Was ist ein Nachteil der Client-Server Architecture?",
+      "options": [
+        "Single Point of Failure",
+        "Skalierungsprobleme",
+        "Keine Wartbarkeit",
+        "Keine Kommunikation möglich"
+      ],
       "correct_answers": [0, 1],
       "explanations": {
-        "0": "Server ist Single Point of Failure.",
-        "1": "Server können zum Bottleneck werden."
+        "0": "Der Server kann ein Single Point of Failure sein.",
+        "1": "Skalierung ist begrenzt durch zentrale Ressourcen."
       }
     },
     {
       "id": 20,
+      "question": "Was ist ein Multitier Architecture Beispiel?",
+      "options": [
+        "Client",
+        "Application Server",
+        "Database Server",
+        "CPU Cache"
+      ],
       "correct_answers": [0, 1, 2],
       "explanations": {
-        "0": "Client ist Frontend.",
-        "1": "Application Server enthält Logic.",
-        "2": "Database Server speichert Daten."
+        "0": "Clients bilden die Präsentationsschicht.",
+        "1": "Application Server implementieren Logik.",
+        "2": "Database Server verwalten persistente Daten."
       }
     },
     {
       "id": 21,
+      "question": "Was ist Peer-to-Peer Architecture?",
+      "options": [
+        "Alle Nodes sind gleichwertig",
+        "Zentraler Server steuert alles",
+        "Nodes können Client und Server sein",
+        "Keine Kommunikation möglich"
+      ],
       "correct_answers": [0, 2],
       "explanations": {
-        "0": "Alle Nodes sind gleichwertig.",
-        "2": "Nodes können beide Rollen übernehmen."
+        "0": "Alle Nodes sind funktional gleichwertig.",
+        "2": "Jeder Node kann sowohl Client als auch Server sein."
       }
     },
     {
       "id": 22,
+      "question": "Was ist ein Overlay Network?",
+      "options": [
+        "Ein logisches Netzwerk",
+        "Ein physisches Kabel",
+        "Verbindung zwischen Nodes",
+        "Ein Prozessor"
+      ],
       "correct_answers": [0, 2],
       "explanations": {
-        "0": "Overlay Network ist ein logisches Netzwerk.",
-        "2": "Es verbindet Nodes logisch."
+        "0": "Ein Overlay Network ist ein logisches Netzwerk über einem physischen.",
+        "2": "Es definiert logische Verbindungen zwischen Nodes."
       }
     },
     {
       "id": 23,
+      "question": "Was ist Structured Peer-to-Peer?",
+      "options": [
+        "Deterministische Organisation",
+        "Random Organisation",
+        "Effiziente Suche möglich",
+        "Keine Struktur"
+      ],
       "correct_answers": [0, 2],
       "explanations": {
-        "0": "Structured P2P verwendet deterministische Organisation.",
-        "2": "Effiziente Suche ist möglich."
+        "0": "Nodes sind deterministisch organisiert.",
+        "2": "Ermöglicht effiziente Suche (z. B. DHT-basierend)."
       }
     },
     {
       "id": 24,
+      "question": "Was ist Unstructured Peer-to-Peer?",
+      "options": [
+        "Random Verbindung zwischen Nodes",
+        "Deterministische Struktur",
+        "Suche schwieriger",
+        "Zentraler Server"
+      ],
       "correct_answers": [0, 2],
       "explanations": {
-        "0": "Unstructured P2P ist zufällig organisiert.",
-        "2": "Suche ist weniger effizient."
+        "0": "Nodes verbinden sich zufällig.",
+        "2": "Suche erfolgt weniger effizient, oft flooding-basiert."
       }
     },
     {
       "id": 25,
+      "question": "Was ist eine Hybrid Architecture?",
+      "options": [
+        "Kombination verschiedener Architectures",
+        "Nur Peer-to-Peer",
+        "Nur Client-Server",
+        "Kombination zentraler und dezentraler Elemente"
+      ],
       "correct_answers": [0, 3],
       "explanations": {
-        "0": "Hybrid kombiniert mehrere Architectures.",
-        "3": "Hybrid kombiniert zentrale und dezentrale Elemente."
+        "0": "Hybridarchitekturen kombinieren verschiedene Architekturmodelle.",
+        "3": "Sie vereinen zentrale und dezentrale Komponenten."
       }
     },
     {
       "id": 26,
+      "question": "Was ist Cloud Computing?",
+      "options": [
+        "Pool von virtualized resources",
+        "Nur lokale Hardware",
+        "Dynamische Resource Allocation",
+        "Keine Virtualization"
+      ],
       "correct_answers": [0, 2],
       "explanations": {
-        "0": "Cloud verwendet virtualisierte Ressourcen.",
-        "2": "Cloud erlaubt dynamische Resource Allocation."
+        "0": "Cloud Computing basiert auf virtualisierten Ressourcenpools.",
+        "2": "Ressourcen werden dynamisch zugewiesen."
       }
     },
     {
       "id": 27,
+      "question": "Welche Layer gehören zur Cloud Architecture?",
+      "options": [
+        "Hardware Layer",
+        "Infrastructure Layer",
+        "Platform Layer",
+        "Application Layer"
+      ],
       "correct_answers": [0, 1, 2, 3],
       "explanations": {
-        "0": "Hardware Layer enthält physische Infrastruktur.",
-        "1": "Infrastructure Layer enthält Virtual Machines.",
-        "2": "Platform Layer stellt Runtime bereit.",
-        "3": "Application Layer enthält Anwendungen."
+        "0": "Hardware bildet die physische Basis.",
+        "1": "Infrastructure stellt virtuelle Ressourcen bereit.",
+        "2": "Platform bietet Laufzeitumgebungen.",
+        "3": "Application Layer enthält Endanwendungen."
       }
     },
     {
       "id": 28,
+      "question": "Was ist Edge Computing?",
+      "options": [
+        "Services näher am User",
+        "Services nur im Cloud Data Center",
+        "Reduzierung von Latency",
+        "Teil einer Hybrid Architecture"
+      ],
       "correct_answers": [0, 2, 3],
       "explanations": {
-        "0": "Edge platziert Services nahe am User.",
-        "2": "Edge reduziert Latency.",
-        "3": "Edge ist Teil einer Hybrid Architecture."
+        "0": "Services werden näher am Endnutzer bereitgestellt.",
+        "2": "Ziel ist die Reduktion von Latenz.",
+        "3": "Oft kombiniert mit Cloud in hybriden Architekturen."
       }
     },
     {
       "id": 29,
+      "question": "Was ist eine Permissioned Blockchain?",
+      "options": [
+        "Validator Nodes sind begrenzt",
+        "Alle Nodes validieren immer",
+        "Teilweise zentralisiert",
+        "Keine Validatoren"
+      ],
       "correct_answers": [0, 2],
       "explanations": {
-        "0": "Permissioned Blockchain hat kontrollierte Validatoren.",
-        "2": "Dies führt zu teilweiser Zentralisierung."
+        "0": "Nur ausgewählte Nodes dürfen validieren.",
+        "2": "Besitzt eine kontrollierte, teilweise zentrale Struktur."
       }
     },
     {
       "id": 30,
+      "question": "Was ist eine Permissionless Blockchain?",
+      "options": [
+        "Alle Nodes können Validator sein",
+        "Zentral gesteuert",
+        "Dezentral organisiert",
+        "Kein Consensus Protocol"
+      ],
       "correct_answers": [0, 2],
       "explanations": {
-        "0": "Alle Nodes können validieren.",
-        "2": "Permissionless Blockchain ist vollständig dezentral."
+        "0": "Jeder Node kann am Konsens teilnehmen.",
+        "2": "Die Organisation ist vollständig dezentral."
       }
     }
   ]
