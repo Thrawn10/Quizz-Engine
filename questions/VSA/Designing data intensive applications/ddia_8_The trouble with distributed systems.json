@@ -1,462 +1,429 @@
 {
-  "chapter": "The Trouble with Distributed Systems",
+  "chapter": "Chapter 8: The Trouble with Distributed Systems",
   "questions": [
     {
       "id": 1,
-      "question": "Was ist eine partielle Fehlfunktion (partial failure) in einem verteilten System?",
+      "question": "Was unterscheidet das Verhalten von Software auf einem einzelnen Computer grundlegend von Software in einem verteilten System?",
       "options": [
-        "Alle Komponenten fallen gleichzeitig aus",
-        "Einige Komponenten funktionieren, während andere ausfallen",
-        "Das gesamte System funktioniert perfekt",
-        "Nur Softwarefehler treten auf"
+        "Auf einem einzelnen Computer ist das Verhalten deterministisch – dieselbe Operation liefert stets dasselbe Ergebnis, sofern die Hardware korrekt funktioniert.",
+        "Ein einzelner Computer kann niemals abstürzen, während verteilte Systeme immer ausfallen.",
+        "Verteilte Systeme bieten immer höhere Zuverlässigkeit als einzelne Computer.",
+        "Software auf einem einzelnen Computer kann keine Fehler haben."
       ],
-      "correct_answers": [1],
+      "correct_answers": [0],
       "explanations": {
-        "1": "Eine partielle Fehlfunktion bedeutet, dass einige Teile des Systems funktionieren, während andere ausfallen, was typisch für verteilte Systeme ist."
+        "0": "Korrekt. Das Buch erklärt, dass Software auf einem einzelnen Computer deterministisch ist – bei korrekter Hardware liefert dieselbe Operation immer dasselbe Ergebnis. Im Gegensatz dazu müssen verteilte Systeme mit einer Vielzahl partieller Fehler umgehen, bei denen Teile des Systems defekt sein können, während andere noch funktionieren."
       }
     },
     {
       "id": 2,
-      "question": "Warum sind verteilte Systeme schwerer zu entwickeln als Einzelrechnerprogramme?",
+      "question": "Was ist ein 'partieller Fehler' (Partial Failure) in einem verteilten System?",
       "options": [
-        "Weil sie deterministisch sind",
-        "Weil Netzwerke unzuverlässig sind",
-        "Weil es keine Softwarefehler gibt",
-        "Weil es keine Kommunikation gibt"
+        "Ein Fehler, bei dem das gesamte System auf einmal ausfällt.",
+        "Ein Zustand, in dem einige Teile des Systems defekt sind, während andere noch funktionieren – oft auf nicht deterministische Weise.",
+        "Ein Fehler, der nur in der Datenbank auftritt, nicht im Netzwerk.",
+        "Ein vorübergehender Fehler, der sich selbst repariert."
       ],
       "correct_answers": [1],
       "explanations": {
-        "1": "Netzwerke können Nachrichten verlieren, verzögern oder duplizieren, was zu Unsicherheit und komplexem Verhalten führt."
+        "1": "Korrekt. Das Buch definiert partielle Fehler als Zustände, in denen manche Teile des Systems defekt sind, während andere noch funktionieren. Dies ist ein Kernproblem verteilter Systeme: Anders als bei einem einzelnen Computer, der entweder ganz funktioniert oder ganz ausfällt, kann in einem verteilten System ein Teil kaputt sein, während der Rest weiterläuft, und das auf nicht deterministische, schwer vorhersagbare Weise."
       }
     },
     {
       "id": 3,
-      "question": "Welche Probleme können bei der Kommunikation über ein Netzwerk auftreten?",
+      "question": "Welche Strategie verfolgte das Design verteilter Systeme bei Amazon, als es auf mehrere Rechenzentren skalieren musste?",
       "options": [
-        "Nachrichten können verloren gehen",
-        "Nachrichten können verzögert werden",
-        "Nachrichten können sofort garantiert zugestellt werden",
-        "Nachrichten können dupliziert werden"
+        "Alle Fehler zu verhindern, indem bessere Hardware verwendet wird.",
+        "Akzeptieren, dass Fehler unvermeidlich sind, und die Software so zu bauen, dass sie dennoch korrekt funktioniert.",
+        "Das System bei jedem Fehler komplett neu zu starten.",
+        "Immer nur einen einzigen Server zu verwenden, um Komplexität zu vermeiden."
       ],
-      "correct_answers": [0, 1, 3],
+      "correct_answers": [1],
       "explanations": {
-        "0": "Netzwerke können Pakete verlieren.",
-        "1": "Pakete können verzögert werden.",
-        "3": "Pakete können dupliziert oder mehrfach empfangen werden."
+        "1": "Korrekt. Das Buch erklärt, dass die Strategie von Amazon und ähnlichen Systemen darin bestand, Fehler als unvermeidlich anzuerkennen. Statt zu versuchen, alle Fehler zu verhindern (was in der Praxis unmöglich ist), wurde die Software so gestaltet, dass sie trotz Fehlern korrekt funktioniert. Diese Denkweise ist fundamental für das Design robuster verteilter Systeme."
       }
     },
     {
       "id": 4,
-      "question": "Warum ist ein Timeout in verteilten Systemen notwendig?",
+      "question": "Was ist das Hauptproblem bei der Fehlerdiagnose im Netzwerk, wenn ein Request keine Antwort erhält?",
       "options": [
-        "Um sicherzustellen, dass eine Antwort garantiert angekommen ist",
-        "Um festzustellen, ob ein Knoten möglicherweise ausgefallen ist",
-        "Um Nachrichten schneller zu senden",
-        "Um deterministisches Verhalten zu garantieren"
+        "Es ist unmöglich zu unterscheiden, ob die Antwort verloren gegangen ist, die Anfrage verloren gegangen ist, oder der Remote-Knoten ausgefallen ist.",
+        "Das Netzwerk garantiert immer eine Fehlermeldung, wenn etwas schiefgeht.",
+        "TCP-Verbindungen können niemals verloren gehen.",
+        "Der Sender weiß immer sofort, ob der Empfänger die Nachricht erhalten hat."
       ],
-      "correct_answers": [1],
+      "correct_answers": [0],
       "explanations": {
-        "1": "Timeouts helfen, festzustellen, ob ein Knoten möglicherweise nicht reagiert."
+        "0": "Korrekt. Das Buch erklärt, dass bei ausbleibender Netzwerkantwort der Sender nicht unterscheiden kann, ob: (1) die Anfrage verloren gegangen ist, (2) der Remote-Knoten ausgefallen ist, (3) die Antwort verloren gegangen ist, oder (4) der Knoten antwortet, aber die Antwort verzögert ist. Diese Ambiguität ist ein fundamentales Problem asynchroner Netzwerke."
       }
     },
     {
       "id": 5,
-      "question": "Warum kann ein Timeout keine eindeutige Aussage über den Zustand eines Knotens liefern?",
+      "question": "Welche Aussage beschreibt das Verhalten von Timeouts bei der Fehlererkennung in verteilten Systemen am besten?",
       "options": [
-        "Weil Netzwerke unzuverlässig sind",
-        "Weil der Knoten möglicherweise nur langsam ist",
-        "Weil der Knoten garantiert abgestürzt ist",
-        "Weil Nachrichten möglicherweise verzögert sind"
+        "Kurze Timeouts sind immer besser, weil sie Fehler schneller erkennen.",
+        "Lange Timeouts sind immer besser, weil sie falsch-positive Fehlererkennungen vermeiden.",
+        "Es gibt keinen optimalen Timeout-Wert – kurze Timeouts erkennen Fehler schneller, riskieren aber fälschliche Ausschlüsse; lange Timeouts minimieren fälschliche Ausschlüsse, aber verzögern die Fehlererkennung.",
+        "Timeouts sind in modernen Systemen nicht mehr relevant, da TCP alle Fehler automatisch behandelt."
       ],
-      "correct_answers": [0, 1, 3],
+      "correct_answers": [2],
       "explanations": {
-        "0": "Netzwerke liefern keine Garantien über Zustellung oder Verzögerung.",
-        "1": "Ein langsamer Knoten kann fälschlich als ausgefallen erscheinen.",
-        "3": "Nachrichten können verspätet ankommen."
+        "2": "Korrekt. Das Buch beschreibt den klassischen Trade-off bei Timeouts: Ein langer Timeout bedeutet, dass Benutzer lang warten müssen, bis ein Fehler erkannt wird. Ein kurzer Timeout erkennt Fehler schnell, riskiert aber, einen noch funktionierenden Knoten fälschlicherweise als tot zu deklarieren (z. B. bei kurzzeitiger Überlastung). Dies kann Kaskadenausfälle verursachen, wenn die Last eines fälschlich ausgeschlossenen Knotens auf andere übertragen wird."
       }
     },
     {
       "id": 6,
-      "question": "Warum sind Uhren in verteilten Systemen problematisch?",
+      "question": "Welche der folgenden Faktoren tragen laut Kapitel 8 zur Variabilität von Netzwerkverzögerungen bei?",
       "options": [
-        "Weil sie immer synchron sind",
-        "Weil sie voneinander abweichen können",
-        "Weil sie niemals falsch gehen",
-        "Weil sie plötzlich vor- oder zurückspringen können"
+        "Netzwerküberlastung und Queuing an Switches",
+        "TCP-Flusskontrolle und Backpressure",
+        "Virtualisierungsbedingte Pausen der VM durch den Hypervisor",
+        "Festplattengeschwindigkeit des empfangenden Servers"
       ],
-      "correct_answers": [1, 3],
+      "correct_answers": [0, 1, 2],
       "explanations": {
-        "1": "Uhren können unterschiedliche Zeiten anzeigen.",
-        "3": "Systemuhren können sich unerwartet ändern."
+        "0": "Korrekt. Wenn mehrere Knoten gleichzeitig Pakete an dasselbe Ziel senden, muss der Switch sie in eine Warteschlange einreihen. Wenn die Warteschlange voll ist, werden Pakete verworfen und müssen erneut gesendet werden – ein Hauptgrund für variable Verzögerungen.",
+        "1": "Korrekt. TCP verwendet Flusskontrolle, um die Übertragungsrate zu begrenzen und Überlastungen zu vermeiden. Dies bedeutet, dass Pakete beim Sender in die Warteschlange gestellt werden, bevor sie überhaupt das Netzwerk betreten.",
+        "2": "Korrekt. In virtualisierten Umgebungen kann das Betriebssystem für Dutzende von Millisekunden pausiert werden, während ein anderer virtueller Rechner eine CPU verwendet. Während dieser Zeit werden eingehende Netzwerkdaten im VM-Monitor gepuffert, was die Verzögerungsvarianz erhöht."
       }
     },
     {
       "id": 7,
-      "question": "Was ist eine Netzwerkpartition?",
+      "question": "Warum ist ein Telefonnetz (Festnetz/ISDN) zuverlässiger und latenzärmer als ein Datennetzwerk wie das Internet?",
       "options": [
-        "Eine geplante Datenbankpartition",
-        "Eine Situation, in der Teile des Netzwerks nicht miteinander kommunizieren können",
-        "Eine Speicherpartition",
-        "Eine Partition auf einer Festplatte"
+        "Telefonnetze verwenden bessere Hardware.",
+        "Telefonnetze reservieren einen festen Circuit mit garantierter Bandbreite für jeden Anruf, während Datennetzwerke Pakete über ein gemeinsam genutztes, variables Medium versenden.",
+        "Telefonnetze haben keine Paketverluste.",
+        "Datennetzwerke sind per Design unzuverlässiger gebaut."
       ],
       "correct_answers": [1],
       "explanations": {
-        "1": "Eine Netzwerkpartition bedeutet, dass Teile des Systems isoliert sind."
+        "1": "Korrekt. Das Buch erklärt, dass Telefonnetze für jeden Anruf einen festen Circuit reservieren – eine garantierte Bandbreite entlang der gesamten Route. Dies ist ein synchrones Netzwerk mit bounded Delays. Datennetzwerke hingegen nutzen Packet Switching, bei dem alle Teilnehmer das Netzwerk gemeinsam nutzen. Das ermöglicht effizientere Auslastung (ideal für bursty Workloads), führt aber zu unbounded Delays durch Queuing."
       }
     },
     {
       "id": 8,
-      "question": "Was ist ein Hauptmerkmal von Shared-Nothing-Systemen?",
+      "question": "Was versteht das Buch unter 'Synchronous Networks' vs. 'Asynchronous Networks' in Bezug auf Delays?",
       "options": [
-        "Alle Knoten teilen denselben Speicher",
-        "Jeder Knoten hat eigenen Speicher und kommuniziert über ein Netzwerk",
-        "Es gibt keine Kommunikation zwischen Knoten",
-        "Alle Knoten sind synchronisiert"
+        "Synchrone Netzwerke haben keine Pakete; asynchrone Netzwerke haben Pakete.",
+        "Synchrone Netzwerke haben bounded (begrenzte) maximale Delays; asynchrone Netzwerke haben unbounded (unbegrenzte) Delays.",
+        "Asynchrone Netzwerke sind immer schneller als synchrone Netzwerke.",
+        "Der Begriff bezieht sich ausschließlich auf das OSI-Modell, nicht auf praktische Netzwerke."
       ],
       "correct_answers": [1],
       "explanations": {
-        "1": "Jeder Knoten hat eigenen Speicher und kommuniziert über das Netzwerk."
+        "1": "Korrekt. Das Buch erklärt, dass ein synchrones Netzwerk (wie ein Telefonnetz) garantierte maximale Verzögerungen hat – entweder wird ein Paket innerhalb von d Millisekunden geliefert oder es geht verloren, aber es dauert nie länger als d. Asynchrone Netzwerke (wie das Internet) haben keine solche Garantie: Pakete werden so schnell wie möglich geliefert, aber es gibt keine obere Grenze für die Verzögerung."
       }
     },
     {
       "id": 9,
-      "question": "Was ist eine mögliche Ursache für falsche Zeitstempel?",
+      "question": "Welche zwei Typen von Uhren werden in Kapitel 8 unterschieden, und was ist der wesentliche Unterschied?",
       "options": [
-        "Fehlkonfiguration von NTP",
-        "Perfekt synchronisierte Uhren",
-        "Defekte Hardware-Uhren",
-        "Netzwerkverzögerungen"
+        "Time-of-day clocks (Echtzeit-Uhren) und monotone Uhren – Time-of-day-Uhren messen die aktuelle Uhrzeit und können zurückgestellt werden; monotone Uhren messen immer nur vergangene Zeit und laufen strikt vorwärts.",
+        "CPU-Taktuhren und Netzwerkuhren – CPU-Uhren sind schneller.",
+        "Lokale Uhren und GPS-Uhren – GPS ist immer genauer.",
+        "Harte Uhren (Hardware) und weiche Uhren (Software) – Softwareuhren sind immer unzuverlässiger."
       ],
-      "correct_answers": [0, 2, 3],
+      "correct_answers": [0],
       "explanations": {
-        "0": "Falsche NTP-Konfiguration führt zu falschen Zeiten.",
-        "2": "Hardware-Uhren können fehlerhaft sein.",
-        "3": "Netzwerkverzögerungen beeinflussen Synchronisation."
+        "0": "Korrekt. Das Buch erklärt: Time-of-day clocks geben die aktuelle Datum/Uhrzeit zurück (z. B. wall-clock time). Sie werden durch NTP synchronisiert und können – bei zu großem Drift – auch rückwärts gestellt werden, was zu negativen Zeitdifferenzen führen kann. Monotone Uhren messen nur, wie viel Zeit vergangen ist (geeignet für Timeouts und Latenz-Messungen). Sie laufen immer vorwärts, auch wenn sie nicht absolut kalibriert sind."
       }
     },
     {
       "id": 10,
-      "question": "Was bedeutet asynchrones Netzwerkmodell?",
+      "question": "Warum sind Time-of-day-Uhren in verteilten Systemen problematisch für die Bestimmung der Reihenfolge von Ereignissen?",
       "options": [
-        "Es gibt garantierte maximale Verzögerungen",
-        "Es gibt keine garantierten Zeitgrenzen",
-        "Alle Nachrichten kommen sofort an",
-        "Alle Knoten sind synchron"
+        "Sie sind zu langsam, um Ereignisse zu messen.",
+        "Sie sind auf verschiedenen Maschinen unterschiedlich kalibriert und können durch NTP-Korrekturen rückwärts gestellt werden, sodass ein späteres Ereignis einen früheren Timestamp haben kann.",
+        "Sie können nur einmal pro Sekunde aktualisiert werden.",
+        "Sie sind nur auf Unix-Systemen verfügbar."
       ],
       "correct_answers": [1],
       "explanations": {
-        "1": "Im asynchronen Modell gibt es keine garantierten Zeitgrenzen."
+        "1": "Korrekt. Das Buch erklärt, dass Uhren auf verschiedenen Maschinen nie perfekt synchron sind. Selbst mit NTP kann die Uhr eines Knotens schneller oder langsamer laufen als die eines anderen. Schlimmer noch: Wenn NTP erkennt, dass eine Uhr zu weit voraus läuft, korrigiert sie rückwärts. Dadurch kann ein Write, der kausal nach einem anderen stattfand, einen früheren Timestamp haben – was für Last-Write-Wins-Mechanismen katastrophal ist."
       }
     },
-
     {
       "id": 11,
-      "question": "Was ist ein Crash-Stop-Fehlermodell?",
+      "question": "Was ist 'Clock Drift' und warum ist er in verteilten Systemen wichtig?",
       "options": [
-        "Ein Knoten kann abstürzen und nie zurückkehren",
-        "Ein Knoten kann pausieren und zurückkehren",
-        "Ein Knoten funktioniert immer korrekt",
-        "Ein Knoten wird automatisch repariert"
+        "Clock Drift ist ein Designfehler in NTP, der behoben werden muss.",
+        "Clock Drift beschreibt, wie Computeruhren mit der Zeit von der realen Zeit abweichen, da Quarz-Oszillatoren nicht perfekt genau sind. Dies führt dazu, dass Uhren verschiedener Knoten auseinanderlaufen.",
+        "Clock Drift tritt nur bei sehr alten Systemen auf.",
+        "Clock Drift ist nur bei atomaren Uhren relevant."
       ],
-      "correct_answers": [0],
+      "correct_answers": [1],
       "explanations": {
-        "0": "Beim Crash-Stop-Modell fällt ein Knoten aus und bleibt dauerhaft offline."
+        "1": "Korrekt. Das Buch erklärt, dass Quarz-Uhren in Computern nicht perfekt genau sind und mit der Zeit driften – je nach Temperatur können sie um mehrere Millisekunden pro Tag abweichen. In einem verteilten System bedeutet das, dass selbst wenn alle Uhren zum selben Zeitpunkt synchronisiert wurden, sie nach einiger Zeit auseinanderlaufen. Deshalb muss NTP regelmäßig korrigieren."
       }
     },
-
     {
       "id": 12,
-      "question": "Was ist ein Crash-Recovery-Fehlermodell?",
+      "question": "Was ist das 'Confidence Interval' (Vertrauensintervall) bei Uhren, und welches System implementiert es in der Praxis?",
       "options": [
-        "Knoten können abstürzen und später wieder starten",
-        "Knoten funktionieren immer korrekt",
-        "Knoten werden nie repariert",
-        "Knoten können nicht abstürzen"
+        "Ein mathematisches Konzept ohne praktische Relevanz.",
+        "Das Vertrauensintervall gibt den Bereich an, innerhalb dessen die tatsächliche Zeit mit hoher Wahrscheinlichkeit liegt. Google's TrueTime API in Spanner gibt explizit ein frühestes und spätestes mögliches Zeitintervall zurück.",
+        "Ein Sicherheitsprotokoll zur Verschlüsselung von Zeitstempeln.",
+        "Eine Methode, um Uhren zwischen Servern zu synchronisieren."
       ],
-      "correct_answers": [0],
+      "correct_answers": [1],
       "explanations": {
-        "0": "Im Crash-Recovery-Modell können Knoten wiederhergestellt werden."
+        "1": "Korrekt. Das Buch erklärt, dass die tatsächliche Uhrzeit immer nur mit einer gewissen Unsicherheit bekannt ist. Die meisten Systeme ignorieren diese Unsicherheit, aber Googles TrueTime API in Spanner macht sie explizit: Sie gibt ein Intervall [earliest, latest] zurück, das die tatsächliche Zeit enthält. Wenn Spanner Transaktionen mit Timestamps stempelt, wartet es, bis das Konfidenzintervall abgelaufen ist, um kausale Reihenfolge zu garantieren."
       }
     },
-
     {
       "id": 13,
-      "question": "Warum können Prozesse pausieren?",
+      "question": "Was ist das Problem mit 'Process Pauses' in verteilten Systemen in Bezug auf Leases und Locks?",
       "options": [
-        "Garbage Collection",
-        "Netzwerkfehler",
-        "CPU-Pause durch Scheduler",
-        "Festplattenfehler"
+        "Process Pauses sind irrelevant, solange die Hardware läuft.",
+        "Ein Prozess kann für eine unbestimmte Zeit pausiert werden (z. B. durch Garbage Collection oder VM-Migration), glaubt aber weiterhin, dass sein Lease gültig ist, obwohl er während der Pause abgelaufen ist – was zu falschen Annahmen über exklusiven Zugriff führt.",
+        "Process Pauses erhöhen nur die CPU-Last.",
+        "Process Pauses treten nur bei Multithreading auf."
       ],
-      "correct_answers": [0, 2],
+      "correct_answers": [1],
       "explanations": {
-        "0": "Garbage Collection kann Prozesse pausieren.",
-        "2": "Scheduler-Unterbrechungen können Prozesse pausieren."
+        "1": "Korrekt. Das Buch beschreibt ein klassisches Szenario: Ein Knoten hält einen Lease (zeitlich begrenzte Exklusivzugang zu einer Ressource). Er wird durch einen langen GC-Stop oder VM-Migration pausiert. Während der Pause läuft der Lease ab. Wenn der Knoten wiederkommt, glaubt er fälschlicherweise, den Lease noch zu halten, und greift auf die Ressource zu – obwohl ein anderer Knoten inzwischen den Lease übernommen hat. Dies kann zu Datenkonflikten führen."
       }
     },
-
     {
       "id": 14,
-      "question": "Warum ist es schwierig, den Zustand eines anderen Knotens zu kennen?",
+      "question": "Welche Mechanismen können einen Thread unbemerkt und für unbestimmte Zeit anhalten?",
       "options": [
-        "Weil Kommunikation nur über das Netzwerk erfolgt",
-        "Weil es keinen gemeinsamen Speicher gibt",
-        "Weil alle Knoten synchronisiert sind",
-        "Weil Netzwerkfehler auftreten können"
+        "Garbage Collection mit 'Stop the World'",
+        "VM-Migration durch den Hypervisor",
+        "CPU-Kontextwechsel durch das Betriebssystem",
+        "Langsame Festplatten-I/O"
       ],
-      "correct_answers": [0, 1, 3],
+      "correct_answers": [0, 1, 2, 3],
       "explanations": {
-        "0": "Kommunikation erfolgt ausschließlich über das Netzwerk.",
-        "1": "Es gibt keinen gemeinsamen Speicher.",
-        "3": "Netzwerkfehler verhindern sichere Kenntnis."
+        "0": "Korrekt. Ein Stop-the-World Garbage Collector hält alle Threads für Hunderte von Millisekunden oder sogar Sekunden an, um Speicher zu bereinigen. Der Prozess bemerkt die Pause nicht – er macht einfach an dem Punkt weiter, an dem er aufgehört hat.",
+        "1": "Korrekt. Hypervisoren können eine laufende VM pausieren und auf eine andere physische Maschine migrieren (Live Migration). Während dieser Zeit ist der Prozess eingefroren.",
+        "2": "Korrekt. Das Betriebssystem kann einen Thread an beliebiger Stelle unterbrechen und erst Millisekunden oder länger später fortsetzen – der Thread bemerkt dies nicht.",
+        "3": "Korrekt. Wenn ein Thread auf langsame synchrone I/O wartet, kann er für lange Zeit blockiert sein, ohne dass er das Gefühl hat, Zeit vergangen zu sein."
       }
     },
-
     {
       "id": 15,
-      "question": "Warum sind große verteilte Systeme anfälliger für Fehler?",
+      "question": "Was ist der Hauptunterschied zwischen 'Safety Properties' und 'Liveness Properties' in verteilten Algorithmen?",
       "options": [
-        "Weil sie weniger Komponenten haben",
-        "Weil mehr Komponenten mehr Fehlerwahrscheinlichkeit bedeuten",
-        "Weil sie deterministisch sind",
-        "Weil sie keine Netzwerke verwenden"
+        "Safety Properties beschreiben, dass nichts Schlechtes passiert (und Verletzungen können auf einen bestimmten Zeitpunkt zurückgeführt werden); Liveness Properties beschreiben, dass etwas Gutes irgendwann passiert (und können vorübergehend verletzt sein).",
+        "Safety Properties sind einfacher zu implementieren als Liveness Properties.",
+        "Liveness Properties sind immer wichtiger als Safety Properties.",
+        "Der Unterschied ist rein akademisch und hat keine praktische Bedeutung."
       ],
-      "correct_answers": [1],
+      "correct_answers": [0],
       "explanations": {
-        "1": "Mehr Komponenten erhöhen die Wahrscheinlichkeit eines Fehlers."
+        "0": "Korrekt. Das Buch erklärt: Safety-Properties bedeuten, dass etwas Schlechtes niemals passiert. Wenn eine Safety-Property verletzt wird, kann man genau den Zeitpunkt benennen, an dem es passiert ist – und der Schaden ist irreversibel. Liveness-Properties bedeuten, dass etwas Gutes irgendwann passiert. Sie dürfen vorübergehend verletzt sein (ein Request wartet noch auf eine Antwort), aber es muss die Hoffnung bestehen, dass sie in der Zukunft erfüllt werden. Eventual Consistency ist zum Beispiel eine Liveness-Property."
       }
     },
-
     {
       "id": 16,
-      "question": "Was ist der Zweck eines Systemmodells?",
+      "question": "Was versteht man unter dem 'Synchronous System Model', dem 'Partially Synchronous Model' und dem 'Asynchronous Model' für verteilte Algorithmen?",
       "options": [
-        "Die Hardware zu ersetzen",
-        "Die Annahmen über Fehler und Zeit zu definieren",
-        "Software zu löschen",
-        "Netzwerke zu beschleunigen"
+        "Das synchrone Modell nimmt bounded Network Delays, Prozess-Pausen und Uhren-Fehler an; das partially synchrone Modell verhält sich meist wie synchron, kann aber gelegentlich die Grenzen überschreiten; das asynchrone Modell erlaubt keinerlei Timing-Annahmen.",
+        "Die drei Modelle unterscheiden sich nur in der verwendeten Programmiersprache.",
+        "Das asynchrone Modell ist für die Praxis am besten geeignet, weil es keine Annahmen macht.",
+        "Das synchrone Modell ist das einzige realistische Modell für moderne Systeme."
       ],
-      "correct_answers": [1],
+      "correct_answers": [0],
       "explanations": {
-        "1": "Systemmodelle definieren Annahmen für Algorithmen."
+        "0": "Korrekt. Das Buch erklärt drei Timing-Modelle: (1) Synchrones Modell: Alle Delays sind bounded – das ist unrealistisch für die meisten praktischen Systeme. (2) Partially synchrones Modell: Das System verhält sich meistens synchron, kann aber gelegentlich die Grenzen überschreiten – das ist das realistischste Modell für echte Systeme. (3) Asynchrones Modell: Keine Timing-Garantien, keine Uhren erlaubt – sehr restriktiv, aber manche Algorithmen können damit umgehen."
       }
     },
-
     {
       "id": 17,
-      "question": "Was ist ein synchrones Systemmodell?",
+      "question": "Was sind die drei Fehlermodelle für Knoten in verteilten Systemen, die in Kapitel 8 beschrieben werden?",
       "options": [
-        "Garantierte maximale Verzögerungen",
-        "Keine garantierten Verzögerungen",
-        "Keine Uhren",
-        "Beliebige Verzögerungen"
+        "Crash-Stop Faults, Crash-Recovery Faults und Byzantine (Arbitrary) Faults",
+        "Hardware Faults, Software Faults und Network Faults",
+        "Transient Faults, Intermittent Faults und Permanent Faults",
+        "Fail-Safe Faults, Fail-Slow Faults und Fail-Silent Faults"
       ],
       "correct_answers": [0],
       "explanations": {
-        "0": "Synchrones Modell garantiert begrenzte Verzögerungen."
+        "0": "Korrekt. Das Buch beschreibt drei Knotenfehlermodelle: (1) Crash-Stop Faults: Ein Knoten kann nur abstürzen und kommt nie wieder. (2) Crash-Recovery Faults: Knoten können abstürzen und nach unbekannter Zeit wieder aufkommen; sie haben stabilen Speicher (Disk), aber verlieren den In-Memory-State. (3) Byzantine (Arbitrary) Faults: Knoten können alles tun, einschließlich lügen und täuschen. Für realistische Systeme ist das partially synchrone Modell mit Crash-Recovery Faults am nützlichsten."
       }
     },
-
     {
       "id": 18,
-      "question": "Was ist ein partiell synchrones Systemmodell?",
+      "question": "Was ist ein 'Byzantine Fault', und wo ist Byzantine Fault Tolerance besonders relevant?",
       "options": [
-        "Immer synchron",
-        "Meist synchron, aber gelegentlich asynchron",
-        "Immer asynchron",
-        "Keine Kommunikation"
+        "Ein Byzantine Fault tritt auf, wenn ein Knoten absichtlich oder unabsichtlich falsche oder korrumpierte Nachrichten sendet. BFT ist besonders relevant in Luftfahrtsystemen und Peer-to-Peer-Netzwerken wie Blockchains.",
+        "Ein Byzantine Fault ist dasselbe wie ein Netzwerkfehler.",
+        "Byzantine Faults sind nur in militärischen Systemen relevant.",
+        "Ein Byzantine Fault bedeutet, dass ein Knoten zu langsam antwortet."
       ],
-      "correct_answers": [1],
+      "correct_answers": [0],
       "explanations": {
-        "1": "Teilweise synchron bedeutet meist synchron, aber nicht immer."
+        "0": "Korrekt. Das Buch erklärt, dass ein Byzantine Fault auftritt, wenn ein Knoten lügt – er sendet willkürlich falsche oder korrumpierte Antworten, möglicherweise mit böswilliger Absicht. Das Byzantine Generals Problem beschreibt dieses Konsensproblem. BFT ist besonders relevant in: (1) Luft- und Raumfahrt, wo kosmische Strahlung Speicher korrumpieren kann. (2) Blockchain/Peer-to-Peer-Systemen, wo untrusting Parteien kooperieren müssen. In typischen Rechenzentren wird BFT als zu aufwändig betrachtet."
       }
     },
-
     {
       "id": 19,
-      "question": "Warum kann TCP zuverlässiger sein als IP?",
+      "question": "Was ist das 'The Truth is Defined by the Majority'-Prinzip in verteilten Systemen?",
       "options": [
-        "Weil TCP Fehlerkorrektur implementiert",
-        "Weil TCP Pakete neu sendet",
-        "Weil IP zuverlässiger ist",
-        "Weil TCP Netzwerkfehler verhindert"
+        "Ein Knoten kann nicht selbst entscheiden, was wahr ist – die Wahrheit wird durch Quorum-Entscheidungen der Mehrheit der Knoten definiert.",
+        "Das Mehrheitsprinzip ist nur für Wahlen relevant, nicht für Datenbanken.",
+        "Ein einzelner Knoten mit einer schnellen CPU gilt immer als Mehrheit.",
+        "Die Wahrheit in einem verteilten System ist immer der letzte Schreibvorgang."
       ],
-      "correct_answers": [0, 1],
+      "correct_answers": [0],
       "explanations": {
-        "0": "TCP korrigiert Fehler durch Wiederholung.",
-        "1": "TCP sendet verlorene Pakete erneut."
+        "0": "Korrekt. Das Buch erklärt, dass ein einzelner Knoten nicht alleine entscheiden kann, was wahr ist – zum Beispiel, ob er selbst der Leader ist. Selbst wenn ein Knoten glaubt, der Leader zu sein (weil er sich selbst für alive hält), kann er falsch liegen (er könnte in einer Network Partition isoliert sein). Deshalb müssen Entscheidungen durch Quorum-Mechanismen getroffen werden – eine Mehrheit der Knoten muss zustimmen, um sicherzustellen, dass die Entscheidung gültig ist."
       }
     },
-
     {
       "id": 20,
-      "question": "Was ist eine wichtige Eigenschaft verteilter Systeme?",
+      "question": "Was sind 'Fencing Tokens' und warum sind sie notwendig?",
       "options": [
-        "Deterministisches Verhalten",
-        "Partielle Fehlfunktionen",
-        "Gemeinsamer Speicher",
-        "Garantierte Kommunikation"
+        "Fencing Tokens sind physische Sicherheitsmaßnahmen in Rechenzentren.",
+        "Fencing Tokens sind monoton steigende Nummern, die von einem Lock-Service ausgegeben werden. Sie verhindern, dass ein Knoten, der sich fälschlicherweise für den Lock-Inhaber hält (weil er eine Network Partition erlebte), Schreiboperationen auf einer Ressource durchführen kann.",
+        "Fencing Tokens sind Verschlüsselungsschlüssel für Netzwerkkommunikation.",
+        "Fencing Tokens dienen zur Authentifizierung von Clients."
       ],
       "correct_answers": [1],
       "explanations": {
-        "1": "Partielle Fehlfunktionen sind charakteristisch für verteilte Systeme."
+        "1": "Korrekt. Das Buch beschreibt Fencing Tokens als Lösung für das Problem des 'falschen Leaders': Jedes Mal, wenn ein Lock-Service einen Lock oder Lease vergibt, gibt er einen monoton steigenden Token aus. Der Speicherdienst akzeptiert nur Schreiboperationen mit einem Token, der größer ist als der zuletzt gesehene. Wenn Client 1 mit Token 33 einen Lock hält, pausiert, und der Lock abläuft, erhält Client 2 Token 34. Wenn Client 1 zurückkommt und mit Token 33 schreiben will, wird die Anfrage abgelehnt."
       }
     },
-
     {
       "id": 21,
-      "question": "Warum kann ein Knoten fälschlicherweise als ausgefallen gelten?",
+      "question": "Warum reicht es nicht aus, dass ein Client seinen eigenen Lock-Status vor einem Schreibvorgang überprüft, ohne Fencing Tokens?",
       "options": [
-        "Netzwerkverzögerung",
-        "Prozesspause",
-        "Timeout",
-        "Perfekte Synchronisation"
+        "Weil Lock-Services zu langsam sind für diese Art von Check.",
+        "Weil zwischen dem Prüfen des Lock-Status und dem Ausführen des Schreibvorgangs eine Process Pause (z. B. GC Stop) auftreten kann, während der der Lock abläuft.",
+        "Weil Lock-Services immer falsch liegen.",
+        "Weil Clients keine Netzwerkverbindung zu Lock-Services haben sollten."
       ],
-      "correct_answers": [0, 1, 2],
+      "correct_answers": [1],
       "explanations": {
-        "0": "Verzögerungen führen zu falschen Annahmen.",
-        "1": "Prozesspausen führen zu falschen Annahmen.",
-        "2": "Timeout kann falsche Annahmen auslösen."
+        "1": "Korrekt. Das Buch zeigt mit einem Code-Beispiel, dass selbst wenn ein Client prüft, ob sein Lease noch gültig ist, zwischen dem Prüfen und dem Ausführen der Operation eine beliebige Pause auftreten kann (GC, VM-Pause, etc.). Da der Lease nach Zeit abläuft und Zeit unsicher ist, bietet der Client-seitige Check keine Garantie. Deshalb muss der Server (der Storage Service) die Tokens aktiv überprüfen – nur so ist die Schutzwirkung robust."
       }
     },
-
     {
       "id": 22,
-      "question": "Was bedeutet 'Knowledge, Truth, and Lies' im Kontext verteilter Systeme?",
+      "question": "Was ist das 'Network Time Protocol' (NTP) und was sind seine Einschränkungen?",
       "options": [
-        "Knoten wissen alles",
-        "Knoten können nur basierend auf Nachrichten Annahmen treffen",
-        "Alle Informationen sind garantiert korrekt",
-        "Alle Systeme sind synchron"
+        "NTP ist ein Protokoll zur Netzwerkverschlüsselung.",
+        "NTP ist ein Protokoll zur Synchronisation von Computeruhren über das Netzwerk. Es hat Grenzen in der Genauigkeit: Die Synchronisationsqualität ist durch die Netzwerkverzögerung begrenzt, und bei aktivem Congestion-Netzwerk kann die Genauigkeit stark abnehmen.",
+        "NTP garantiert eine Uhrensynchronisation auf Nanosekunden.",
+        "NTP ist eine veraltete Technologie, die in modernen Systemen nicht mehr verwendet wird."
       ],
       "correct_answers": [1],
       "explanations": {
-        "1": "Knoten kennen nur den Zustand basierend auf empfangenen Nachrichten."
+        "1": "Korrekt. Das Buch erklärt, dass NTP Computeruhren mit Referenzuhren (GPS oder Atomuhren) synchronisiert. NTP hat jedoch Einschränkungen: Die erreichbare Genauigkeit ist durch die Netzwerkverzögerung begrenzt (typisch: Millisekunden bei LAN, möglicherweise Dutzende von Millisekunden bei WAN). Wenn NTP-Server falsche Zeit melden (z. B. durch Misconfiguration), kann die Uhr korrupt sein. NTP kann Uhren auch rückwärtsstellen, was monotone Uhren nicht tun."
       }
     },
-
     {
       "id": 23,
-      "question": "Warum ist es schwierig, Ereignisse zeitlich zu ordnen?",
+      "question": "Was ist das Problem bei der Verwendung von Time-of-Day-Uhren für 'Last Write Wins' in Datenbanken mit Multi-Leader Replikation?",
       "options": [
-        "Unsynchronisierte Uhren",
-        "Netzwerkverzögerungen",
-        "Perfekte Synchronisation",
-        "Systemfehler"
+        "Es gibt kein Problem, da Uhren immer perfekt synchron sind.",
+        "Da Uhren auf verschiedenen Maschinen nie perfekt synchron sind, kann ein tatsächlich späterer Write (kausal) einen früheren Timestamp haben als ein älterer Write, was dazu führt, dass korrekte Daten durch veraltete Daten überschrieben werden.",
+        "Das Problem betrifft nur Single-Leader-Replikation.",
+        "Last Write Wins ist unabhängig von Uhren."
       ],
-      "correct_answers": [0, 1],
+      "correct_answers": [1],
       "explanations": {
-        "0": "Uhren sind nicht exakt synchron.",
-        "1": "Netzwerkverzögerungen beeinflussen Reihenfolge."
+        "1": "Korrekt. Das Buch erklärt, dass Last-Write-Wins auf Basis von Timestamps in Multi-Leader-Szenarien gefährlich ist: Wenn Uhr A um 100ms vor Uhr B liegt, kann ein Write auf Knoten B (der kausal nach einem Write auf Knoten A stattfand) einen Timestamp haben, der älter erscheint als der Write auf Knoten A. Dies führt dazu, dass der neuere, korrekte Write durch den älteren, veralteten Write überschrieben wird – Datenverlust."
       }
     },
-
     {
       "id": 24,
-      "question": "Warum können Prozesse pausieren und später fortfahren?",
+      "question": "Was beschreibt der Begriff 'Unbounded Delays' in asynchronen Netzwerken?",
       "options": [
-        "Garbage Collection",
-        "CPU Scheduling",
-        "Determinismus",
-        "Perfekte Synchronisation"
+        "Dass Netzwerkpakete immer verloren gehen.",
+        "Dass es in asynchronen Netzwerken keine obere Grenze für die Verzögerung gibt – ein Paket kann theoretisch beliebig lange unterwegs sein, ohne dass der Sender eine Garantie über die maximale Lieferzeit hat.",
+        "Dass Netzwerke immer überlastet sind.",
+        "Dass TCP-Verbindungen niemals getrennt werden."
       ],
-      "correct_answers": [0, 1],
+      "correct_answers": [1],
       "explanations": {
-        "0": "Garbage Collection pausiert Prozesse.",
-        "1": "CPU Scheduling pausiert Prozesse."
+        "1": "Korrekt. Das Buch erklärt, dass asynchrone Netzwerke keine Guarantee für eine maximale Paketlieferzeit bieten. Im Gegensatz zu einem synchronen Netzwerk (wie einem dedizierten Circuit-Switched-Telefonnetz) gibt es in Packet-Switched-Netzwerken keine Grenze dafür, wie lange ein Paket im Netzwerk unterwegs sein kann – es kann in Queues stecken, mehrfach retransmitted werden, usw."
       }
     },
-
     {
       "id": 25,
-      "question": "Warum müssen Systeme pessimistisch geplant werden?",
+      "question": "Welche Aussage über die 'Phi Accrual Failure Detector'-Methode ist korrekt?",
       "options": [
-        "Weil Fehler möglich sind",
-        "Weil Systeme perfekt sind",
-        "Weil Netzwerke zuverlässig sind",
-        "Weil Fehler unmöglich sind"
+        "Sie verwendet einen festen Timeout-Wert.",
+        "Sie misst kontinuierlich die Antwortzeiten und ihre Varianz, um Timeouts dynamisch anzupassen, anstatt einen konfigurierten festen Timeout zu verwenden. Sie wird z. B. in Akka und Cassandra verwendet.",
+        "Sie erfordert atomare Uhren.",
+        "Sie ist nur für Batch-Verarbeitungssysteme geeignet."
       ],
-      "correct_answers": [0],
+      "correct_answers": [1],
       "explanations": {
-        "0": "Fehler sind unvermeidlich und müssen berücksichtigt werden."
+        "1": "Korrekt. Das Buch erklärt, dass der Phi Accrual Failure Detector anstelle eines fixen Timeouts die beobachteten Antwortzeiten und deren Varianz kontinuierlich misst und den Timeout-Wert dynamisch anpasst. Das macht ihn robuster gegen wechselnde Netzwerkbedingungen. Er berechnet einen Phi-Wert (eine Wahrscheinlichkeit), der angibt, wie verdächtig das Ausbleiben einer Antwort ist, abhängig von der historischen Verteilung der Antwortzeiten."
       }
     },
-
     {
       "id": 26,
-      "question": "Warum kann ein System zuverlässiger sein als seine Komponenten?",
+      "question": "Was bedeutet 'shared-nothing architecture' im Kontext verteilter Systeme?",
       "options": [
-        "Fehlerkorrekturmechanismen",
-        "Redundanz",
-        "Perfekte Hardware",
-        "Fehlervermeidung"
-      ],
-      "correct_answers": [0, 1],
-      "explanations": {
-        "0": "Fehlerkorrektur kann Fehler kompensieren.",
-        "1": "Redundanz verbessert Zuverlässigkeit."
-      }
-    },
-
-    {
-      "id": 27,
-      "question": "Warum ist es gefährlich, sich auf Systemuhren zu verlassen?",
-      "options": [
-        "Sie können falsch sein",
-        "Sie können springen",
-        "Sie sind immer korrekt",
-        "Sie können drift verursachen"
-      ],
-      "correct_answers": [0, 1, 3],
-      "explanations": {
-        "0": "Systemuhren können falsch sein.",
-        "1": "Systemuhren können springen.",
-        "3": "Systemuhren können drift haben."
-      }
-    },
-
-    {
-      "id": 28,
-      "question": "Was bedeutet fehlende globale Zeit?",
-      "options": [
-        "Alle Knoten haben dieselbe Zeit",
-        "Knoten haben unterschiedliche Zeiten",
-        "Zeit existiert nicht",
-        "Zeit ist synchronisiert"
+        "Alle Maschinen teilen sich denselben Speicher und dieselbe Festplatte.",
+        "Jede Maschine hat ihren eigenen Speicher und ihre eigene Festplatte; Maschinen können nur über das Netzwerk kommunizieren, sie haben keinen gemeinsamen Zugriff auf den Speicher der anderen.",
+        "Shared-Nothing ist ein veraltetes Konzept, das nicht mehr verwendet wird.",
+        "Shared-Nothing bedeutet, dass Maschinen keine Daten austauschen."
       ],
       "correct_answers": [1],
       "explanations": {
-        "1": "Jeder Knoten hat seine eigene Uhr."
+        "1": "Korrekt. Das Buch erklärt, dass in einer Shared-Nothing-Architektur (im Gegensatz zu Shared-Memory- oder Shared-Disk-Architekturen) jede Maschine über eigene dedizierte Ressourcen verfügt. Kommunikation findet ausschließlich über das Netzwerk statt. Diese Architektur ist der dominante Ansatz für Internet-Services geworden, da sie günstige Commodity-Hardware nutzt, beliebig skaliert werden kann, aber eben keine Shared-Memory-Garantien bietet."
       }
     },
-
     {
-      "id": 29,
-      "question": "Warum ist Fehlertoleranz wichtig?",
+      "id": 27,
+      "question": "Welche der folgenden beschreibt korrekt, warum das Hinzufügen von Redundanz (mehr Maschinen) verteilte Systeme NICHT automatisch zuverlässiger macht?",
       "options": [
-        "Damit Systeme trotz Fehler funktionieren",
-        "Damit Systeme schneller werden",
-        "Damit Fehler verschwinden",
-        "Damit Netzwerke stabil sind"
+        "Mehr Maschinen bedeuten mehr potenzielle Fehlerquellen und eine höhere Wahrscheinlichkeit, dass immer mindestens eine Komponente ausgefallen ist.",
+        "Mehr Maschinen sind immer besser, da sie die Last verteilen.",
+        "Redundanz ist irrelevant für die Zuverlässigkeit.",
+        "Verteilte Systeme brauchen keine Redundanz."
       ],
       "correct_answers": [0],
       "explanations": {
-        "0": "Fehlertoleranz ermöglicht Funktion trotz Fehlern."
+        "0": "Korrekt. Das Buch erklärt, dass in einem großen System immer irgendeine Komponente kaputtgegangen ist. Mit mehr Maschinen steigt die absolute Wahrscheinlichkeit, dass zu jedem Zeitpunkt mindestens eine Maschine einen Fehler aufweist. Deshalb müssen verteilte Systeme so gebaut werden, dass sie trotz ständig auftretender Komponentenfehler korrekt funktionieren – Fehler sind der Normalfall, nicht die Ausnahme."
       }
     },
-
     {
-      "id": 30,
-      "question": "Was ist ein grundlegendes Ziel verteilter Systeme?",
+      "id": 28,
+      "question": "Was ist das grundlegende Problem mit dem Konzept 'ein Knoten glaubt, er sei der Leader'?",
       "options": [
-        "Perfekte Zuverlässigkeit",
-        "Fehlertoleranz trotz unzuverlässiger Komponenten",
-        "Keine Kommunikation",
-        "Determinismus"
+        "Es gibt kein Problem; Knoten sollten immer selbst entscheiden.",
+        "Ein Knoten kann nach einer Network Partition oder einer langen Pause fälschlicherweise glauben, er sei der einzige Leader, obwohl ein anderer Knoten bereits zum Leader ernannt wurde. Wenn er dann schreibt, kann es zu Datenkonflikten oder Split-Brain-Situationen kommen.",
+        "Nur Datenbanken haben Leader-Konzepte.",
+        "Ein falscher Leader führt immer zu einem sofortigen Systemabsturz."
       ],
       "correct_answers": [1],
       "explanations": {
-        "1": "Ziel ist es, zuverlässige Systeme aus unzuverlässigen Komponenten zu bauen."
+        "1": "Korrekt. Das Buch beschreibt mit Abbildung 8-4 ein Szenario, in dem ein Knoten (durch GC Pause oder Network Partition) denkt, er sei der Leader. Inzwischen hat jedoch ein anderer Knoten einen neuen Lease erhalten und schreibt Daten. Wenn der 'alte Leader' zurückkommt und schreibt, entstehen konkurrierende Schreiboperationen – das führt zu Datenkonflikten oder Split-Brain. Deshalb braucht man Mechanismen wie Fencing Tokens."
+      }
+    },
+    {
+      "id": 29,
+      "question": "Was bedeutet 'Weak forms of lying' in Bezug auf Netzwerkpakete, und wie kann man sich dagegen schützen?",
+      "options": [
+        "Absichtliche Manipulation durch Angreifer, die nicht verhindert werden kann.",
+        "Unbeabsichtigte Korrumpierung von Paketen durch Hardwarefehler, Betriebssystem-Bugs oder Router-Fehler. Schutz: Checksums auf Anwendungsebene, Input-Validierung, und Verwendung mehrerer NTP-Server mit Mehrheitsabstimmung.",
+        "Pakete, die zu langsam ankommen.",
+        "Weak forms of lying sind dasselbe wie Byzantine Faults."
+      ],
+      "correct_answers": [1],
+      "explanations": {
+        "1": "Korrekt. Das Buch unterscheidet zwischen vorsätzlichen Byzantine Faults und schwachen Formen des 'Lügens' – unbeabsichtigte Korrektheitsverletzungen durch: (1) Hardwarefehler in Netzwerkkarten oder Routern, die Pakete korrumpieren (manchmal entgehen sie TCP/UDP-Checksums). (2) Software-Bugs. (3) Fehlkonfigurierte NTP-Server. Gegenmaßnahmen: Checksums auf Anwendungsebene, Input-Validierung, und Mehrheitsabstimmung unter NTP-Servern."
+      }
+    },
+    {
+      "id": 30,
+      "question": "Welches System-Modell wird im Buch als 'generally the most useful model for real systems' bezeichnet, und warum?",
+      "options": [
+        "Das synchrone Modell mit Crash-Stop Faults, weil es am einfachsten zu implementieren ist.",
+        "Das partially synchronous Modell mit Crash-Recovery Faults, weil es der Realität am nächsten kommt: Netzwerke verhalten sich meistens gut, können aber gelegentlich Grenzen überschreiten, und Knoten können abstürzen und wieder aufkommen.",
+        "Das asynchrone Modell mit Byzantine Faults, weil es am sichersten ist.",
+        "Das synchrone Modell mit Byzantine Faults, weil es die stärksten Garantien bietet."
+      ],
+      "correct_answers": [1],
+      "explanations": {
+        "1": "Korrekt. Das Buch erklärt, dass das partially synchronous Modell mit Crash-Recovery Faults für die meisten praktischen Systeme am nützlichsten ist: (1) 'Partially synchronous' entspricht der Realität: Netzwerke und Prozesse sind meistens gut verhalten, können aber gelegentlich Timing-Garantien verletzen. (2) 'Crash-Recovery' entspricht der Realität: Knoten können abstürzen (Hardware-Fehler, Reboots), aber auch wieder hochkommen – der persistente Zustand auf der Festplatte überlebt den Absturz, während In-Memory-State verloren geht."
       }
     }
   ]
