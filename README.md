@@ -65,6 +65,8 @@ The quiz questions are stored in JSON format with a standardized schema. Each qu
 
 ### Example Prompt:
 
+Für das Modul verteilte Anwendungen und Systeme will ich ein Quizz erstellen. Dafür wurde schon ein Modell erstellt
+
 Erstelle 30 Fragen zum Kapitel 8 des angehängten Buches. Verwende dazu folgendes Schema:
 
 ```json
