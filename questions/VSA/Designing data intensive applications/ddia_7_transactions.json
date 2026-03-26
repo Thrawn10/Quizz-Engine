@@ -1,0 +1,325 @@
+{
+  "chapter": "Chapter 7 - Transactions",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Was beschreibt Atomicity (Atomarität) im Kontext von ACID korrekt?",
+      "options": [
+        "Wenn eine Transaktion aufgrund eines Fehlers nicht abgeschlossen werden kann, werden alle bisherigen Schreibvorgänge rückgängig gemacht",
+        "Es beschreibt, was passiert, wenn mehrere Prozesse gleichzeitig auf dieselben Daten zugreifen",
+        "Es gibt eine 'Alles-oder-Nichts'-Garantie für Schreibvorgänge innerhalb einer Transaktion",
+        "Es wäre treffender als 'Abortability' (Abbruchfähigkeit) bezeichnet"
+      ],
+      "correct_answers": [
+        0,
+        2,
+        3
+      ],
+      "explanations": {
+        "0": "ACID-Atomarität bedeutet, dass bei einem Fehler alle Schreibvorgänge der Transaktion verworfen werden. Die Datenbank kehrt in den Zustand vor der Transaktion zurück.",
+        "2": "Entweder wird die gesamte Transaktion erfolgreich abgeschlossen (Commit), oder sie schlägt fehl (Abort) und wird vollständig rückgängig gemacht.",
+        "3": "Der Begriff 'Atomicity' ist in ACID anders definiert als in der Multithreading-Programmierung. 'Abortability' wäre ein treffenderer Name."
+      }
+    },
+    {
+      "id": 2,
+      "question": "Was bedeutet Consistency (Konsistenz) im Kontext von ACID?",
+      "options": [
+        "Es bezieht sich auf anwendungsspezifische Invarianten, die immer wahr sein müssen",
+        "Es ist eine Eigenschaft der Datenbank selbst",
+        "Die Anwendung ist dafür verantwortlich, Transaktionen so zu definieren, dass die Konsistenz erhalten bleibt",
+        "Das C gehört streng genommen nicht wirklich zu ACID, da es eine Eigenschaft der Anwendung ist"
+      ],
+      "correct_answers": [
+        0,
+        2,
+        3
+      ],
+      "explanations": {
+        "0": "ACID-Konsistenz bedeutet, dass bestimmte Aussagen über die Daten (Invarianten) immer wahr sein müssen – z.B. in einem Buchhaltungssystem müssen Soll und Haben immer ausgeglichen sein.",
+        "2": "Die Datenbank kann nur bestimmte Invarianten prüfen (z.B. Fremdschlüssel, Unique-Constraints). Die Anwendung muss Transaktionen korrekt definieren, um die Konsistenz zu wahren.",
+        "3": "Atomarität, Isolation und Dauerhaftigkeit sind Eigenschaften der Datenbank; Konsistenz (im ACID-Sinne) ist eine Eigenschaft der Anwendung."
+      }
+    },
+    {
+      "id": 3,
+      "question": "Was bedeutet Isolation im ACID-Sinne?",
+      "options": [
+        "Gleichzeitig ausgeführte Transaktionen sind voneinander isoliert und können sich nicht gegenseitig beeinflussen",
+        "Das Ergebnis ist dasselbe, als wären die Transaktionen seriell ausgeführt worden",
+        "In der Praxis wird serialisierbare Isolation häufig verwendet",
+        "Serializable Isolation bietet die stärkste Garantie, wird aber aufgrund von Performance-Einbussen selten eingesetzt"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Isolation bedeutet, dass gleichzeitig ausgeführte Transaktionen sich nicht gegenseitig beeinflussen können.",
+        "1": "Die Datenbank stellt sicher, dass das Ergebnis nach dem Commit dasselbe ist, als wären die Transaktionen nacheinander (seriell) ausgeführt worden.",
+        "3": "Serializable Isolation ist die stärkste Garantie, wird aber wegen Performance-Nachteilen selten eingesetzt. Viele Datenbanken, einschliesslich Oracle 11g, implementieren sie nicht."
+      }
+    },
+    {
+      "id": 4,
+      "question": "Was ist eine 'Dirty Read'?",
+      "options": [
+        "Eine Transaktion liest Daten, die von einer anderen noch nicht committeten Transaktion geschrieben wurden",
+        "Das Read-Committed-Isolationslevel verhindert Dirty Reads",
+        "Dirty Reads können dazu führen, dass eine Transaktion Daten sieht, die später zurückgerollt werden",
+        "Dirty Reads treten nur bei serialisierbarer Isolation auf"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Bei einem Dirty Read liest eine Transaktion Daten, die von einer anderen, noch nicht abgeschlossenen Transaktion geschrieben wurden.",
+        "1": "Das Read-Committed-Isolationslevel ist das gebräuchlichste Level, das Dirty Reads verhindert.",
+        "2": "Problematisch ist, dass die gelesenen Daten durch ein Abort der schreibenden Transaktion wieder zurückgerollt werden könnten – die gelesenen Daten waren also nie wirklich committed."
+      }
+    },
+    {
+      "id": 5,
+      "question": "Wie wird Read Committed typischerweise implementiert?",
+      "options": [
+        "Dirty Writes werden durch Zeilensperren (Row-Level Locks) verhindert",
+        "Dirty Reads werden durch Lesesperren verhindert",
+        "Für jedes geschriebene Objekt merkt sich die Datenbank den alten committed Wert und den neuen noch nicht committeten Wert",
+        "Lesetransaktionen erhalten den alten Wert, solange die schreibende Transaktion noch nicht committed ist"
+      ],
+      "correct_answers": [
+        0,
+        2,
+        3
+      ],
+      "explanations": {
+        "0": "Dirty Writes werden durch Zeilensperren verhindert: Eine Transaktion muss die Sperre erwerben, bevor sie ein Objekt schreiben kann, und hält sie bis zum Commit oder Abort.",
+        "2": "Anstatt Lesesperren zu verwenden, merkt sich die Datenbank sowohl den alten (committed) als auch den neuen (uncommitted) Wert eines Objekts.",
+        "3": "Solange die schreibende Transaktion nicht committed ist, erhalten andere Transaktionen beim Lesen den alten committed Wert."
+      }
+    },
+    {
+      "id": 6,
+      "question": "Was ist Snapshot Isolation und welches Problem löst sie?",
+      "options": [
+        "Jede Transaktion liest aus einem konsistenten Snapshot der Datenbank zum Zeitpunkt des Transaktionsbeginns",
+        "Sie löst das Problem von Read Skew, bei dem ein Client verschiedene Teile der Datenbank zu unterschiedlichen Zeitpunkten sieht",
+        "Sie wird durch Multi-Version Concurrency Control (MVCC) implementiert",
+        "Sie verhindert auch Write Skew und Phantom Reads vollständig"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Bei Snapshot Isolation sieht jede Transaktion alle Daten, die zum Zeitpunkt des Transaktionsbeginns committed waren.",
+        "1": "Read Skew (z.B. Alice sieht 500$ auf Konto 1 vor und 400$ auf Konto 2 nach einer Überweisung, also scheinbar nur 900$ statt 1000$) wird durch Snapshot Isolation verhindert.",
+        "2": "MVCC speichert mehrere Versionen eines Objekts gleichzeitig mit created_by und deleted_by Transaktions-IDs, sodass verschiedene Transaktionen unterschiedliche Zustände sehen."
+      }
+    },
+    {
+      "id": 7,
+      "question": "Was versteht man unter dem 'Lost Update'-Problem?",
+      "options": [
+        "Zwei Transaktionen führen gleichzeitig einen Read-Modify-Write-Zyklus durch, wobei eine Änderung verloren geht",
+        "Es tritt z.B. bei gleichzeitigem Inkrementieren eines Zählers auf",
+        "Es kann nur durch serialisierbare Isolation verhindert werden",
+        "Atomic Write Operations, Explicit Locking oder automatische Lost-Update-Detection können das Problem lösen"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Beim Lost-Update-Problem lesen zwei Transaktionen gleichzeitig einen Wert, modifizieren ihn und schreiben ihn zurück. Der zweite Schreibvorgang überschreibt den ersten, ohne dessen Änderung zu berücksichtigen.",
+        "1": "Ein typisches Beispiel ist das gleichzeitige Inkrementieren eines Zählers: Beide Transaktionen lesen den Wert 42, berechnen 43 und schreiben 43 zurück – statt des korrekten Werts 44.",
+        "3": "Es gibt mehrere Lösungsansätze: atomare Schreiboperationen (z.B. UPDATE ... SET value = value + 1), explizites Sperren (SELECT FOR UPDATE), oder automatische Erkennung durch die Datenbank."
+      }
+    },
+    {
+      "id": 8,
+      "question": "Was ist Write Skew?",
+      "options": [
+        "Zwei Transaktionen lesen dieselben Objekte, aktualisieren aber unterschiedliche Objekte basierend auf dem Gelesenen",
+        "Es ist eine Verallgemeinerung des Lost-Update-Problems auf mehrere Objekte",
+        "Es kann durch automatische Lost-Update-Erkennung in Snapshot Isolation verhindert werden",
+        "Nur serialisierbare Isolation kann Write Skew verhindern"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Bei Write Skew lesen zwei Transaktionen dieselben Daten, treffen darauf basierend eine Entscheidung und schreiben in unterschiedliche Objekte – was eine Invariante verletzen kann.",
+        "1": "Write Skew ist eine Verallgemeinerung des Lost-Update-Problems: Wenn beide Transaktionen dasselbe Objekt aktualisieren, handelt es sich um ein Lost Update; bei unterschiedlichen Objekten um Write Skew.",
+        "3": "Weder automatische Lost-Update-Erkennung noch atomare Operationen helfen bei Write Skew. Nur echte serialisierbare Isolation kann Write Skew verhindern."
+      }
+    },
+    {
+      "id": 9,
+      "question": "Was ist ein Phantom im Kontext von Transaktionen?",
+      "options": [
+        "Ein Schreibvorgang in einer Transaktion verändert das Ergebnis einer Suchabfrage in einer anderen Transaktion",
+        "Es tritt typischerweise auf, wenn eine Transaktion die Abwesenheit von Zeilen prüft und dann eine neue Zeile einfügt",
+        "SELECT FOR UPDATE kann bei Phantomen immer Sperren setzen",
+        "Phantome können in Kombination mit Write Skew besonders problematisch sein"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Ein Phantom tritt auf, wenn ein Schreibvorgang einer Transaktion das Ergebnis einer Suchabfrage einer anderen Transaktion verändert.",
+        "1": "Das typische Muster: Eine Transaktion prüft, ob Zeilen existieren, die eine Bedingung erfüllen (z.B. keine Buchung für diesen Raum), und fügt dann eine neue Zeile ein. Eine parallele Transaktion tut dasselbe.",
+        "3": "Phantome in Kombination mit Write Skew sind besonders problematisch, da SELECT FOR UPDATE keine Sperren an nicht-existierende Zeilen anhängen kann."
+      }
+    },
+    {
+      "id": 10,
+      "question": "Welche drei Ansätze gibt es zur Implementierung von serialisierbarer Isolation?",
+      "options": [
+        "Tatsächliche serielle Ausführung aller Transaktionen auf einem einzelnen Thread",
+        "Two-Phase Locking (2PL)",
+        "Serializable Snapshot Isolation (SSI)",
+        "Optimistic Locking mit Zeitstempeln"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Bei der seriellen Ausführung werden Transaktionen nacheinander auf einem einzigen Thread ausgeführt. Machbar geworden durch günstigeres RAM und kurze OLTP-Transaktionen. Verwendet z.B. in VoltDB, Redis und Datomic.",
+        "1": "Two-Phase Locking war jahrzehntelang der einzige weit verbreitete Algorithmus für Serialisierbarkeit. Writers blockieren Readers und umgekehrt.",
+        "2": "SSI ist ein relativ neuer Ansatz (seit 2008), der auf Snapshot Isolation aufbaut und Serialisierungskonflikte beim Commit erkennt. Wird in PostgreSQL (ab 9.1) und FoundationDB verwendet."
+      }
+    },
+    {
+      "id": 11,
+      "question": "Warum ist die tatsächliche serielle Ausführung von Transaktionen erst seit ca. 2007 praktikabel?",
+      "options": [
+        "RAM wurde günstig genug, um den gesamten aktiven Datensatz im Speicher zu halten",
+        "OLTP-Transaktionen sind typischerweise kurz und machen nur wenige Lese-/Schreibzugriffe",
+        "Netzwerkbandbreite wurde ausreichend gross",
+        "Transaktionen müssen als Stored Procedures eingereicht werden, damit kein Netzwerk-Roundtrip pro Statement nötig ist"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Wenn alle benötigten Daten im Speicher liegen, können Transaktionen viel schneller ausgeführt werden als bei Festplattenzugriff.",
+        "1": "OLTP-Transaktionen sind kurz und machen wenige Zugriffe. Lang laufende analytische Abfragen können per Snapshot Isolation ausserhalb der seriellen Schleife ausgeführt werden.",
+        "3": "Interaktive Transaktionen mit Netzwerk-Roundtrips pro Statement wären zu langsam für serielle Ausführung. Stored Procedures senden die gesamte Transaktionslogik vorab an die Datenbank."
+      }
+    },
+    {
+      "id": 12,
+      "question": "Was sind die Kernmerkmale von Two-Phase Locking (2PL)?",
+      "options": [
+        "Mehrere Transaktionen können gleichzeitig ein Objekt lesen, solange niemand darauf schreibt",
+        "Writer blockieren Reader und Reader blockieren Writer",
+        "Sperren werden in der ersten Phase erworben und in der zweiten Phase (Commit/Abort) freigegeben",
+        "2PL ist identisch mit Two-Phase Commit (2PC)"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Mehrere Transaktionen können gleichzeitig die Shared-Lock auf ein Objekt halten und es lesen. Sobald jemand schreiben möchte, ist exklusiver Zugriff erforderlich.",
+        "1": "Im Gegensatz zu Snapshot Isolation, wo 'Readers never block writers and writers never block readers' gilt, blockieren bei 2PL Writer die Reader und umgekehrt.",
+        "2": "In der ersten Phase (Ausführung) werden Sperren erworben, in der zweiten Phase (Ende der Transaktion) werden alle Sperren freigegeben – daher 'Two-Phase'."
+      }
+    },
+    {
+      "id": 13,
+      "question": "Was ist Serializable Snapshot Isolation (SSI) und wie funktioniert es?",
+      "options": [
+        "Es ist ein optimistisches Concurrency-Control-Verfahren, das auf Snapshot Isolation aufbaut",
+        "Transaktionen werden nicht blockiert, sondern laufen parallel weiter – beim Commit wird geprüft, ob die Isolation verletzt wurde",
+        "Es erkennt veraltete MVCC-Reads und Schreibvorgänge, die vorherige Reads betreffen",
+        "Es bietet schlechtere Performance als Two-Phase Locking bei geringer Konkurrenz"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "SSI ist ein optimistischer Ansatz, der auf Snapshot Isolation basiert und einen Algorithmus zur Erkennung von Serialisierungskonflikten hinzufügt.",
+        "1": "Im Gegensatz zu pessimistischen Ansätzen wie 2PL blockieren Transaktionen einander nicht. Erst beim Commit wird geprüft, ob die Serialisierbarkeit verletzt wurde – falls ja, wird die Transaktion abgebrochen.",
+        "2": "SSI erkennt zwei Fälle: (1) Eine Transaktion liest eine veraltete MVCC-Version (ein uncommitted Write existierte vor dem Read), und (2) ein Write beeinflusst einen vorherigen Read einer anderen Transaktion."
+      }
+    },
+    {
+      "id": 14,
+      "question": "Welche Probleme können beim Wiederholen (Retry) abgebrochener Transaktionen auftreten?",
+      "options": [
+        "Die Transaktion war möglicherweise erfolgreich, aber die Bestätigung ging im Netzwerk verloren – Retry führt zu doppelter Ausführung",
+        "Bei Überlastung verschlimmern Retries das Problem – Exponentielles Backoff ist empfehlenswert",
+        "Seiteneffekte ausserhalb der Datenbank (z.B. E-Mail-Versand) werden bei jedem Retry erneut ausgelöst",
+        "Retries sind immer sicher, da die Datenbank automatisch Duplikate erkennt"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Wenn die Transaktion erfolgreich war, der Client aber keine Bestätigung erhielt, führt ein Retry zur doppelten Ausführung – ausser es gibt einen Deduplizierungsmechanismus.",
+        "1": "Bei Überlastung können Retries die Situation verschlimmern. Exponentielles Backoff und Begrenzung der Retry-Anzahl sind empfehlenswert.",
+        "2": "Seiteneffekte wie E-Mail-Versand geschehen ausserhalb der Transaktion und werden bei jedem Retry erneut ausgeführt."
+      }
+    },
+    {
+      "id": 15,
+      "question": "Was sind Index-Range Locks und wozu dienen sie?",
+      "options": [
+        "Sie sind eine vereinfachte Approximation von Predicate Locks, die in 2PL-Implementierungen verwendet wird",
+        "Sie schützen vor Phantomen und Write Skew, indem sie Sperren an Index-Einträge anhängen",
+        "Sie sperren einen grösseren Bereich als streng notwendig, sind dafür aber performanter als Predicate Locks",
+        "Sie können nur auf Primärschlüssel-Indexes angewendet werden"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Index-Range Locks (auch Next-Key Locking) sind eine vereinfachte Approximation von Predicate Locks, die in den meisten 2PL-Implementierungen verwendet wird.",
+        "1": "Sie verhindern, dass eine andere Transaktion Daten einfügt, aktualisiert oder löscht, die von der gesperrten Abfrage betroffen wären, indem sie Sperren an Index-Einträge anhängen.",
+        "2": "Index-Range Locks sind weniger präzise als Predicate Locks (sperren möglicherweise mehr als nötig), haben aber deutlich geringeren Overhead."
+      }
+    },
+    {
+      "id": 16,
+      "question": "Was ist 'Materializing Conflicts'?",
+      "options": [
+        "Eine Technik, um Phantome in konkrete Sperrkonflikte auf existierende Zeilen umzuwandeln",
+        "Man erstellt im Voraus eine Tabelle mit allen möglichen Kombinationen (z.B. Räume und Zeitslots), auf die Sperren gesetzt werden können",
+        "Es ist die bevorzugte Lösung für die meisten Write-Skew-Probleme",
+        "Es ist ein letzter Ausweg, wenn keine bessere Alternative verfügbar ist"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Bei Materializing Conflicts wird ein Phantom in einen konkreten Sperrkonflikt umgewandelt, indem Lock-Objekte in der Datenbank eingeführt werden.",
+        "1": "Beispielsweise wird für ein Raumbuchungssystem eine Tabelle mit allen Raum-Zeit-Kombinationen erstellt. Transaktionen können dann SELECT FOR UPDATE auf die entsprechenden Zeilen ausführen.",
+        "3": "Materializing Conflicts sollte als letzter Ausweg betrachtet werden, da es komplex, fehleranfällig ist und Concurrency-Control-Mechanismen in das Datenmodell einbringt. Serialisierbare Isolation ist in den meisten Fällen vorzuziehen."
+      }
+    }
+  ]
+}

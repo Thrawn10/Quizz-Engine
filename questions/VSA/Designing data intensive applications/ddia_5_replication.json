@@ -1,0 +1,333 @@
+{
+  "chapter": "Chapter 5 - Replication",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Welche der folgenden Gründe sprechen für die Replikation von Daten?",
+      "options": [
+        "Reduzierung der Latenz durch geografische Nähe zu den Nutzern",
+        "Erhöhung der Verfügbarkeit bei Ausfällen",
+        "Erhöhung des Lesedurchsatzes durch zusätzliche Leseknoten",
+        "Reduzierung der Speicherkosten durch Komprimierung"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Daten können geografisch näher an den Nutzern platziert werden, was die Latenz reduziert.",
+        "1": "Durch mehrere Kopien kann das System weiterarbeiten, auch wenn einzelne Teile ausfallen.",
+        "2": "Leseanfragen können auf mehrere Repliken verteilt werden, was den Lesedurchsatz erhöht."
+      }
+    },
+    {
+      "id": 2,
+      "question": "Bei der Leader-basierten Replikation (Single-Leader): Welche Aussagen treffen zu?",
+      "options": [
+        "Clients senden Schreibanfragen an den Leader, der diese an die Follower weiterleitet",
+        "Leseanfragen können sowohl vom Leader als auch von Followern beantwortet werden",
+        "Follower können selbstständig Schreibanfragen akzeptieren",
+        "Follower erhalten Änderungen über ein Replikationslog oder einen Change Stream"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Alle Schreibvorgänge müssen an den Leader gesendet werden, der sie in seinem lokalen Speicher und anschliessend an die Follower weiterleitet.",
+        "1": "Leseanfragen können vom Leader oder von einem beliebigen Follower bearbeitet werden.",
+        "3": "Der Leader sendet Datenänderungen als Replikationslog oder Change Stream an alle Follower."
+      }
+    },
+    {
+      "id": 3,
+      "question": "Was versteht man unter semi-synchroner Replikation?",
+      "options": [
+        "Alle Follower werden synchron repliziert",
+        "Ein Follower wird synchron repliziert, die anderen asynchron",
+        "Kein Follower wird synchron repliziert",
+        "Die Replikation wechselt zufällig zwischen synchron und asynchron"
+      ],
+      "correct_answers": [
+        1
+      ],
+      "explanations": {
+        "1": "Bei semi-synchroner Replikation ist ein Follower synchron (garantiert aktuelle Daten auf mindestens zwei Knoten), während die übrigen asynchron repliziert werden. Fällt der synchrone Follower aus, wird ein asynchroner Follower zum synchronen befördert."
+      }
+    },
+    {
+      "id": 4,
+      "question": "Welche Schritte sind beim Einrichten eines neuen Followers korrekt?",
+      "options": [
+        "Einen konsistenten Snapshot des Leaders erstellen und auf den neuen Follower kopieren",
+        "Die Datenbank sperren und alle Dateien direkt kopieren",
+        "Nach dem Kopieren des Snapshots alle Änderungen seit dem Snapshot vom Leader anfordern",
+        "Der Follower verbindet sich mit dem Leader und fordert Datenänderungen seit einer bestimmten Position im Replikationslog an"
+      ],
+      "correct_answers": [
+        0,
+        2,
+        3
+      ],
+      "explanations": {
+        "0": "Ein konsistenter Snapshot wird erstellt, ohne die gesamte Datenbank zu sperren, um die Verfügbarkeit zu erhalten.",
+        "2": "Nach dem Kopieren des Snapshots muss der Follower alle seit dem Snapshot aufgetretenen Änderungen nachholen.",
+        "3": "Der Snapshot ist mit einer bestimmten Position im Replikationslog verknüpft (z.B. Log Sequence Number bei PostgreSQL), ab der die Änderungen angefordert werden."
+      }
+    },
+    {
+      "id": 5,
+      "question": "Was ist ein 'Split Brain' bei der Leader-basierten Replikation?",
+      "options": [
+        "Ein Zustand, in dem zwei Knoten gleichzeitig glauben, der Leader zu sein",
+        "Ein Netzwerkfehler, der die Datenbank in zwei Hälften teilt",
+        "Ein Fehler beim Failover, bei dem kein neuer Leader gewählt werden kann",
+        "Ein Zustand, bei dem die Daten zwischen Leader und Follower nicht übereinstimmen"
+      ],
+      "correct_answers": [
+        0
+      ],
+      "explanations": {
+        "0": "Split Brain ist eine gefährliche Situation, in der zwei Knoten gleichzeitig als Leader agieren. Wenn beide Schreibvorgänge akzeptieren und kein Konfliktlösungsmechanismus existiert, kann es zu Datenverlust oder -korruption kommen."
+      }
+    },
+    {
+      "id": 6,
+      "question": "Welche der folgenden sind Methoden der Replikationslog-Implementierung?",
+      "options": [
+        "Statement-basierte Replikation, bei der SQL-Statements an Follower weitergeleitet werden",
+        "Write-Ahead-Log (WAL) Shipping, das eng an die Storage Engine gekoppelt ist",
+        "Logische (zeilenbasierte) Log-Replikation, die von der Storage Engine entkoppelt ist",
+        "Checkpoint-basierte Replikation, bei der periodisch der gesamte Datenbankzustand kopiert wird"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Bei der Statement-basierten Replikation werden SQL-Statements (INSERT, UPDATE, DELETE) an Follower gesendet. Probleme entstehen bei nondeterministischen Funktionen wie NOW() oder RAND().",
+        "1": "Beim WAL-Shipping wird das interne Write-Ahead-Log an Follower gesendet. Nachteil: Enge Kopplung an die Storage Engine, was Zero-Downtime-Upgrades erschwert.",
+        "2": "Logische Logs beschreiben Änderungen auf Zeilenebene (neue Werte bei INSERT, geänderte Werte bei UPDATE), sind von der Storage Engine entkoppelt und ermöglichen Change Data Capture."
+      }
+    },
+    {
+      "id": 7,
+      "question": "Was garantiert 'Read-after-Write Consistency' (Read-Your-Writes)?",
+      "options": [
+        "Ein Benutzer sieht nach einem eigenen Schreibvorgang immer seine eigenen Änderungen",
+        "Alle Benutzer sehen gleichzeitig die neuesten Daten",
+        "Lesevorgänge geben immer den gleichen Wert zurück",
+        "Es gibt keine Garantie für andere Benutzer, deren Updates erst später sichtbar werden können"
+      ],
+      "correct_answers": [
+        0,
+        3
+      ],
+      "explanations": {
+        "0": "Read-after-Write Consistency garantiert, dass ein Benutzer nach einem eigenen Schreibvorgang seine eigenen Daten beim erneuten Lesen sieht.",
+        "3": "Die Garantie bezieht sich nur auf die eigenen Schreibvorgänge des Benutzers. Änderungen anderer Benutzer können erst zu einem späteren Zeitpunkt sichtbar werden."
+      }
+    },
+    {
+      "id": 8,
+      "question": "Was versteht man unter 'Monotonic Reads'?",
+      "options": [
+        "Lesevorgänge liefern immer die neuesten Daten",
+        "Ein Benutzer wird nicht in die Vergangenheit zurückversetzt – d.h. er sieht keine älteren Daten, nachdem er neuere gesehen hat",
+        "Es ist eine stärkere Garantie als Strong Consistency",
+        "Eine Möglichkeit, dies umzusetzen, ist, dass ein Benutzer immer vom gleichen Replikat liest"
+      ],
+      "correct_answers": [
+        1,
+        3
+      ],
+      "explanations": {
+        "1": "Monotonic Reads garantiert, dass ein Benutzer, der mehrere Lesevorgänge nacheinander durchführt, die Zeit nicht rückwärts laufen sieht.",
+        "3": "Eine einfache Umsetzung: Jeder Benutzer liest konsistent von demselben Replikat, z.B. basierend auf einem Hash der Benutzer-ID."
+      }
+    },
+    {
+      "id": 9,
+      "question": "Welche Aussagen zu Multi-Leader Replikation sind korrekt?",
+      "options": [
+        "Jeder Leader akzeptiert Schreibvorgänge und leitet sie an die anderen Leader weiter",
+        "Multi-Leader Replikation ist besonders nützlich für Multi-Datacenter-Betrieb",
+        "Schreibkonflikte können bei Multi-Leader Replikation nicht auftreten",
+        "Offline-fähige Anwendungen (z.B. Kalender-Apps) nutzen ein ähnliches Prinzip wie Multi-Leader Replikation"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "In einer Multi-Leader-Konfiguration kann jeder Leader Schreibvorgänge akzeptieren und diese asynchron an die anderen Leader weiterleiten.",
+        "1": "Multi-Leader Replikation erlaubt einen Leader pro Datacenter, was die Latenz reduziert und die Ausfalltoleranz verbessert.",
+        "3": "Jedes Gerät fungiert als eigener Leader mit lokalem Speicher, und die Synchronisierung zwischen den Geräten entspricht einer Multi-Leader-Replikation."
+      }
+    },
+    {
+      "id": 10,
+      "question": "Welche Strategien gibt es zur Konfliktlösung bei Multi-Leader Replikation?",
+      "options": [
+        "Last Write Wins (LWW) – der Schreibvorgang mit dem höchsten Zeitstempel gewinnt, birgt aber die Gefahr von Datenverlust",
+        "Konfliktvermeidung durch Routing aller Schreibvorgänge für einen Datensatz über denselben Leader",
+        "Konflikte in einer Datenstruktur speichern und später durch Anwendungscode auflösen",
+        "Automatische Erkennung und Verhinderung aller Konflikte durch die Datenbank ohne Anwendungscode"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "LWW gibt jedem Schreibvorgang eine eindeutige ID und wählt den mit der höchsten ID als Gewinner. Populär, birgt aber Gefahr von Datenverlust.",
+        "1": "Konfliktvermeidung ist die einfachste Strategie: Alle Schreibvorgänge für einen bestimmten Datensatz werden über denselben Leader geleitet.",
+        "2": "Der Konflikt kann in einer expliziten Datenstruktur gespeichert werden, und Anwendungscode löst ihn später auf – z.B. durch Nachfrage beim Benutzer."
+      }
+    },
+    {
+      "id": 11,
+      "question": "Welche Topologien existieren für die Multi-Leader Replikation?",
+      "options": [
+        "Ringförmige Topologie",
+        "Sternförmige Topologie",
+        "All-to-All Topologie",
+        "Hierarchische Topologie"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Bei einer ringförmigen Topologie empfängt jeder Knoten Schreibvorgänge von einem Knoten und leitet sie an den nächsten weiter. Nachteil: Ein Knotenausfall kann den Fluss unterbrechen.",
+        "1": "Bei einer sternförmigen Topologie leitet ein Wurzelknoten Schreibvorgänge an alle anderen Knoten weiter. Ebenfalls anfällig für den Ausfall des Wurzelknotens.",
+        "2": "Bei der All-to-All Topologie sendet jeder Leader seine Schreibvorgänge an jeden anderen Leader. Diese Topologie ist am fehlertoleranzsten, kann aber Probleme mit der Nachrichtenreihenfolge haben."
+      }
+    },
+    {
+      "id": 12,
+      "question": "Was ist eine Quorum-Bedingung bei leaderloser Replikation?",
+      "options": [
+        "w + r > n, wobei w die Anzahl der bestätigenden Schreibknoten, r die Anzahl der Leseknoten und n die Gesamtanzahl der Replikate ist",
+        "Es garantiert, dass mindestens ein Knoten beim Lesen die aktuellsten Daten enthält",
+        "Es garantiert unter allen Umständen Linearisierbarkeit",
+        "Typisch ist n als ungerade Zahl mit w = r = (n + 1) / 2"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Die Quorum-Bedingung w + r > n stellt sicher, dass sich die Menge der geschriebenen und gelesenen Knoten überlappen.",
+        "1": "Durch die Überlappung enthält mindestens einer der gelesenen Knoten den aktuellsten Wert.",
+        "3": "Eine gängige Konfiguration ist z.B. n=3, w=2, r=2 oder n=5, w=3, r=3."
+      }
+    },
+    {
+      "id": 13,
+      "question": "Was ist ein 'Sloppy Quorum' und 'Hinted Handoff'?",
+      "options": [
+        "Ein Sloppy Quorum akzeptiert Schreibvorgänge auf Knoten, die nicht zu den designierten n 'Home'-Knoten gehören",
+        "Hinted Handoff bedeutet, dass temporär akzeptierte Schreibvorgänge nach Netzwerkwiederherstellung an die richtigen Knoten weitergeleitet werden",
+        "Ein Sloppy Quorum garantiert, dass Lesevorgänge immer den neuesten Wert zurückgeben",
+        "Sloppy Quorums erhöhen die Schreibverfügbarkeit"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Bei einem Sloppy Quorum werden Schreibvorgänge auf erreichbare Knoten akzeptiert, auch wenn diese nicht zu den designierten n Knoten gehören – ähnlich wie beim Nachbarn übernachten, wenn man sich ausgesperrt hat.",
+        "1": "Beim Hinted Handoff werden die temporär gespeicherten Daten an die richtigen 'Home'-Knoten weitergeleitet, sobald die Netzwerkunterbrechung behoben ist.",
+        "3": "Sloppy Quorums erhöhen die Schreibverfügbarkeit, da Schreibvorgänge auch bei Netzwerkproblemen akzeptiert werden können."
+      }
+    },
+    {
+      "id": 14,
+      "question": "Was beschreibt die 'Happens-before'-Beziehung bei der Erkennung konkurrierender Schreibvorgänge?",
+      "options": [
+        "Operation A passiert vor Operation B, wenn B von A weiß, auf A aufbaut oder von A abhängt",
+        "Zwei Operationen sind konkurrent, wenn keine von der anderen weiss",
+        "Physische Zeitstempel sind notwendig, um die Reihenfolge festzulegen",
+        "Versionsnummern können verwendet werden, um kausale Abhängigkeiten zu erkennen"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Die Happens-before-Beziehung basiert auf kausaler Abhängigkeit: Operation B hängt kausal von A ab, wenn B von A weiß oder auf A aufbaut.",
+        "1": "Zwei Operationen gelten als konkurrent, wenn keine von der anderen weiß – unabhängig davon, ob sie physisch gleichzeitig stattfinden.",
+        "3": "Der Server pflegt eine Versionsnummer pro Schlüssel. Beim Schreiben muss der Client die Versionsnummer des vorherigen Lesevorgangs mitschicken, sodass der Server kausale Abhängigkeiten erkennen kann."
+      }
+    },
+    {
+      "id": 15,
+      "question": "Was sind Versionsvektoren und wozu dienen sie?",
+      "options": [
+        "Ein Versionsvektor enthält eine Versionsnummer pro Replikat und pro Schlüssel",
+        "Sie werden bei leaderloser Replikation mit mehreren Replikaten eingesetzt, um kausale Abhängigkeiten zu verfolgen",
+        "Versionsvektoren sind identisch mit Vektoruhren",
+        "Sie erlauben es, zwischen Überschreibungen und konkurrierenden Schreibvorgängen zu unterscheiden"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Jedes Replikat pflegt eine eigene Versionsnummer, die bei der Verarbeitung eines Schreibvorgangs inkrementiert wird. Die Sammlung aller Versionsnummern bildet den Versionsvektor.",
+        "1": "Versionsvektoren werden bei leaderloser Replikation mit mehreren Replikaten verwendet, um kausale Abhängigkeiten zu verfolgen und zu bestimmen, welche Werte überschrieben und welche als Siblings behalten werden.",
+        "3": "Versionsvektoren ermöglichen es der Datenbank, zwischen Überschreibungen (ein Client baut auf dem Wert eines anderen auf) und echten konkurrierenden Schreibvorgängen (keiner weiß vom anderen) zu unterscheiden."
+      }
+    },
+    {
+      "id": 16,
+      "question": "Welche Mechanismen nutzen Dynamo-Style-Datastores, um ausgefallene Replikate wieder aktuell zu bringen?",
+      "options": [
+        "Read Repair: Beim Lesen erkennt der Client veraltete Antworten und schreibt den neueren Wert zurück",
+        "Anti-Entropy-Prozess: Ein Hintergrundprozess sucht nach Unterschieden zwischen Replikaten und kopiert fehlende Daten",
+        "Automatisches Failover auf einen neuen Leader",
+        "Read Repair funktioniert gut für häufig gelesene Werte"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Beim Read Repair liest der Client parallel von mehreren Knoten und erkennt veraltete Antworten anhand der Versionsnummern. Der neuere Wert wird zurück an den veralteten Knoten geschrieben.",
+        "1": "Der Anti-Entropy-Prozess läuft im Hintergrund und vergleicht die Daten zwischen den Replikaten. Fehlende Daten werden von einem Replikat zum anderen kopiert, allerdings ohne bestimmte Reihenfolge.",
+        "3": "Read Repair ist besonders effektiv für Werte, die häufig gelesen werden, da die Reparatur bei jedem Lesevorgang stattfindet."
+      }
+    },
+    {
+      "id": 17,
+      "question": "Was versteht man unter 'Consistent Prefix Reads'?",
+      "options": [
+        "Wenn eine Folge von Schreibvorgängen in einer bestimmten Reihenfolge stattfindet, sieht jeder Leser diese in der gleichen Reihenfolge",
+        "Es ist eine Garantie, die besonders in partitionierten Datenbanken relevant ist",
+        "Es stellt sicher, dass kausale Zusammenhänge gewahrt bleiben",
+        "Es ist identisch mit Linearisierbarkeit"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Consistent Prefix Reads garantiert, dass Leser Schreibvorgänge in der Reihenfolge sehen, in der sie tatsächlich stattgefunden haben – so wird z.B. verhindert, dass eine Antwort vor der zugehörigen Frage angezeigt wird.",
+        "1": "In partitionierten Datenbanken arbeiten verschiedene Partitionen unabhängig voneinander, sodass es keine globale Schreibreihenfolge gibt – daher ist diese Garantie hier besonders wichtig.",
+        "2": "Consistent Prefix Reads wahrt kausale Zusammenhänge, indem sichergestellt wird, dass kausal abhängige Schreibvorgänge in der richtigen Reihenfolge gelesen werden."
+      }
+    }
+  ]
+}

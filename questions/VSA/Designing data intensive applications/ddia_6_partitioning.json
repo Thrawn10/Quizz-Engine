@@ -1,0 +1,295 @@
+{
+  "chapter": "Chapter 6 - Partitioning",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Was ist der Hauptgrund für die Partitionierung von Daten?",
+      "options": [
+        "Skalierbarkeit – Verteilung von Daten und Abfragelast auf mehrere Knoten",
+        "Verbesserung der Datenkonsistenz",
+        "Reduzierung der Speicherkosten",
+        "Vereinfachung des Datenbankschemas"
+      ],
+      "correct_answers": [
+        0
+      ],
+      "explanations": {
+        "0": "Der Hauptgrund für Partitionierung ist Skalierbarkeit: Grosse Datensätze können auf viele Festplatten verteilt werden, und die Abfragelast kann auf viele Prozessoren aufgeteilt werden."
+      }
+    },
+    {
+      "id": 2,
+      "question": "Was versteht man unter einem 'Hot Spot' im Kontext der Partitionierung?",
+      "options": [
+        "Eine Partition mit unverhältnismässig hoher Last",
+        "Ein Knoten, der besonders viel Speicher verbraucht",
+        "Ein Netzwerkproblem zwischen zwei Partitionen",
+        "Ein Zustand, bei dem die Daten in einer Partition ungleichmässig verteilt sind (Skew)"
+      ],
+      "correct_answers": [
+        0,
+        3
+      ],
+      "explanations": {
+        "0": "Ein Hot Spot ist eine Partition mit unverhältnismässig hoher Last. Im Extremfall kann die gesamte Last auf einer einzigen Partition landen, während die anderen Knoten untätig sind.",
+        "3": "Skew bedeutet, dass einige Partitionen mehr Daten oder Abfragen haben als andere, was die Effektivität der Partitionierung verringert."
+      }
+    },
+    {
+      "id": 3,
+      "question": "Was sind Vor- und Nachteile der Key-Range-Partitionierung?",
+      "options": [
+        "Vorteil: Effiziente Range-Queries sind möglich",
+        "Nachteil: Bestimmte Zugriffsmuster können zu Hot Spots führen",
+        "Vorteil: Gleichmässige Verteilung der Last ist immer garantiert",
+        "Nachteil: Wenn der Schlüssel ein Zeitstempel ist, landen alle Schreibvorgänge auf derselben Partition"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Innerhalb jeder Partition können Schlüssel sortiert gehalten werden, was Range-Queries effizient macht.",
+        "1": "Bestimmte Zugriffsmuster – z.B. wenn alle Schreibvorgänge den aktuellen Tag betreffen – können dazu führen, dass eine einzelne Partition überlastet wird.",
+        "3": "Bei zeitstempel-basierten Schlüsseln landen alle aktuellen Schreibvorgänge auf der gleichen Partition (z.B. 'heute'), was diese Partition zum Hot Spot macht."
+      }
+    },
+    {
+      "id": 4,
+      "question": "Was passiert bei der Hash-Partitionierung?",
+      "options": [
+        "Eine Hash-Funktion wird auf den Schlüssel angewendet und jede Partition besitzt einen Bereich von Hash-Werten",
+        "Die Sortierreihenfolge der Schlüssel bleibt erhalten",
+        "Range-Queries über den Primärschlüssel werden ineffizient",
+        "Skewed Data wird gleichmässiger verteilt"
+      ],
+      "correct_answers": [
+        0,
+        2,
+        3
+      ],
+      "explanations": {
+        "0": "Bei der Hash-Partitionierung wird eine Hash-Funktion auf den Schlüssel angewendet, und jede Partition besitzt einen Bereich von Hash-Werten.",
+        "2": "Durch das Hashing geht die Sortierreihenfolge verloren. Schlüssel, die vorher benachbart waren, sind nun über alle Partitionen verteilt, weshalb Range-Queries an alle Partitionen gesendet werden müssen.",
+        "3": "Eine gute Hash-Funktion verteilt auch ungleichmässige Daten gleichmässig über den Hash-Wertebereich."
+      }
+    },
+    {
+      "id": 5,
+      "question": "Wie löst Cassandra das Problem von Range-Queries bei Hash-Partitionierung?",
+      "options": [
+        "Durch zusammengesetzte Primärschlüssel (Compound Primary Keys), bei denen nur der erste Teil gehasht wird",
+        "Durch die Verwendung von Secondary Indexes auf allen Partitionen",
+        "Die anderen Spalten des Schlüssels werden als konkatenierter Index zur Sortierung innerhalb der Partition verwendet",
+        "Range-Queries werden generell nicht unterstützt"
+      ],
+      "correct_answers": [
+        0,
+        2
+      ],
+      "explanations": {
+        "0": "Cassandra erlaubt zusammengesetzte Primärschlüssel, bei denen nur der erste Teil gehasht wird, um die Partition zu bestimmen.",
+        "2": "Die restlichen Spalten des zusammengesetzten Schlüssels werden als konkatenierter Index verwendet, um die Daten innerhalb einer Partition zu sortieren. So kann z.B. bei (user_id, timestamp) effizient nach allen Updates eines Benutzers in einem Zeitraum gesucht werden."
+      }
+    },
+    {
+      "id": 6,
+      "question": "Was ist der Unterschied zwischen dokumenten-partitionierter und term-partitionierter Sekundärindexierung?",
+      "options": [
+        "Bei der dokumenten-partitionierten Indexierung pflegt jede Partition ihren eigenen lokalen Sekundärindex",
+        "Dokumenten-partitionierte Indexes erfordern Scatter/Gather-Abfragen über alle Partitionen beim Lesen",
+        "Term-partitionierte Indexes machen Schreibvorgänge langsamer, aber Lesevorgänge effizienter",
+        "Dokumenten-partitionierte Indexes werden auch als globale Indexes bezeichnet"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Bei der dokumenten-partitionierten (lokalen) Indexierung pflegt jede Partition ihren eigenen Sekundärindex, der nur die in ihr enthaltenen Dokumente abdeckt.",
+        "1": "Da z.B. rote Autos in mehreren Partitionen vorkommen können, muss eine Suche an alle Partitionen gesendet werden (Scatter/Gather).",
+        "2": "Bei globalen (term-partitionierten) Indexes muss ein Lesevorgang nur die Partition abfragen, die den gesuchten Term enthält. Dafür sind Schreibvorgänge komplexer, da sie mehrere Index-Partitionen betreffen können."
+      }
+    },
+    {
+      "id": 7,
+      "question": "Warum ist 'hash mod N' eine schlechte Strategie für die Partitionierung?",
+      "options": [
+        "Wenn sich die Anzahl der Knoten N ändert, müssen die meisten Schlüssel verschoben werden",
+        "Die Hash-Funktion ist nicht gleichmässig verteilt",
+        "Die Methode erzeugt zu viele Partitionen",
+        "Sie verursacht unnötig teure Rebalancing-Operationen"
+      ],
+      "correct_answers": [
+        0,
+        3
+      ],
+      "explanations": {
+        "0": "Bei hash mod N ändert sich das Ergebnis für die meisten Schlüssel, wenn N sich ändert. Z.B. ergibt hash(key)=123456 bei 10 Knoten Knoten 6, bei 11 Knoten Knoten 3, bei 12 Knoten Knoten 0.",
+        "3": "Da die meisten Schlüssel bei einer Änderung von N umverteilt werden müssen, sind die Rebalancing-Kosten unverhältnismässig hoch."
+      }
+    },
+    {
+      "id": 8,
+      "question": "Was ist die Strategie 'Fixed Number of Partitions' beim Rebalancing?",
+      "options": [
+        "Es werden von Anfang an viele Partitionen erstellt (z.B. 1000) und mehrere pro Knoten zugewiesen",
+        "Beim Hinzufügen eines Knotens übernimmt dieser einige Partitionen von bestehenden Knoten",
+        "Die Anzahl der Partitionen ändert sich mit der Zeit",
+        "Nur ganze Partitionen werden zwischen Knoten verschoben"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Es werden viel mehr Partitionen als Knoten erstellt. Z.B. 1000 Partitionen bei 10 Knoten, also ca. 100 Partitionen pro Knoten.",
+        "1": "Ein neuer Knoten übernimmt einige Partitionen von bestehenden Knoten, bis die Last wieder fair verteilt ist.",
+        "3": "Nur ganze Partitionen werden verschoben. Die Zuordnung von Schlüsseln zu Partitionen bleibt unverändert – nur die Zuordnung von Partitionen zu Knoten ändert sich."
+      }
+    },
+    {
+      "id": 9,
+      "question": "Was ist dynamische Partitionierung?",
+      "options": [
+        "Partitionen werden automatisch gesplittet, wenn sie eine konfigurierte Grösse überschreiten",
+        "Partitionen können zusammengeführt werden, wenn viele Daten gelöscht werden",
+        "Die Anzahl der Partitionen passt sich dem Gesamtdatenvolumen an",
+        "Es funktioniert ausschliesslich mit Key-Range-Partitionierung"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Bei dynamischer Partitionierung wird eine Partition automatisch in zwei Hälften gesplittet, wenn sie eine bestimmte Grösse überschreitet (z.B. 10 GB bei HBase).",
+        "1": "Umgekehrt können Partitionen zusammengeführt werden, wenn sie unter einen bestimmten Schwellenwert schrumpfen.",
+        "2": "Die Anzahl der Partitionen passt sich dynamisch an das Gesamtdatenvolumen an – wenig Daten erfordern wenige Partitionen, grosse Datenmengen erzeugen viele."
+      }
+    },
+    {
+      "id": 10,
+      "question": "Welche Risiken birgt vollautomatisches Rebalancing?",
+      "options": [
+        "Es kann zu Kaskadenausfällen führen, wenn ein überlasteter Knoten fälschlicherweise als ausgefallen erkannt wird",
+        "Es ist teuer, da grosse Datenmengen über das Netzwerk verschoben werden müssen",
+        "Es erfordert immer menschliches Eingreifen",
+        "Es kann die Performance anderer Anfragen während des Rebalancings beeinträchtigen"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Ein überlasteter und deshalb langsamer Knoten könnte als ausgefallen erkannt werden, woraufhin automatisch Last auf andere Knoten verteilt wird – was die Situation verschlimmert und zu einem Kaskadenausfall führen kann.",
+        "1": "Rebalancing erfordert das Verschieben grosser Datenmengen über das Netzwerk, was teuer ist und sorgfältig durchgeführt werden muss.",
+        "3": "Während des Rebalancings kann die Performance für andere Anfragen beeinträchtigt werden, da Netzwerk- und Festplatten-I/O belastet werden."
+      }
+    },
+    {
+      "id": 11,
+      "question": "Welche Ansätze gibt es für das Request Routing in partitionierten Datenbanken?",
+      "options": [
+        "Der Client kontaktiert einen beliebigen Knoten, der die Anfrage weiterleitet, falls er nicht zuständig ist",
+        "Alle Anfragen werden an eine Routing-Schicht gesendet, die den zuständigen Knoten bestimmt",
+        "Der Client kennt die Partitionszuordnung und verbindet sich direkt mit dem richtigen Knoten",
+        "Es gibt nur eine einzige korrekte Methode für das Request Routing"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Beim ersten Ansatz kann der Client einen beliebigen Knoten kontaktieren (z.B. über einen Round-Robin Load Balancer). Falls der Knoten nicht zuständig ist, leitet er die Anfrage weiter.",
+        "1": "Beim zweiten Ansatz gibt es eine dedizierte Routing-Schicht (Partition-aware Load Balancer), die Anfragen an den richtigen Knoten weiterleitet.",
+        "2": "Beim dritten Ansatz ist der Client selbst über die Partitionszuordnung informiert und verbindet sich direkt mit dem zuständigen Knoten."
+      }
+    },
+    {
+      "id": 12,
+      "question": "Welche Rolle spielt ZooKeeper beim Request Routing?",
+      "options": [
+        "ZooKeeper verwaltet die autoritative Zuordnung von Partitionen zu Knoten",
+        "Jeder Knoten registriert sich bei ZooKeeper",
+        "Routing-Schichten oder Clients können Änderungen der Zuordnung bei ZooKeeper abonnieren",
+        "ZooKeeper wird von allen partitionierten Datenbanken verwendet"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "ZooKeeper dient als zentraler Koordinationsdienst und pflegt die autoritative Zuordnung von Partitionen zu Knoten.",
+        "1": "Jeder Datenbankknoten registriert sich bei ZooKeeper, damit dieser die aktuelle Clustertopologie kennt.",
+        "2": "Andere Akteure wie Routing-Schichten oder Clients können Änderungen bei ZooKeeper abonnieren und werden benachrichtigt, wenn sich die Zuordnung ändert."
+      }
+    },
+    {
+      "id": 13,
+      "question": "Was versteht man unter 'Partitioning proportionally to nodes'?",
+      "options": [
+        "Die Anzahl der Partitionen ist proportional zur Anzahl der Knoten – es gibt eine feste Anzahl von Partitionen pro Knoten",
+        "Wenn ein neuer Knoten beitritt, splittet er zufällig ausgewählte existierende Partitionen und übernimmt eine Hälfte",
+        "Die Partitionsgrösse bleibt konstant, unabhängig von der Datenmenge",
+        "Wird von Cassandra (256 Partitionen pro Knoten standardmässig) und Ketama verwendet"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanations": {
+        "0": "Bei diesem Ansatz gibt es eine feste Anzahl von Partitionen pro Knoten. Mit mehr Knoten werden die Partitionen kleiner.",
+        "1": "Ein neuer Knoten wählt zufällig eine feste Anzahl existierender Partitionen zum Splitten aus und übernimmt jeweils eine Hälfte.",
+        "3": "Dieser Ansatz wird von Cassandra (standardmässig 256 Partitionen pro Knoten) und Ketama verwendet."
+      }
+    },
+    {
+      "id": 14,
+      "question": "Was versteht man unter 'Scatter/Gather' bei Abfragen auf partitionierte Sekundärindizes?",
+      "options": [
+        "Die Abfrage muss an alle Partitionen gesendet und die Ergebnisse zusammengeführt werden",
+        "Es kann zu Tail-Latency-Amplifikation führen",
+        "Es tritt nur bei dokumenten-partitionierten (lokalen) Sekundärindizes auf",
+        "Es ist effizienter als eine Abfrage auf einen globalen Index"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Bei Scatter/Gather wird die Abfrage an alle Partitionen gesendet, und die Ergebnisse werden anschliessend zusammengeführt, da die gesuchten Daten über mehrere Partitionen verteilt sein können.",
+        "1": "Scatter/Gather ist anfällig für Tail-Latency-Amplifikation: Die Gesamtantwortzeit wird durch die langsamste Partition bestimmt.",
+        "2": "Scatter/Gather tritt bei dokumenten-partitionierten (lokalen) Sekundärindizes auf, da jede Partition ihren eigenen lokalen Index pflegt."
+      }
+    },
+    {
+      "id": 15,
+      "question": "Wie unterscheiden sich die Ansätze von Cassandra/Riak und HBase/Kafka beim Request Routing?",
+      "options": [
+        "Cassandra und Riak verwenden ein Gossip-Protokoll, um Änderungen im Cluster-Zustand zu verbreiten",
+        "HBase und Kafka verwenden ZooKeeper zur Verfolgung der Partitionszuordnung",
+        "Bei Cassandra/Riak können Anfragen an beliebige Knoten gesendet werden, die sie an den zuständigen Knoten weiterleiten",
+        "Beide Ansätze verwenden genau die gleiche Methode"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Cassandra und Riak verwenden ein Gossip-Protokoll zwischen den Knoten, um Änderungen im Cluster-Zustand zu verbreiten, ohne einen externen Koordinationsdienst.",
+        "1": "HBase, SolrCloud und Kafka verwenden ZooKeeper, um die Zuordnung von Partitionen zu Knoten zu verfolgen.",
+        "2": "Bei Cassandra/Riak können Anfragen an einen beliebigen Knoten gesendet werden, der sie dann an den zuständigen Knoten für die angeforderte Partition weiterleitet."
+      }
+    }
+  ]
+}

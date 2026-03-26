@@ -1,3 +1,7 @@
 [
+  { "type":  "file", "name":  "ddia_5_replication.json" },
+  { "type": "file", "name": "ddia_6_partitioning.json" },
+  { "type": "file", "name": "ddia_7_transactions.json" },
+  { "type": "file", "name": "ddia_8_distributed_systems.json" },
   { "type": "file", "name": "ddia_8_The trouble with distributed systems.json" }
 ]

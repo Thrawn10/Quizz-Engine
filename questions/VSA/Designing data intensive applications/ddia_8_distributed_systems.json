@@ -1,0 +1,325 @@
+{
+  "chapter": "Chapter 8 - The Trouble with Distributed Systems (ohne Uhren)",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Was versteht man unter 'Partial Failure' in verteilten Systemen?",
+      "options": [
+        "Einige Teile des Systems können fehlerhaft sein, während andere Teile noch funktionieren",
+        "Partial Failures sind nondeterministisch – sie treten manchmal auf und manchmal nicht",
+        "Man weiss möglicherweise nicht einmal, ob eine Operation erfolgreich war oder nicht",
+        "Ein einzelner Computer zeigt typischerweise dasselbe Verhalten wie Partial Failures"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "In einem verteilten System können einzelne Teile auf unvorhersehbare Weise ausfallen, während andere Teile weiterhin funktionieren.",
+        "1": "Partial Failures sind nondeterministisch: Wenn man etwas versucht, das mehrere Knoten und das Netzwerk involviert, funktioniert es manchmal und manchmal nicht – unvorhersehbar.",
+        "2": "Aufgrund von Netzwerkverzögerungen kann man nicht sicher sein, ob eine Anfrage erfolgreich verarbeitet wurde oder nicht."
+      }
+    },
+    {
+      "id": 2,
+      "question": "Wie unterscheidet sich der Ansatz von Cloud Computing (Internet-Diensten) von dem von Supercomputern?",
+      "options": [
+        "Supercomputer stoppen bei Teilausfällen den gesamten Workload und starten vom letzten Checkpoint neu",
+        "Internet-Dienste müssen jederzeit verfügbar sein und bauen Fehlertoleranz in die Software ein",
+        "Cloud-Systeme verwenden Commodity-Hardware mit höheren Ausfallraten als Supercomputer",
+        "Supercomputer und Cloud-Systeme verwenden identische Fehlertoleranzstrategien"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Ein Supercomputer behandelt Teilausfälle wie Totalausfälle: Wenn ein Knoten ausfällt, wird der gesamte Workload gestoppt und nach Reparatur vom letzten Checkpoint neu gestartet.",
+        "1": "Internet-Dienste sind online und müssen jederzeit mit niedriger Latenz antworten. Sie bauen Fehlertoleranz in die Software ein, damit das Gesamtsystem trotz einzelner Knotenausfälle funktioniert.",
+        "2": "Cloud-Knoten verwenden günstigere Commodity-Hardware mit höheren Ausfallraten, während Supercomputer spezialisierte, zuverlässigere Hardware nutzen."
+      }
+    },
+    {
+      "id": 3,
+      "question": "Welche Probleme können beim Senden einer Anfrage über ein asynchrones Netzwerk auftreten?",
+      "options": [
+        "Die Anfrage kann verloren gehen oder in einer Warteschlange verzögert werden",
+        "Der entfernte Knoten ist möglicherweise ausgefallen oder antwortet vorübergehend nicht",
+        "Die Antwort kann auf dem Netzwerk verloren gehen oder verzögert werden",
+        "Der Sender kann immer sicher feststellen, welches dieser Probleme aufgetreten ist"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "In einem asynchronen Netzwerk kann eine Anfrage verloren gehen (z.B. durch ein getrenntes Kabel) oder in einer Warteschlange stecken bleiben.",
+        "1": "Der entfernte Knoten kann abgestürzt sein, vorübergehend nicht antworten (z.B. Garbage Collection Pause), oder die Anfrage verarbeiten, ohne dass dies dem Sender bekannt ist.",
+        "2": "Selbst wenn der entfernte Knoten die Anfrage verarbeitet hat, kann die Antwort im Netzwerk verloren gehen oder verzögert werden."
+      }
+    },
+    {
+      "id": 4,
+      "question": "Warum sind Netzwerkfehler in der Praxis relevant, selbst in gut verwalteten Rechenzentren?",
+      "options": [
+        "Studien zeigen, dass in einem mittelgrossen Rechenzentrum etwa 12 Netzwerkfehler pro Monat auftreten",
+        "Redundante Netzwerkhardware reduziert Ausfälle vollständig auf null",
+        "Menschliche Fehler (z.B. falsch konfigurierte Switches) sind eine Hauptursache für Ausfälle",
+        "Software muss in der Lage sein, Netzwerkfehler zu behandeln – auch wenn sie selten auftreten"
+      ],
+      "correct_answers": [
+        0,
+        2,
+        3
+      ],
+      "explanations": {
+        "0": "Eine Studie in einem mittelgrossen Rechenzentrum fand etwa 12 Netzwerkfehler pro Monat, von denen die Hälfte eine einzelne Maschine und die andere Hälfte ein ganzes Rack betraf.",
+        "2": "Redundante Netzwerkhardware reduziert Ausfälle weniger als erhofft, da menschliche Fehler wie falsch konfigurierte Switches eine Hauptursache für Ausfälle sind.",
+        "3": "Auch wenn Netzwerkfehler selten sind, muss die Software sie behandeln können. Nicht definierte Fehlerbehandlung kann zu willkürlichem Fehlverhalten führen."
+      }
+    },
+    {
+      "id": 5,
+      "question": "Welche Herausforderungen gibt es bei der Wahl von Timeouts zur Fehlererkennung?",
+      "options": [
+        "Ein langes Timeout führt zu langer Wartezeit, bis ein Knoten als ausgefallen erkannt wird",
+        "Ein kurzes Timeout erhöht das Risiko, einen funktionierenden aber langsamen Knoten fälschlicherweise als tot zu erklären",
+        "Ein vorzeitig als tot erklärter Knoten kann dazu führen, dass eine Aktion doppelt ausgeführt wird",
+        "Es gibt einen mathematisch optimalen Timeout-Wert, der in allen Situationen funktioniert"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Ein langes Timeout bedeutet, dass es lange dauert, bis ein tatsächlich ausgefallener Knoten erkannt wird – Benutzer müssen in dieser Zeit warten oder sehen Fehlermeldungen.",
+        "1": "Ein zu kurzes Timeout kann dazu führen, dass ein Knoten, der nur vorübergehend langsam ist (z.B. durch eine Lastspitze), fälschlicherweise als tot erklärt wird.",
+        "2": "Wenn ein Knoten vorzeitig als tot erklärt wird, obwohl er noch eine Aktion ausführt (z.B. E-Mail senden), und ein anderer Knoten die Aufgabe übernimmt, wird die Aktion doppelt ausgeführt."
+      }
+    },
+    {
+      "id": 6,
+      "question": "Was sind die Hauptursachen für variable Netzwerkverzögerungen?",
+      "options": [
+        "Netzwerk-Congestion: Wenn mehrere Knoten gleichzeitig Pakete an dasselbe Ziel senden, muss der Switch sie in eine Warteschlange einreihen",
+        "Die CPU des Zielknotens ist ausgelastet und kann eingehende Anfragen erst verzögert verarbeiten",
+        "TCP-Flusssteuerung (Backpressure) begrenzt die Senderate, was zu Warteschlangen beim Sender führt",
+        "Asynchrone Netzwerke garantieren eine maximale Verzögerung für jedes Paket"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Wenn mehrere Knoten gleichzeitig Pakete senden, muss der Netzwerk-Switch sie in eine Warteschlange einreihen. Bei Überlastung der Warteschlange werden Pakete verworfen.",
+        "1": "Wenn alle CPU-Kerne des Zielknotens beschäftigt sind, werden eingehende Netzwerkanfragen vom Betriebssystem in eine Warteschlange gestellt, bis die Anwendung bereit ist.",
+        "2": "TCP limitiert die Senderate, um das Netzwerk und den Empfänger nicht zu überlasten. Dadurch entsteht zusätzliches Queueing beim Sender, noch bevor die Daten ins Netzwerk gelangen."
+      }
+    },
+    {
+      "id": 7,
+      "question": "Warum verwenden Rechenzentrumsnetzwerke und das Internet Paketvermittlung (Packet Switching) statt Leitungsvermittlung (Circuit Switching)?",
+      "options": [
+        "Packet Switching ist optimiert für Bursty Traffic wie Webanfragen und Dateitransfers",
+        "Circuit Switching garantiert feste Bandbreite, was für unregelmässigen Datenverkehr Ressourcen verschwendet",
+        "TCP passt die Datenübertragungsrate dynamisch an die verfügbare Netzwerkkapazität an",
+        "Circuit Switching wäre günstiger und einfacher zu implementieren"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Webanfragen, E-Mails und Dateiübertragungen haben keinen konstanten Bandbreitenbedarf – sie sind 'bursty'. Packet Switching nutzt die Netzwerkkapazität bei solchem Traffic effizienter.",
+        "1": "Bei Circuit Switching wird feste Bandbreite reserviert, auch wenn sie gerade nicht genutzt wird. Bei Bursty Traffic ist dies Verschwendung.",
+        "2": "TCP passt die Übertragungsrate dynamisch an die verfügbare Kapazität an, was eine bessere Auslastung der Netzwerkinfrastruktur ermöglicht."
+      }
+    },
+    {
+      "id": 8,
+      "question": "Welche Ursachen können dazu führen, dass ein Prozess für längere Zeit pausiert?",
+      "options": [
+        "Stop-the-World Garbage Collection Pausen, die manchmal minutenlang dauern können",
+        "Virtual Machine Suspendierung für Live-Migration auf einen anderen Host",
+        "Synchroner Festplattenzugriff, Page Faults bei Swapping oder Context Switches durch den Hypervisor",
+        "Netzwerkpakete, die im Switch in einer Warteschlange stecken"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "GC-Pausen können alle Threads anhalten und manchmal minutenlang dauern. Selbst 'concurrent' Garbage Collectors müssen gelegentlich die Welt anhalten.",
+        "1": "Eine VM kann suspendiert werden (Speicher auf Disk geschrieben), um auf einen anderen Host migriert zu werden.",
+        "2": "Synchroner Disk-I/O, Page Faults (bei aktiviertem Swapping), Context Switches des Hypervisors, und sogar SIGSTOP-Signale können einen Prozess pausieren lassen."
+      }
+    },
+    {
+      "id": 9,
+      "question": "Warum kann ein verteiltes System nicht ausschliesslich auf einen einzelnen Knoten vertrauen?",
+      "options": [
+        "Ein Knoten kann jederzeit ausfallen und das System blockiert lassen",
+        "Viele verteilte Algorithmen basieren auf Quorums – Entscheidungen erfordern Abstimmungen mehrerer Knoten",
+        "Ein Knoten kann fälschlicherweise glauben, er sei noch der Leader, obwohl er bereits abgesetzt wurde",
+        "Einzelne Knoten haben immer eine perfekte Sicht auf den Gesamtzustand des Systems"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Ein einzelner Knoten kann ausfallen und das System ohne Erholungsmöglichkeit blockiert lassen.",
+        "1": "Quorums reduzieren die Abhängigkeit von einzelnen Knoten: Entscheidungen erfordern eine Mindestanzahl von Stimmen. Die häufigste Form ist eine absolute Mehrheit (mehr als die Hälfte).",
+        "2": "Ein Knoten kann z.B. nach einer GC-Pause glauben, noch Leader zu sein, obwohl andere ihn für tot erklärt und einen neuen Leader gewählt haben."
+      }
+    },
+    {
+      "id": 10,
+      "question": "Was sind Fencing Tokens und welches Problem lösen sie?",
+      "options": [
+        "Eine monoton steigende Nummer, die bei jeder Lock-Vergabe zurückgegeben wird",
+        "Sie verhindern, dass ein Knoten mit einem abgelaufenen Lock Daten beschädigt",
+        "Der Storage-Service lehnt Schreibvorgänge ab, wenn ein Fencing Token kleiner ist als ein bereits verarbeitetes",
+        "Sie ersetzen die Notwendigkeit von Locks vollständig"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Ein Fencing Token ist eine Nummer, die bei jeder Lock-Vergabe vom Lock-Service inkrementiert und zurückgegeben wird.",
+        "1": "Wenn ein Client nach einer langen Pause (z.B. GC-Pause) seinen abgelaufenen Lock nutzen will, erkennt der Storage-Service dies am veralteten Fencing Token und lehnt den Schreibvorgang ab.",
+        "2": "Der Storage-Service merkt sich das höchste bereits verarbeitete Token und lehnt Anfragen mit einem niedrigeren Token ab. So wird verhindert, dass ein 'veralteter' Client Daten beschädigt."
+      }
+    },
+    {
+      "id": 11,
+      "question": "Was sind Byzantinische Fehler (Byzantine Faults)?",
+      "options": [
+        "Knoten verhalten sich bösartig oder senden absichtlich falsche Nachrichten",
+        "Sie sind in typischen Rechenzentrumsumgebungen die häufigste Art von Fehlern",
+        "Byzantine Fault Tolerance erfordert, dass mehr als zwei Drittel der Knoten korrekt funktionieren",
+        "Sie sind relevant in Umgebungen wie Peer-to-Peer-Netzwerken (z.B. Bitcoin) oder Luft-/Raumfahrt"
+      ],
+      "correct_answers": [
+        0,
+        2,
+        3
+      ],
+      "explanations": {
+        "0": "Bei Byzantinischen Fehlern können Knoten beliebig fehlerhaftes Verhalten zeigen, einschliesslich des Sendens falscher oder bösartiger Nachrichten.",
+        "2": "Byzantine-Fault-tolerante Algorithmen erfordern eine Supermajorität: Mehr als zwei Drittel der Knoten müssen korrekt funktionieren (bei 4 Knoten darf höchstens 1 fehlerhaft sein).",
+        "3": "Relevant in Luft-/Raumfahrt (Strahlungseinfluss auf Speicher), Peer-to-Peer-Netzwerken wie Bitcoin, und Systemen mit mehreren Organisationen, bei denen Teilnehmer versuchen könnten zu betrügen."
+      }
+    },
+    {
+      "id": 12,
+      "question": "Welche drei Systemmodelle bezüglich Zeitannahmen gibt es?",
+      "options": [
+        "Synchrones Modell: Begrenzte Netzwerkverzögerung, Prozess-Pausen und Taktabweichung",
+        "Teilsynchrones Modell: System verhält sich meistens synchron, kann aber gelegentlich Grenzen überschreiten",
+        "Asynchrones Modell: Keine Zeitannahmen, kein Taktgeber, keine Timeouts",
+        "Das synchrone Modell ist das realistischste für praktische Systeme"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Das synchrone Modell nimmt an, dass Netzwerkverzögerungen, Prozess-Pausen und Taktabweichungen feste Obergrenzen haben. Es ist nicht realistisch für die meisten praktischen Systeme.",
+        "1": "Das teilsynchrone Modell nimmt an, dass das System sich meistens synchron verhält, aber gelegentlich die Grenzen überschreitet – realistisch für die meisten Systeme.",
+        "2": "Das asynchrone Modell erlaubt keine Zeitannahmen und hat nicht einmal einen Taktgeber. Sehr restriktiv, aber einige Algorithmen können dafür entworfen werden."
+      }
+    },
+    {
+      "id": 13,
+      "question": "Welche Knotenfehler-Modelle gibt es in verteilten Systemen?",
+      "options": [
+        "Crash-Stop: Ein Knoten stürzt ab und kommt nie wieder zurück",
+        "Crash-Recovery: Knoten können abstürzen, aber später mit erhaltenem persistentem Speicher wieder hochfahren",
+        "Byzantinisch: Knoten können sich beliebig verhalten, einschliesslich bösartiger Aktionen",
+        "Soft-Failure: Knoten werden automatisch langsamer, stürzen aber nie vollständig ab"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Im Crash-Stop-Modell kann ein Knoten abstürzen und ist danach für immer verschwunden – er kommt nie wieder zurück.",
+        "1": "Im Crash-Recovery-Modell kann ein Knoten abstürzen und später wieder hochfahren. Persistenter Speicher (Festplatte) bleibt erhalten, In-Memory-Zustand geht verloren.",
+        "2": "Im Byzantinischen Modell können Knoten beliebiges Verhalten zeigen – sie können fehlerhafte, widersprüchliche oder bösartige Nachrichten senden."
+      }
+    },
+    {
+      "id": 14,
+      "question": "Was ist der Unterschied zwischen Safety und Liveness Properties?",
+      "options": [
+        "Safety: 'Nichts Schlechtes passiert' – eine Verletzung kann einem bestimmten Zeitpunkt zugeordnet werden und ist nicht rückgängig zu machen",
+        "Liveness: 'Etwas Gutes passiert schliesslich' – enthält oft 'eventually' in der Definition",
+        "Safety Properties müssen in allen Situationen gelten, auch bei Totalausfällen",
+        "Safety und Liveness Properties sind dasselbe, nur unterschiedlich formuliert"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "Safety Properties sind wie 'nichts Schlechtes passiert'. Wird die Eigenschaft verletzt (z.B. ein doppeltes Fencing Token), kann man den genauen Zeitpunkt identifizieren.",
+        "1": "Liveness Properties sind wie 'etwas Gutes passiert schliesslich'. Eventual Consistency ist z.B. eine Liveness Property. Sie dürfen Einschränkungen haben (z.B. 'nur wenn eine Mehrheit funktioniert').",
+        "2": "Auch wenn alle Knoten abstürzen oder das gesamte Netzwerk ausfällt, darf ein Algorithmus kein falsches Ergebnis zurückgeben – Safety Properties müssen immer und ausnahmslos gelten."
+      }
+    },
+    {
+      "id": 15,
+      "question": "Warum ist es in der Praxis schwierig, einen Knotenausfall zuverlässig zu erkennen?",
+      "options": [
+        "Es gibt keinen zuverlässigen Mechanismus zur Unterscheidung zwischen Netzwerkfehlern und Knotenausfällen",
+        "Die meisten Systeme verlassen sich auf Timeouts, die aber nicht zwischen verschiedenen Fehlerarten unterscheiden können",
+        "Ein Knoten kann in einem degradierten Zustand sein (z.B. sehr langsam, aber nicht tot), was schwerer zu behandeln ist als ein vollständiger Ausfall",
+        "TCP garantiert die Zustellung, daher kann ein fehlender Empfang immer auf einen Knotenausfall zurückgeführt werden"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "In einem asynchronen Netzwerk kann nicht zuverlässig unterschieden werden, ob ein Paket verloren ging, ob der Knoten ausgefallen ist, oder ob die Antwort verzögert ist.",
+        "1": "Timeouts sind das wichtigste Werkzeug zur Fehlererkennung, können aber nicht zwischen Netzwerkproblemen und tatsächlichen Knotenausfällen unterscheiden.",
+        "2": "Ein 'hinkender' Knoten (z.B. mit dramatisch reduziertem Netzwerkdurchsatz) kann schwieriger zu behandeln sein als ein klar ausgefallener Knoten."
+      }
+    },
+    {
+      "id": 16,
+      "question": "Was bedeutet es, ein zuverlässiges System aus unzuverlässigen Komponenten aufzubauen?",
+      "options": [
+        "Es ist ein altbewährtes Prinzip der Informatik – z.B. baut TCP eine zuverlässige Transportschicht über dem unzuverlässigen IP auf",
+        "Fehlerkorrektorcodes ermöglichen zuverlässige Datenübertragung über fehleranfällige Kanäle",
+        "Es gibt immer eine Grenze, wie viel zuverlässiger das übergeordnete System sein kann",
+        "Ein System kann immer beliebig viel zuverlässiger sein als seine Komponenten"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        2
+      ],
+      "explanations": {
+        "0": "IP kann Pakete verlieren, duplizieren und umordnen. TCP baut darauf eine zuverlässigere Transportschicht auf, die verlorene Pakete erneut sendet und die Reihenfolge wiederherstellt.",
+        "1": "Fehlerkorrektorcodes können einzelne Bitfehler korrigieren und so zuverlässige Datenübertragung über fehleranfällige Kommunikationskanäle ermöglichen.",
+        "2": "Es gibt Grenzen: Fehlerkorrektorcodes können nur eine begrenzte Anzahl von Fehlern korrigieren, und TCP kann Netzwerkverzögerungen nicht beseitigen."
+      }
+    }
+  ]
+}
